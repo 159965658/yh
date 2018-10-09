@@ -1,0 +1,18 @@
+
+import android from './android';
+import pc from './pc';
+var native = android
+var ua = navigator.userAgent, pf = navigator.platform;
+var platform = {};
+platform.android = ua.indexOf("Android") > -1;
+platform.iPhone = ua.indexOf("iPhone") > -1;
+platform.iPad = ua.indexOf("iPad") > -1;
+platform.iPod = ua.indexOf("iPod") > -1;
+platform.winPhone = ua.indexOf("IE") > -1;
+platform.PC = pf == 'MacIntel' || pf == 'Win32';
+console.log(ua, platform);
+if (platform.PC || !platform.android) {
+    native = pc;
+    // export { native }
+}
+export { native }

@@ -6,7 +6,18 @@
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  mounted() {
+    console.log(this.$native);
+    this.$native.run();
+    window["testFun"] = this.testFun;
+  },
+  methods: {
+    testFun() {
+      alert("回调");
+      console.log("回调");
+    }
+  }
 };
 </script>
 

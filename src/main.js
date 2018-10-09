@@ -8,8 +8,9 @@ import viewportHack from 'viewport-units-buggyfill/viewport-units-buggyfill.hack
 viewportUn.init({
   hack: viewportHack
 })
+import { native } from './core/native/app';
 Vue.config.productionTip = false
-
+Vue.prototype.$native = native;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

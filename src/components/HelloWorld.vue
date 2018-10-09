@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2 v-on:click="clickHref">跳转</h2>
-  
+    <h2 v-on:click="clickNative">原生方法测试</h2>
   </div>
 </template>
 
@@ -17,6 +17,9 @@ export default {
   methods: {
     clickHref() {
       this.$router.push("/login");
+    },
+    clickNative() {
+      Android.run("log", "log from js");
     }
   }
 };
