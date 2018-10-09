@@ -14,12 +14,20 @@ export default {
       msg: "Welcome to Your YH App"
     };
   },
+  mounted() {
+    //window["testFun"] = this.testFun;
+  },
   methods: {
     clickHref() {
       this.$router.push("/login");
     },
     clickNative() {
-      Android.run("log", "log from js");
+      //调用原生方法
+      this.$native.run(this);
+    },
+    testFun() {
+      alert("回调2");
+      console.log("回调2");
     }
   }
 };

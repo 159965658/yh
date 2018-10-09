@@ -12,7 +12,7 @@ import { native } from './core/native/app';
 Vue.config.productionTip = false
 Vue.prototype.$native = native;
 /* eslint-disable no-new */
-new Vue({
+window.$vm = new Vue({
   el: '#app',
   router,
   components: { App },
