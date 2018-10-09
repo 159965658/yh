@@ -8,15 +8,15 @@
 export default {
   name: "App",
   mounted() {
-    console.log(this.$native);
-    this.$native.run();
-    window["testFun"] = this.testFun;
+    // console.log(this.$native);
+    // this.$native.run();
+    // window["testFun"] = this.testFun;
   },
   methods: {
-    testFun() {
-      alert("回调");
-      console.log("回调");
-    }
+    // testFun() {
+    //   alert("回调");
+    //   console.log("回调");
+    // }
   }
 };
 </script>
