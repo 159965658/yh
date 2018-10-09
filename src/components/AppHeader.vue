@@ -27,9 +27,22 @@ export default {
 .app-header {
   display: flex;
   justify-content: space-between;
-  height: 117px;
+  height: 88px;
+  line-height: 88px;
   align-items: center;
+  position:relative;
+  color: #282828;
   // padding-top: 54px;
   // background-color: red;
+  .center{
+    font-size:36px;
+    margin:0 auto;
+  }
+  .right{
+    position:absolute;
+    right:78px;
+    font-size: 36px;
+
+  }
 }
 </style>
