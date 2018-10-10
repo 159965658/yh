@@ -2,7 +2,16 @@
 <div v-show="visible" v-bind:class="{ 'full': type==1}" class="dialog-tips dialog-center">
     <div class="" v-if="type==0">{{message}}</div>
     <div class="dialog-div" v-if="type==1">
-        <div class="dialog-body">{{message}}</div>
+        <div class="dialog-body">
+            <p>创建新账户</p>
+            <p class="dialog-c">
+                创建新账户时需要验证当前设备激活码，是否继续下一步？
+            </p>
+            <div class="dialog-btn" style="padding-top:50px">
+                <button class="but-default btn-can" @click="close">取消</button>
+                <button class="but-default btn-next">继续</button>
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -15,6 +24,11 @@ export default {
       message: "",
       type: 0
     };
+  },
+  methods: {
+    close() {
+      this.visible = false;
+    }
   }
 };
 </script>
@@ -69,6 +83,24 @@ export default {
       height: 458px;
       background-color: #fff;
       border-radius: 10px;
+      color: #282828;
+      padding: 30px 58px;
+      letter-spacing: 5px;
+      > .dialog-btn {
+        height: 84px;
+        display: flex;
+        justify-content: space-evenly;
+        > button {
+          width: 360px;
+        }
+      }
+      > .dialog-c {
+        white-space: pre-line;
+        color: #cfcfcf;
+        font-size: 38px;
+        padding: 0px 25px;
+        line-height: 60px;
+      }
     }
   }
 }
