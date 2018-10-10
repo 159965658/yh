@@ -1,5 +1,11 @@
 <template>
-    <div>激活设备(包含输入的状态)</div>
+    <div>
+    		<div class="blue-bg">
+	        	<div class="login-logo">
+	        	</div>
+	        	 
+        </div>
+    </div>
 </template>
 <script>
 export default {};
