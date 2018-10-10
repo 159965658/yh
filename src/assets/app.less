@@ -13,7 +13,9 @@
     a:hover{color:#cd0200;text-decoration:underline} 
     .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
     .clearfix { *zoom:1; }
-    
+.hide{
+    display: none;
+}    
 body {
     margin:0;
     position: relative;
@@ -128,3 +130,77 @@ input{
         text-align: center;
     }
 }
+/*弹出层背景*/
+ .popup_bg{
+    width: 100%;
+    height: 100%;
+    background:rgba(0,0,0,0.5) ;
+    position: fixed;
+    left: 0;
+    top: 0;
+ }
+ /*表单 列表*/
+.forms{
+    li{
+        position: relative;
+        margin-top: 40px;
+        label{
+            font-size: 32px;
+            color: #656565;
+            height: 80px;
+            line-height: 80px;
+            width:164px;
+            text-align: right;
+            display: block;
+            float: left;
+            margin-right: 20px;
+        }
+        input{
+            height:80px;
+            border: none;
+            border:1px solid #dcdcdc;
+            background-color: #f2f2f2;
+            border-radius: 4px;
+            padding: 0 10px;
+            width:560px;
+        }
+        .arrow{
+            width:72px ;
+            height: 48px;
+            border-left: 1px solid #dcdcdc;
+            position: absolute;
+            right: 10px;
+            top: 16px;
+            background:url(../assets/arrow.png) no-repeat;
+            background-size: 26px 16px;
+            background-position:24px 16px ;
+        }
+    }
+    li.time{
+        p{
+            float: left; 
+            width: 43px;
+            height: 2px;
+            background:url(../assets/zhi.png) no-repeat 100% 100%;
+            margin-left: 18px;
+            margin-right: 18px;
+            margin-top: 38px;
+        }
+        input{
+            width:230px;
+            float: left;
+        }
+    }
+}
+ /*保存按钮*/
+.btn-save{
+        width: 450px;
+        height: 96px;
+        background-color: #3ba6dd;
+        color: #fff;
+        font-size: 32px;
+        text-align: center;
+        line-height: 96px;
+        display: block;
+        border-radius: 10px;
+    }
