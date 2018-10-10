@@ -15,6 +15,8 @@ import Activation from '@/view/Activation';
 import Verification from "@/view/Verification";
 //设置密码
 import SetPw from "@/view/SetPw";
+//忘记密码
+import ForgetPwd from "@/view/ForgetPwd"
 Vue.use(Router)
 
 export default new Router({
@@ -48,9 +50,14 @@ export default new Router({
       name: 'verification',
       component: Verification
     }, {
-      path:'/setpw',
-      name:'setpw',
-      component:SetPw
+      path: '/setpw',
+      name: 'setpw',
+      component: SetPw
+    }
+    , {
+      path: '/forgetpwd',
+      name: 'forgetpwd',
+      component: ForgetPwd
     }
   ]
 })

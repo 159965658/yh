@@ -8,6 +8,8 @@ import viewportHack from 'viewport-units-buggyfill/viewport-units-buggyfill.hack
 viewportUn.init({
   hack: viewportHack
 })
+import Toast from '@/core/toast'
+Vue.use(Toast);
 import { native } from './core/native/app';
 Vue.config.productionTip = false
 Vue.prototype.$native = native;
