@@ -1,7 +1,7 @@
 <template>
     <div>
     		<div class="biaoti">我是激活设备的标题</div>
-    		 <div class="blue-bg clearfix">
+    		 <div class="blue-bg shebei clearfix">
     		 	<i class="icon icon-jhsb-saoyisao"></i>
     		 	<div class="inputs">
 	        		<ul>
@@ -28,31 +28,5 @@ export default {};
 <style lang="less" scoped>
 
 
-.icon-jhsb-saoyisao{
-	width: 60px;
-	height: 60px;
-	background: url(../assets/jhsb-saoyisao.png) no-repeat 100% 100%;
-	display: block;
-	background-size:100% ;
-	float: right;
-	margin-top: 48px;
-	margin-right: 54px;
-	margin-bottom: 168px;
-}
-.inputs{
-	height:402px;
-	padding-top: 275px;
-	padding-bottom: 224px;
-	ul li input{
-		text-align: left;
-		padding-left: 50px;
-	}
-}
-.jh-tips{
-	font-size: 36px;
-	color: #fff;
-	margin-top: 40px;
-	margin-left: 50px;
-	margin-bottom: 125px;
-}
+
 </style>
