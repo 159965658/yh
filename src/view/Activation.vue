@@ -1,6 +1,6 @@
 <template>
     <div>
-    		<div class="biaoti">我是标题</div>
+    		<div class="biaoti">我是激活设备的标题</div>
     		 <div class="blue-bg clearfix">
     		 	<i class="icon icon-jhsb-saoyisao"></i>
     		 	<div class="inputs">
@@ -26,24 +26,7 @@
 export default {};
 </script>
 <style lang="less" scoped>
-.blue-bg{
-	position: relative;
-}
-.error-tips{
-	width: 530px;
-	height: 200px;
-	background: rgba(0,0,0,0.5);
-	position: absolute;
-	left:50% ;
-	top: 50%;
-	margin-left:-275px ;
-	margin-top: -65px;
-	border-radius: 20px;
-	font-size: 30px;
-	color: #fff;
-	text-align: center;
-	line-height:200px ;
-}
+
 
 .icon-jhsb-saoyisao{
 	width: 60px;

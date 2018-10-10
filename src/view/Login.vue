@@ -2,29 +2,29 @@
     <div>
         <app-header :ctitle='"登录"' :rtitle='"创建新账户"'></app-header>
         <div class="blue-bg">
-        	<div class="login-logo">
-        	</div>
-        	<div class="inputs">
-        		<ul>
-        			<li>
-        				<label>账号：</label>
-        				<input type="text" placeholder="请输入您的账号">
-        			</li>
-        			<li class="m-t-60">
-        				<label>密码：</label>
-        				<input type="password" placeholder="请输入您的密码">
-        				<div class="icon-mima"></div>
-        			</li>
-        		</ul>
-    			<div class="forget-mima clearfix">
-    				<a class="forget">忘记密码</a>
-    				<a class="change">切换登录账号</a>
-    			</div>
-    			<div class="button-submit m-t-100"> 
-    				<a href="#" class="button submit">登 录</a>
-    			</div>
-        		
-        	</div>
+	        	<div class="login-logo">
+	        	</div>
+	        	<div class="inputs">
+	        		<ul>
+	        			<li>
+	        				<label>账号：</label>
+	        				<input type="text" placeholder="请输入您的账号">
+	        			</li>
+	        			<li class="m-t-60">
+	        				<label>密码：</label>
+	        				<input type="password" placeholder="请输入您的密码">
+	        				<div class="icon-mima"></div>
+	        			</li>
+	        		</ul>
+	    			<div class="forget-mima clearfix">
+	    				<a class="forget">忘记密码</a>
+	    				<a class="change">切换登录账号</a>
+	    			</div>
+	    			<div class="button-submit m-t-100"> 
+	    				<a href="#" class="button submit">登 录</a>
+	    			</div>
+	        		
+	        	</div>
         </div>
     </div>
 </template>
