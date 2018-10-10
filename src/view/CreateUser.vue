@@ -1,6 +1,6 @@
 <template>
 	<div>
-    		<div class="biaoti">我是创建账号的标题</div>
+    		<div class="biaoti">创建账号</div>
 	    <div class="blue-bg">
 	    		<h3>设备激活成功 ！您可以创建一个属于自已的帐户</h3>
 	        	<div class="inputs">

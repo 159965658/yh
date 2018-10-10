@@ -1,6 +1,6 @@
 <template>
     <div>
-    		<div class="biaoti">我是激活设备的标题</div>
+    		<div class="biaoti">激活设备</div>
     		 <div class="blue-bg shebei clearfix">
     		 	<i class="icon icon-jhsb-saoyisao"></i>
     		 	<div class="inputs">

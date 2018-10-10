@@ -1,6 +1,6 @@
 <template>
     <div>
-    		<div class="biaoti">我是忘记密码的标题</div>
+    		<div class="biaoti">忘记密码</div>
     		
     		<div class="blue-bg">
 	        	<div class="inputs">

@@ -1,6 +1,6 @@
 <template>
     <div>
-    		<div class="biaoti">我是设置密码的标题</div>
+    		<div class="biaoti">设置密码</div>
     		
     		<div class="blue-bg">
 	        	<div class="inputs">

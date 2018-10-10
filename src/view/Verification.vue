@@ -1,6 +1,6 @@
 <template> 
     <div>
-    		<div class="biaoti">我是 设备验证(包含输入的状态) 的标题</div>
+    		<div class="biaoti">设备验证(包含输入的状态)</div>
     		 <div class="blue-bg shebei clearfix">
     		 	<i class="icon icon-jhsb-saoyisao"></i>
     		 	<div class="inputs">
