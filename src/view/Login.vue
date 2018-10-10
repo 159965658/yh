@@ -17,7 +17,7 @@
         			</li>
         		</ul>
     			<div class="forget-mima clearfix">
-    				<a class="forget">忘记密码</a>
+					<router-link to='/forgetpwd' class='forget'>忘记密码</router-link>
     				<a class="change">切换登录账号</a>
     			</div>
     			<div class="button-submit m-t-100"> 
