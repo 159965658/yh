@@ -1,24 +1,126 @@
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+code,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+p,
+blockquote,
+th,
+td {
+    margin: 0;
+    padding: 0;
+}
 
-  body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td { margin:0; padding:0; }
-    body { background:#fff; color:#555; font-size:14px; font-family: Verdana, Arial, Helvetica, sans-serif; }
-    td,th,caption { font-size:14px; }
-    h1, h2, h3, h4, h5, h6 { font-weight:normal; font-size:100%; }
-    address, caption, cite, code, dfn, em, strong, th, var { font-style:normal; font-weight:normal;}
-    a { color:#555; text-decoration:none; }
-    a:hover { text-decoration:underline; }
-    img { border:none; }
-    ol,ul,li { list-style:none; }
-    input, textarea, select, button { font:14px Verdana,Helvetica,Arial,sans-serif; }
-    table { border-collapse:collapse; }
-    html {overflow-y: scroll;}
-    a:hover{color:#cd0200;text-decoration:underline} 
-    .clearfix:after {content: "."; display: block; height:0; clear:both; visibility: hidden;}
-    .clearfix { *zoom:1; }
-.hide{
-    display: none;
-}    
 body {
-    margin:0;
+    background: #fff;
+    color: #555;
+    font-size: 14px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+td,
+th,
+caption {
+    font-size: 14px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+    font-size: 100%;
+}
+
+address,
+caption,
+cite,
+code,
+dfn,
+em,
+strong,
+th,
+var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+a {
+    color: #555;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    border: none;
+}
+
+ol,
+ul,
+li {
+    list-style: none;
+}
+
+input,
+textarea,
+select,
+button {
+    font: 14px Verdana, Helvetica, Arial, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+a:hover {
+    color: #cd0200;
+    text-decoration: underline
+}
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+.hide {
+    display: none;
+}
+
+body {
+    margin: 0;
     position: relative;
     img {
         content: normal !important;
@@ -85,41 +187,63 @@ body {
             background-color: @red;
         }
     }
+    .btn-default {
+        border-radius: 10px;
+        border: none;
+        font-size: 35px;
+        color: #fff;
+        letter-spacing: 5px;
+        &:active,
+        &:focus {
+            border: none;
+        }
+    }
+    .btn-can {
+        background-color: #bfc7d4;
+    }
+    .btn-next {
+        background-color: #3ba6de;
+    }
 }
 
 @text-indent: 45px;
 @width : 20px;
 @app-top: 31px;
 @red: #d6141a;
-
-
-html,body,#app{
+html,
+body,
+#app {
     height: 100%;
 }
-#app{
-   text-align: left !important; 
+
+#app {
+    text-align: left !important;
 }
-input{
-    outline:none;
+
+input {
+    outline: none;
 }
+
 /*蓝色弹窗背景*/
-.blue-bg{
+
+.blue-bg {
     width: 65%;
-    background:-webkit-linear-gradient(left top,#88d7f7,#00a6e7);
-    background:-o-linear-gradient(bottom right,#88d7f7,#00a6e7);
-    background:-moz-linear-gradient(bottom right,#88d7f7,#00a6e7);
-    background:linear-gradient(to bottom right,#88d7f7,#00a6e7);
+    background: -webkit-linear-gradient(left top, #88d7f7, #00a6e7);
+    background: -o-linear-gradient(bottom right, #88d7f7, #00a6e7);
+    background: -moz-linear-gradient(bottom right, #88d7f7, #00a6e7);
+    background: linear-gradient(to bottom right, #88d7f7, #00a6e7);
     margin: 0 auto;
     border-radius: 20px;
-    margin-top:100px;
+    margin-top: 100px;
     box-shadow: -1px 1px 30px #ababab;
-    padding-bottom:110px;
-    min-height:1000px;
+    padding-bottom: 110px;
+    min-height: 1000px;
 }
 
 /*登陆按钮*/
-.button-submit{
-    .submit{
+
+.button-submit {
+    .submit {
         width: 100%;
         height: 102px;
         line-height: 102px;
@@ -131,78 +255,83 @@ input{
         text-align: center;
     }
 }
+
 /*弹出层背景*/
- .popup_bg{
+
+.popup_bg {
     width: 100%;
     height: 100%;
-    background:rgba(0,0,0,0.5) ;
+    background: rgba(0, 0, 0, 0.5);
     position: fixed;
     left: 0;
     top: 0;
- }
- /*表单 列表*/
-.forms{
-    li{
+}
+
+/*表单 列表*/
+
+.forms {
+    li {
         position: relative;
         margin-top: 40px;
-        label{
+        label {
             font-size: 32px;
             color: #656565;
             height: 80px;
             line-height: 80px;
-            width:164px;
+            width: 164px;
             text-align: right;
             display: block;
             float: left;
             margin-right: 20px;
         }
-        input{
-            height:80px;
+        input {
+            height: 80px;
             border: none;
-            border:1px solid #dcdcdc;
+            border: 1px solid #dcdcdc;
             background-color: #f2f2f2;
             border-radius: 4px;
             padding: 0 10px;
-            width:560px;
+            width: 560px;
         }
-        .arrow{
-            width:72px ;
+        .arrow {
+            width: 72px;
             height: 48px;
             border-left: 1px solid #dcdcdc;
             position: absolute;
             right: 10px;
             top: 16px;
-            background:url(../assets/arrow.png) no-repeat;
+            background: url(../assets/arrow.png) no-repeat;
             background-size: 26px 16px;
-            background-position:24px 16px ;
+            background-position: 24px 16px;
         }
     }
-    li.time{
-        p{
-            float: left; 
+    li.time {
+        p {
+            float: left;
             width: 43px;
             height: 2px;
-            background:url(../assets/zhi.png) no-repeat 100% 100%;
+            background: url(../assets/zhi.png) no-repeat 100% 100%;
             margin-left: 18px;
             margin-right: 18px;
             margin-top: 38px;
         }
-        input{
-            width:230px;
+        input {
+            width: 230px;
             float: left;
         }
     }
 }
- /*保存按钮*/
-.btn-save{
-        width: 450px;
-        height: 96px;
-        background-color: #3ba6dd;
-        color: #fff;
-        font-size: 32px;
-        text-align: center;
-        line-height: 96px;
-        display: block;
-        border-radius: 10px;
-    }
 
+/*保存按钮*/
+
+.btn-save {
+    width: 450px;
+    height: 96px;
+    background-color: #3ba6dd;
+    color: #fff;
+    font-size: 32px;
+    text-align: center;
+    line-height: 96px;
+    display: block;
+    border-radius: 10px;
+}
