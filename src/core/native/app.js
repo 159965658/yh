@@ -15,4 +15,12 @@ if (platform.PC || !platform.android) {
     native = pc;
     // export { native }
 }
+
+
+(function (window) {
+    window['$error'] = function (data) { //处理失败请求
+        alert(data);
+        window.$vm.$toast(data);
+    }
+}(window))
 export { native }

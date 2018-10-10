@@ -1,12 +1,17 @@
 <template>
   <div id="app"> 
+    <!-- <tips></tips> -->
     <router-view/>
   </div>
 </template>
 
 <script>
+// import tips from "@/components/Tips";
 export default {
   name: "App",
+  components: {
+    // tips
+  },
   mounted() {
     // console.log(this.$native);
     // this.$native.run();

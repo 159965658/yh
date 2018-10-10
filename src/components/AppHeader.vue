@@ -2,7 +2,7 @@
     <div class="app-header">
         <div class="left">{{ltitle}}</div>
         <div class="center">{{ctitle}}</div>
-        <div class="right">{{rtitle}}</div>
+        <div class="right" @click="rClick">{{rtitle}}</div>
     </div>
 </template>
 <script>
@@ -19,6 +19,17 @@ export default {
     ltitle: {
       type: String,
       default: ""
+    },
+    type: {
+      type: Number,
+      default: 0
+    }
+  },
+  methods: {
+    rClick() {
+      if (this.type == 1) {
+        this.$toastFull("创建新账户");
+      }
     }
   }
 };
@@ -30,19 +41,18 @@ export default {
   height: 88px;
   line-height: 88px;
   align-items: center;
-  position:relative;
+  position: relative;
   color: #282828;
   // padding-top: 54px;
   // background-color: red;
-  .center{
-    font-size:36px;
-    margin:0 auto;
-  }
-  .right{
-    position:absolute;
-    right:78px;
+  .center {
     font-size: 36px;
-
+    margin: 0 auto;
+  }
+  .right {
+    position: absolute;
+    right: 78px;
+    font-size: 36px;
   }
 }
 </style>
