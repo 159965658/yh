@@ -89,9 +89,9 @@ export default {
       > .dialog-btn {
         height: 84px;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
         > button {
-          width: 360px;
+          width: 380px;
         }
       }
       > .dialog-c {

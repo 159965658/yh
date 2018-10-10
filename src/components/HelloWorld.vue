@@ -2,7 +2,7 @@
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2 v-on:click="clickHref">跳转</h2>
-    <h2 v-on:click="clickNative">原生方法测试</h2>
+    <h2 v-on:click="clickNative">激活设备</h2>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
     };
   },
   mounted() {
-    //window["testFun"] = this.testFun;
+    window["testFun"] = this.error;
   },
   methods: {
     clickHref() {
@@ -23,8 +23,17 @@ export default {
     },
     clickNative() {
       //调用原生方法
-      this.$native.run(this);
+      this.$native.run(
+        "activition",
+        { code: "12sdada122" },
+        'success',
+       // 'testFun'
+      );
     },
+    error() {
+      alert("error , HelloWorld");
+    },
+    success() {},
     testFun() {
       alert("回调2");
       console.log("回调2");
