@@ -1,6 +1,6 @@
 <template>
     <div>
-    		<div class="biaoti">设置密码</div>
+    	 <app-header :ltitle='"后退"' :ctitle='"设置密码"'></app-header>
     		
     		<div class="blue-bg">
 	        	<div class="inputs">
@@ -17,7 +17,7 @@
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<a href="#" class="button submit">完 成</a>
+	    				<a href="javascript:void(0)" class="button submit">完 成</a>
 	    			</div>
 	        		
 	        	</div>
@@ -28,12 +28,12 @@
 export default {};
 </script>
 <style lang="less" scoped>
-.inputs{
-	height: 540px;
-	padding-top: 170px;
-	padding-bottom: 190px;
-	.button-submit{
-		margin-top: 176px;
-	}
+.inputs {
+  height: 540px;
+  padding-top: 170px;
+  padding-bottom: 190px;
+  .button-submit {
+    margin-top: 176px;
+  }
 }
 </style>
