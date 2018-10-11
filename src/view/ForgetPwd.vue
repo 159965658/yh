@@ -3,7 +3,7 @@
     		  <app-header :ltitle='"后退"' :ctitle='"忘记密码"'></app-header>
     		
     		<div class="blue-bg">
-	        	<div class="inputs">
+	        	<div class="inputs public">
 	        		<ul>
 	        			<li>
 	        				<label>账号：</label>
@@ -32,12 +32,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.inputs {
-  height: 540px;
-  padding-top: 170px;
-  padding-bottom: 190px;
-  .button-submit {
-    margin-top: 176px;
-  }
-}
+
 </style>

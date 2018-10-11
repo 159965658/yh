@@ -6,7 +6,8 @@
         <div class="inputs">
             <ul>
                 <li class="code_input">
-                    <input type="text" placeholder="输入激活码" v-model="code">		        		
+                    <input type="text" placeholder="输入激活码" v-model="code">		
+                    <i class="icon clear"></i>
                 </li>
             </ul>
             <p class="jh-tips">请输入激活码，激活码可安购买的软件上获取</p>
@@ -68,5 +69,10 @@ export default {
   > input {
     letter-spacing: 20px;
   }
+}
+.icon.clear{
+	float: right;
+	margin-right: 30px;
+	margin-top: 28px;
 }
 </style>
