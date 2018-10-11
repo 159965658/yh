@@ -40,7 +40,7 @@ yh/src/view/Login.vue
         		</ul>
     			<div class="forget-mima clearfix">
 					<router-link to='/forgetpwd' class='forget'>忘记密码</router-link>
-    				<a class="change">切换登录账号</a>
+          <router-link to='/switch' class='change'>切换登录账号</router-link> 
     			</div>
     			<div class="button-submit m-t-100"> 
     				<button class="button submit" @click="login">登 录</button>
@@ -78,7 +78,8 @@ export default {
         return;
       }
       console.log(this.name, this.pwd);
-      this.$native.run("fun", { name: this.name, pwd: this.pwd }, this.success);
+      this.$router.push("/index");
+      //  this.$native.run("fun", { name: this.name, pwd: this.pwd }, this.success);
     },
     success() {
       alert(success);
