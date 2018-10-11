@@ -21,6 +21,8 @@ import ForgetPwd from "@/view/ForgetPwd";
 import SwitchAccount from "@/view/SwitchAccount"
 
 import Account from "@/view/Account";
+
+import ModifyPwd from "@/view/ModifyPwd";
 Vue.use(Router)
 
 export default new Router({
@@ -34,6 +36,10 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    }, {
+      path: '/modifypwd',
+      name: 'modifypwd',
+      component: ModifyPwd
     }, {
       path: '/account',
       name: 'account',
