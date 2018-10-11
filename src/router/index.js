@@ -19,6 +19,8 @@ import SetPw from "@/view/SetPw";
 import ForgetPwd from "@/view/ForgetPwd";
 //切换账号
 import SwitchAccount from "@/view/SwitchAccount"
+
+import Account from "@/view/Account";
 Vue.use(Router)
 
 export default new Router({
@@ -32,6 +34,10 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    }, {
+      path: '/account',
+      name: 'account',
+      component: Account
     }, {
       path: '/index',
       name: 'index',
