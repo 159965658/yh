@@ -11,6 +11,10 @@ viewportUn.init({
 import Toast from '@/core/toast'
 Vue.use(Toast);
 import { native } from './core/native/app';
+
+
+import AppHeader from "@/components/AppHeader";
+Vue.component("app-header", AppHeader);
 Vue.config.productionTip = false
 Vue.prototype.$native = native;
 /* eslint-disable no-new */

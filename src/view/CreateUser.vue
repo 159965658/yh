@@ -1,6 +1,6 @@
 <template>
 	<div>
-    		<div class="biaoti">创建账号</div>
+    	  <app-header :ctitle='"创建账号"'></app-header>
 	    <div class="blue-bg">
 	    		<h3>设备激活成功 ！您可以创建一个属于自已的帐户</h3>
 	        	<div class="inputs">
@@ -33,7 +33,7 @@
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<a href="#" class="button submit">完 成</a>
+	    				<a href="jvascript:void(0)" class="button submit">完 成</a>
 	    			</div>
 	        		
 	        	</div>
@@ -41,28 +41,26 @@
     </div>
 </template>
 <script>
-export default {
-    
-}
+export default {};
 </script>
 <style lang="less" scoped>
-.blue-bg{
-	h3{
-		font-size: 36px;
-		color: #FFFFFF;
-		text-align: center;
-		padding-top: 86px;
-		padding-bottom: 76px;
-	}
+.blue-bg {
+  h3 {
+    font-size: 36px;
+    color: #ffffff;
+    text-align: center;
+    padding-top: 86px;
+    padding-bottom: 76px;
+  }
 }
-.inputs{
-	height: 1020px;
-	padding-bottom: 60px;;
+.inputs {
+  height: 1020px;
+  padding-bottom: 60px;
 }
-.inputs ul li{
-	margin-bottom: 40px;
+.inputs ul li {
+  margin-bottom: 40px;
 }
-.button-submit{
-	margin-top: 96px;
+.button-submit {
+  margin-top: 96px;
 }
 </style>

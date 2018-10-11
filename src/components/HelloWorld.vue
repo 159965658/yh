@@ -15,25 +15,34 @@ export default {
     };
   },
   mounted() {
-    window["testFun"] = this.error;
+    window["success2"] = this.success;
+    window["error"] = this.error;
   },
   methods: {
     clickHref() {
       this.$router.push("/login");
     },
     clickNative() {
-      //调用原生方法
+      // Android.run(
+      //   "activition",
+      //   '{"code":"99999"}',
+      //   "success2",
+      //   "error"
+      // );
+      // //调用原生方法
       this.$native.run(
         "activition",
         { code: "12sdada122" },
-        'success',
-       // 'testFun'
+        'success2',
+        'error'
       );
     },
     error() {
       alert("error , HelloWorld");
     },
-    success() {},
+    success() {
+      alert("success , HelloWorld222");
+    },
     testFun() {
       alert("回调2");
       console.log("回调2");

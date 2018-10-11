@@ -8,8 +8,8 @@
                 创建新账户时需要验证当前设备激活码，是否继续下一步？
             </p>
             <div class="dialog-btn" style="padding-top:50px">
-                <button class="but-default btn-can" @click="close">取消</button>
-                <button class="but-default btn-next">继续</button>
+                <button class="btn-default btn-can" @click="close">取消</button>
+                <button class="btn-default btn-next" @click="nextHref">继续</button>
             </div>
         </div>
     </div>
@@ -28,6 +28,11 @@ export default {
   methods: {
     close() {
       this.visible = false;
+    },
+    nextHref: function() {
+      //console.log(this, $vm);
+      this.visible = false;
+      if (this.type == 1) $vm.$router.push("/verification");
     }
   }
 };
@@ -59,7 +64,7 @@ export default {
 .dialog-center {
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -25%);
+  transform: translate(-50%, -50%);
 }
 
 .full {

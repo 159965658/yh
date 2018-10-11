@@ -1,4 +1,3 @@
-
 body,
 div,
 dl,
@@ -172,6 +171,9 @@ body {
         &:active {
             color: inherit;
         }
+        &:hover {
+            text-decoration: none;
+        }
     }
     .redtitle {
         font-size: 30px;
@@ -221,22 +223,28 @@ body,
     text-align: left !important;
 }
 
-input,button {
+input,
+button {
     outline: none;
 }
-button{
-    border:none;
+
+button {
+    border: none;
+    letter-spacing: 5px;
 }
-.m-t-60{
-    margin-top:60px;
+
+.m-t-60 {
+    margin-top: 60px;
 }
-.m-t-100{
-    margin-top:100px;
+
+.m-t-100 {
+    margin-top: 100px;
 }
+
 /*蓝色弹窗背景*/
 
-.blue-bg{
-    width:65%;
+.blue-bg {
+    width: 65%;
     border-radius: 20px;
     box-shadow: -1px 1px 30px #ababab;
     background: -webkit-linear-gradient(left top, #88d7f7, #00a6e7);
@@ -246,34 +254,36 @@ button{
     margin: 0 auto;
     margin-top: 100px;
 }
+
 /*蓝色背景上的输入框*/
-.inputs{
+
+.inputs {
     width: 68%;
-    margin: 0 auto; 
+    margin: 0 auto;
     height: 100px;
-    ul{
-        li{
+    ul {
+        li {
             background: #fff;
             height: 102px;
             line-height: 102px;
             border-radius: 100px;
-            position:relative;
-            label{
-                color:#1880c3;
-                font-size:36px;
-                float:left;
+            position: relative;
+            label {
+                color: #1880c3;
+                font-size: 36px;
+                float: left;
                 margin-left: 50px;
             }
-            input::-webkit-input-placeholder { 
-              color: #8fb9cb; 
-              font-size: 36px; 
+            input::-webkit-input-placeholder {
+                color: #8fb9cb;
+                font-size: 36px;
             }
-            input{  
+            input {
                 border: none;
                 background: none;
-                text-align: center  ;
-                font-size:36px;
-                color:#1880c3;
+                text-align: center;
+                font-size: 36px;
+                color: #1880c3;
                 width: 100%;
                 position: absolute;
                 left: 0;
@@ -283,7 +293,7 @@ button{
                 line-height: 102px;
                 text-align: center;
             }
-            .icon-mima{
+            .icon-mima {
                 background: url(../assets/mima.png);
                 width: 60px;
                 height: 60px;
@@ -295,19 +305,21 @@ button{
         }
     }
 }
+
 /*忘记密码*/
-.forget-mima{
-    .forget,.change{
+
+.forget-mima {
+    .forget,
+    .change {
         font-size: 36px;
         color: #fff;
         margin-top: 42px;
     }
-    .forget{
-        float:left;
-        margin-left:50px;
-
+    .forget {
+        float: left;
+        margin-left: 50px;
     }
-    .change{
+    .change {
         float: right;
         margin-right: 50px;
     }
@@ -345,26 +357,32 @@ button{
     }
 }
 
+.btn-yellow {
+    background: #ff9e35 !important;
+}
 
-.blue-bg{
+.blue-bg {
     position: relative;
 }
+
 /*弹窗 错误提示*/
-.error-tips{
+
+.error-tips {
     width: 530px;
     height: 200px;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     position: absolute;
-    left:50% ;
+    left: 50%;
     top: 50%;
-    margin-left:-275px ;
+    margin-left: -275px;
     margin-top: -65px;
     border-radius: 20px;
     font-size: 30px;
     color: #fff;
     text-align: center;
-    line-height:200px ;
+    line-height: 200px;
 }
+
 /*弹出层背景*/
 
 .popup_bg {
@@ -431,24 +449,26 @@ button{
     }
 }
 
- /*蓝色 保存按钮*/
-.btn-save{
-        width: 450px;
-        height: 96px;
-        background-color: #3ba6dd;
-        color: #fff;
-        font-size: 32px;
-        text-align: center;
-        line-height: 96px;
-        display: block;
-        border-radius: 10px;
-    }
+/*蓝色 保存按钮*/
+
+.btn-save {
+    width: 450px;
+    height: 96px;
+    background-color: #3ba6dd;
+    color: #fff;
+    font-size: 32px;
+    text-align: center;
+    line-height: 96px;
+    display: block;
+    border-radius: 10px;
+}
 
 /* 密码 睁眼 闭眼睛图标*/
+
 .icon-zhengyan,
-.icon-biyan{
+.icon-biyan {
     display: block;
-    width:42px;
+    width: 42px;
     height: 32px;
     background: url(../assets/zhengyan.png) no-repeat 100% 100%;
     position: absolute;
@@ -456,34 +476,36 @@ button{
     top: 32px;
     background-size: 100%;
 }
-.icon-biyan{
+
+.icon-biyan {
     background: url(../assets/biyan.png) no-repeat 100% 100%;
     background-size: 100%;
 }
 
 /*激活设备 设备验证*/
-.shebei{
-    .icon-jhsb-saoyisao{
+
+.shebei {
+    .icon-jhsb-saoyisao {
         width: 60px;
         height: 60px;
         background: url(../assets/jhsb-saoyisao.png) no-repeat 100% 100%;
         display: block;
-        background-size:100% ;
+        background-size: 100%;
         float: right;
         margin-top: 48px;
         margin-right: 54px;
         margin-bottom: 168px;
     }
-    .inputs{
-        height:402px;
+    .inputs {
+        height: 402px;
         padding-top: 275px;
         padding-bottom: 224px;
-        ul li input{
+        ul li input {
             text-align: left;
             padding-left: 50px;
         }
     }
-    .jh-tips{
+    .jh-tips {
         font-size: 36px;
         color: #fff;
         margin-top: 40px;

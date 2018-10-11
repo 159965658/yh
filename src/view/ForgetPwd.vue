@@ -1,6 +1,6 @@
 <template>
     <div>
-    		<div class="biaoti">忘记密码</div>
+    		  <app-header :ltitle='"后退"' :ctitle='"忘记密码"'></app-header>
     		
     		<div class="blue-bg">
 	        	<div class="inputs">
@@ -26,12 +26,12 @@
 export default {};
 </script>
 <style lang="less" scoped>
-.inputs{
-	height: 540px;
-	padding-top: 170px;
-	padding-bottom: 190px;
-	.button-submit{
-		margin-top: 176px;
-	}
+.inputs {
+  height: 540px;
+  padding-top: 170px;
+  padding-bottom: 190px;
+  .button-submit {
+    margin-top: 176px;
+  }
 }
 </style>

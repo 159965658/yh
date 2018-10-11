@@ -1,19 +1,12 @@
 
 
 export default {
-    run($vm) {
+    run(fun, params, success, error = 'window.$error') {
         console.log("log from js");
-        let json = {
-            vm: $vm,
-            success: function (vm) {
-                alert('成功')
-                console.log(vm);
-            },
-            error: function () {
-                alert('失败')
-            }
-        }
-        console.log(JSON.stringify(json))
-        json.success($vm);
-    }
+
+        console.log(fun, params, success, error);
+        window[success]();
+        //Android.run(fun, JSON.stringify(params), success, error);
+        //Android.run("activition", JSON.stringify({ code: "12sdada122" }), 'success', '$error');
+    },
 }
