@@ -16,7 +16,9 @@ import Verification from "@/view/Verification";
 //设置密码
 import SetPw from "@/view/SetPw";
 //忘记密码
-import ForgetPwd from "@/view/ForgetPwd"
+import ForgetPwd from "@/view/ForgetPwd";
+//切换账号
+import SwitchAccount from "@/view/SwitchAccount"
 Vue.use(Router)
 
 export default new Router({
@@ -58,6 +60,10 @@ export default new Router({
       path: '/forgetpwd',
       name: 'forgetpwd',
       component: ForgetPwd
+    }, {
+      path: '/switch',
+      name: 'switch',
+      component: SwitchAccount
     }
   ]
 })
