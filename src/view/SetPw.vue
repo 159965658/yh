@@ -17,7 +17,7 @@
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<a href="javascript:void(0)" class="button submit">完 成</a>
+	    				<a href="javascript:void(0)" class="button submit" @click='next'>完 成</a>
 	    			</div>
 	        		
 	        	</div>
@@ -25,7 +25,13 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    next() {
+      this.$router.push("/login");
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .inputs {

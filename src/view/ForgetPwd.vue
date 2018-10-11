@@ -15,7 +15,7 @@
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<a href="#" class="button submit">下一步</a>
+	    				<a href="javascript:void(0)" @click='next' class="button submit">下一步</a>
 	    			</div>
 	        		
 	        	</div>
@@ -23,7 +23,13 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+  methods: {
+    next() {
+      this.$router.push("/setpw");
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .inputs {
