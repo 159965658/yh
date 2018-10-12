@@ -23,4 +23,4 @@ window.$vm = new Vue({
   router,
   components: { App },
   template: '<App/>'
-})
+});

@@ -40,6 +40,16 @@ export default {
   props: {
     isShow: false
   },
+  watch: {
+    isShow() {
+      if (this.isShow) {
+        //   console.log(this.isShow);
+        this.$openFull();
+      } else {
+        this.$closeFull();
+      }
+    }
+  },
   methods: {
     save() {
       this.$emit("search");

@@ -6,6 +6,7 @@
     </div>
 </template>
 <script>
+import newUser from "./FullTips";
 export default {
   props: {
     ctitle: {
@@ -28,11 +29,11 @@ export default {
   methods: {
     rClick() {
       if (this.type == 1) {
-        this.$toastFull("创建新账户");
+        this.$toastFull(newUser);
       }
     },
     back() {
-      this.$router.go(-1);
+      $appBack();
     }
   }
 };
@@ -47,6 +48,7 @@ export default {
   position: relative;
   color: #282828;
   padding: 0px 20px;
+  background-color: #fff;
   // padding-top: 54px;
   // background-color: red;
   .center {

@@ -23,4 +23,20 @@ if (platform.PC || !platform.android) {
         window.$vm.$toast(data);
     }
 }(window))
+window['$appBack'] = function () {
+    const isFull = window.$vm.$isfull;
+    console.log(isFull);
+    if (isFull) {
+        $vm.$closeFull();//关闭全屏
+        return;
+    }
+    if (window.history.length <= 1) {
+        //调用原生的方法 关闭app
+        $vm.native.run('close');
+        console.log('关闭app')
+        return false
+    }
+    $vm.$router.go(-1)
+    // console.log($vm.$router);
+}
 export { native }

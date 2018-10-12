@@ -1,6 +1,7 @@
 <template>
     <div class="bg-color">
-    		<div>修改密码</div>
+    		<app-header :ltitle='"后退"' :ctitle='"修改密码"'></app-header>
+    		
     		<div class="blue-bg">
 	        	<div class="inputs">
 	        		<ul>

@@ -23,6 +23,10 @@ import SwitchAccount from "@/view/SwitchAccount"
 import Account from "@/view/Account";
 
 import ModifyPwd from "@/view/ModifyPwd";
+
+import RightList from "@/view/RightList"
+//新建档案
+import NewFile from "@/view/NewFile"
 Vue.use(Router)
 
 export default new Router({
@@ -41,13 +45,16 @@ export default new Router({
       name: 'modifypwd',
       component: ModifyPwd
     }, {
-      path: '/account',
-      name: 'account',
-      component: Account
-    }, {
       path: '/index',
       name: 'index',
-      component: Index
+      component: Index,
+      redirect: '/index/list',
+      children: [
+        { path: 'list', name: 'indexright', component: RightList },
+        { path: 'account', name: 'account', component: Account }
+      ]
+    }, {
+      path: '/newfile', name: 'newfile', component: NewFile
     }
     , {
       path: '/createuser',
