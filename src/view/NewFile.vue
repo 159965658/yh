@@ -8,29 +8,34 @@
     		<div class="center-content">
     			 <div style="width: 100%;height: 5px;"></div>
     			 <div class="border">
-    			 	<ul>
-    			 		<li class="dashed"><label for="">档案编号:</label>12344</li>
-    			 		<li class="dashed"><i class="must">*</i><label for="">档案编号:</label>12344</li>
-    			 		<li><i class="must">*</i><label for="">性别：:</label>
-    			 			<ol class="clearfix">
-    			 				<li><i class="icon radio active"><b></b></i><input type="radio" />男</li>
-    			 				<li><i class="icon radio"><b></b></i><input type="radio" />女</li>
-    			 			</ol>
-    			 		</li>
-    			 		<li><i class="must">*</i><label for="">民族:</label>汉</li>
-    			 		<li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon rili"></i></li>
-    			 		<li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon arrow"></i></li>
-    			 		<li><i class="must">*</i><label for="">地址:</label>山东省滨州市滨城区黄河二路600号2号楼2单元402室</li>
-    			 		<li><i class="must">*</i><label for="">联系方式:</label></li>
-    			 	</ul>
-    			 	<div class="button-submit"> 
-	    				<a href="javascript:void(0)" class="button submit btn-save" @click='next'>保存</a>
+    			 	<div class="edit-content hide">
+	    			 	<ul>
+	    			 		<li class="dashed"><label for="">档案编号:</label>12344</li>
+	    			 		<li class="dashed"><i class="must">*</i><label for="">档案编号:</label>12344</li>
+	    			 		<li><i class="must">*</i><label for="">性别：:</label>
+	    			 			<ol class="clearfix">
+	    			 				<li><i class="icon radio active"><b></b></i><input type="radio" />男</li>
+	    			 				<li><i class="icon radio"><b></b></i><input type="radio" />女</li>
+	    			 			</ol>
+	    			 		</li>
+	    			 		<li><i class="must">*</i><label for="">民族:</label>汉</li>
+	    			 		<li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon rili"></i></li>
+	    			 		<li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon arrow"></i></li>
+	    			 		<li><i class="must">*</i><label for="">地址:</label>山东省滨州市滨城区黄河二路600号2号楼2单元402室</li>
+	    			 		<li><i class="must">*</i><label for="">联系方式:</label></li>
+	    			 	</ul>
+	    			 	<div class="button-submit"> 
+		    				<a href="javascript:void(0)" class="button submit btn-save" @click='next'>保存</a>
+		    			</div>
+	    			</div>
+	    			<div class="ocr-content">
+	    				<div class="blck-bg"></div>
 	    			</div>
     			 </div>
     			 <div style="width: 100%;height: 50px;"></div>
     		</div>
     		
-    		<div class="error-tips">您的身份证与系统用户身份证有冲突</div>
+    		<div class="error-tips hide">您的身份证与系统用户身份证有冲突</div>
          
     </div>
 </template>
@@ -164,7 +169,11 @@ i.icon{
 		}
 	}
 }
-
+.blck-bg{
+	background: #191919;
+	height: 1126px;
+	width: 100%;
+}
 .error-tips{
 	top: 35%;
 }
