@@ -13,7 +13,7 @@
             <div class="center-content ">
                 <div class="total">
                     <p>当前共有数据：<span>10</span></p>
-                    <i class="icon icon-paixu" @click="filterVis = !filterVis"></i>
+                    <i class="icon icon-paixu" @click="filterShow"></i>
                 </div>
                 	<div class="card_area">
 	                <ul class="card clearfix">
@@ -33,7 +33,8 @@
 	                				</ol>
 	                			</div>
 	                			<button>开始辨识</button>
-	                			<button>查看档案</button>
+                        <router-link to="/seefile" tag="button">查看档案</router-link>
+	                			<!-- <button>查看档案</button> -->
 	                		</li>
 	                		<li class="default">
 	                			<div class="bg">
@@ -189,7 +190,7 @@
 	                </ul>
             		</div>
             	</div>
-                <popup-filter :isShow = 'filterVis' v-on:search='searchFilter'></popup-filter>
+                <!-- <popup-filter :isShow = 'filterVis' v-on:search='searchFilter'></popup-filter> -->
         </div>
 </template>
 <script>
@@ -197,18 +198,32 @@
 import PopupFilter from "@/components/PopupFilter";
 export default {
   components: {
-    PopupFilter
+    //  PopupFilter
   },
   data() {
     return {
       filterVis: false
     };
   },
+  mounted() {
+    setTimeout(() => {
+      $vm.$on("search", this.searchFilter);
+    }, 1);
+    // console.log(this);
+  },
   methods: {
+    filterShow() {
+      // this.filterVis = !this.filterVis
+
+      this.$toastFull(PopupFilter);
+    },
     searchFilter() {
       console.log("搜索");
-      this.filterVis = false;
+      this.$closeFull();
     }
+  },
+  beforeDestroy() {
+    $vm.$off("search", this.searchFilter);
   }
 };
 </script>

@@ -24,3 +24,5 @@ window.$vm = new Vue({
   components: { App },
   template: '<App/>'
 });
+
+let $event = new Vue();

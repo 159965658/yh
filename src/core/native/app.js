@@ -24,13 +24,13 @@ if (platform.PC || !platform.android) {
     }
 }(window))
 window['$appBack'] = function () {
-    const isFull = window.$vm.$isfull;
+    const isFull = window.$vm.$isfull();
     console.log(isFull);
     if (isFull) {
         $vm.$closeFull();//关闭全屏
         return;
     }
-    if (window.history.length <= 1) {
+    else if (window.history.length <= 1) {
         //调用原生的方法 关闭app
         $vm.native.run('close');
         console.log('关闭app')

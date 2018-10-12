@@ -1,10 +1,10 @@
 <template>
 <!--弹出层背景-->
-<div class="popup_bg" v-show="isShow">
+<div>
     <transition name="slide-fade" mode="out-in">
 
         <!--弹出层-筛选-->
-        <div class="popup_filter" v-show="isShow">
+        <div class="popup_filter">
             <h2>筛选</h2>
             <ul class="forms">
                 <li class="clearfix time">
@@ -52,7 +52,8 @@ export default {
   },
   methods: {
     save() {
-      this.$emit("search");
+      console.log(2);
+      $vm.$emit("search");
     }
   }
 };

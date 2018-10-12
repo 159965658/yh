@@ -27,6 +27,11 @@ import ModifyPwd from "@/view/ModifyPwd";
 import RightList from "@/view/RightList"
 //新建档案
 import NewFile from "@/view/NewFile"
+
+//查看档案
+import SeeFile from "@/view/SeeFile"
+//知识库
+import KnowledgeBase from "@/view/KnowledgeBase";
 Vue.use(Router)
 
 export default new Router({
@@ -51,10 +56,13 @@ export default new Router({
       redirect: '/index/list',
       children: [
         { path: 'list', name: 'indexright', component: RightList },
-        { path: 'account', name: 'account', component: Account }
+        { path: 'account', name: 'account', component: Account },
+        { path: 'knowledge', name: 'knowledge', component: KnowledgeBase }
       ]
     }, {
       path: '/newfile', name: 'newfile', component: NewFile
+    }, {
+      path: '/seefile', name: 'seefile', component: SeeFile
     }
     , {
       path: '/createuser',
