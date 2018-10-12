@@ -49,7 +49,7 @@ ol{
 	margin-top: 100px;
 	li{
 		float: left;
-		width: 240px;
+		margin-right: 90px;
 		position: relative;
 		text-align: left;
 		color:#656565 ;
@@ -62,6 +62,9 @@ ol{
 		input{
 			margin-right: 25px;
 		}
+	}
+	li:last-child{
+		margin-right: 0;
 	}
 }
 </style>
