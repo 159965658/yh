@@ -44,6 +44,9 @@ export default {
   	padding-bottom: 130px;
   	.button-submit {
     		margin-top: 120px;
+    		a{
+    			background: #00A6E7;
+    		}
 	}
 	ul{
 		li{

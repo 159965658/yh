@@ -1,5 +1,5 @@
 <template>
-	<div class="index-page">
+		<div class="index-page">
         <!-- <div class="left-nav">
 	        	<dl class="head-img">
 	        		<dt><img src="../assets/index-wangyisheng.png"></dt>
@@ -38,78 +38,81 @@
  </div>
 </template>
 <script>
-export default {};
+export default {
+    
+}
 </script>
 <style lang="less" scoped>
-.index-page {
-  background: #f5f5f5;
+.index-page{
+	background: #f5f5f5;
 }
-.right-content {
-  float: left;
-  width: calc(100% - 208px);
-  div.center-content {
-    width: 1326px;
-    margin: 0 auto;
-    margin-top: 64px;
-  }
-  .personal {
-    border-radius: 10px;
-    box-shadow: -1px 1px 30px #cacaca;
-    background: -webkit-linear-gradient(left top, #88d7f7, #00a6e7);
-    background: -o-linear-gradient(bottom right, #88d7f7, #00a6e7);
-    background: -moz-linear-gradient(bottom right, #88d7f7, #00a6e7);
-    background: linear-gradient(to bottom right, #88d7f7, #00a6e7);
-    dl {
-      padding-top: 90px;
-      padding-bottom: 15px;
-      dt {
-        width: 196px;
-        height: 400px;
-        background: url(../assets/login-img.png) no-repeat;
-        background-size: 196px 246px;
-        float: left;
-        margin-left: 156px;
-        margin-right: 165px;
-        background-position: 0 40px;
-      }
-      dd {
-        margin-bottom: 65px;
-        font-size: 36px;
-        color: #fff;
-      }
+.right-content{
+	float: left;
+	width: calc(100% - 208px);
+	div.center-content{
+		width:1326px;
+		margin: 0 auto;
+		margin-top: 64px;
+		
+	}
+	.personal{
+		border-radius: 10px;
+	    box-shadow: -1px 1px 30px #cacaca;
+	    background: -webkit-linear-gradient(left top, #88d7f7, #00a6e7);
+	    background: -o-linear-gradient(bottom right, #88d7f7, #00a6e7);
+	    background: -moz-linear-gradient(bottom right, #88d7f7, #00a6e7);
+	    background: linear-gradient(to bottom right, #88d7f7, #00a6e7);
+	    dl{
+	    		padding-top:90px;
+	    		padding-bottom: 15px;
+	    		dt{
+	    			width: 196px;
+	    			height: 400px;
+	    			background: url(../assets/login-img.png) no-repeat;
+	    			background-size:196px 246px;
+	    			float: left;
+	    			margin-left: 156px;
+	    			margin-right: 165px;
+	    			background-position:0 40px ;
+	    		}
+	    		dd{
+	    			 margin-bottom: 65px;
+	    			 font-size: 36px;
+	    			 color: #fff;
+	    		}
+	    }
     }
-  }
-  ul.list {
-    width: 100%;
-    background: #fff;
-    box-shadow: -1px 1px 30px #cacaca;
-    margin-top: 40px;
-    border-radius: 10px;
-    padding-top: 6px;
-    li {
-      margin: 0 45px;
-      height: 112px;
-      line-height: 112px;
-      border-bottom: 1px solid #e5e5e5;
-      font-size: 36px;
-      color: #656565;
-      i.icon.more {
-        float: right;
-        margin: 35px 20px 0 35px;
-      }
-      span {
-        float: right;
-        font-size: 30px;
-        color: #989898;
-      }
-      span.version {
-        color: #282828;
-        font-size: 36px;
-      }
+	ul.list{
+    		width: 100%;
+    		background:#fff ;
+    		box-shadow: -1px 1px 30px #cacaca;
+    		margin-top: 40px;
+    		border-radius:10px ; 
+    		padding-top: 6px;
+    		li{
+    			margin: 0 45px;
+    			height: 112px;
+    			line-height: 112px;
+    			border-bottom: 1px solid #e5e5e5;
+    			font-size: 36px;
+    			color: #656565;
+    			i.icon.more{
+    				float: right;
+    				margin:35px 20px 0 35px;
+    			}
+    			span{
+    				float: right;
+    				font-size: 30px;
+    				color: #989898;
+    			}
+    			span.version{
+    				color: #282828;
+    				font-size: 36px;
+    			}
+    		}
+    		li:last-child{
+    			border-bottom: none;
+    		}
     }
-    li:last-child {
-      border-bottom: none;
-    }
-  }
 }
 </style>
