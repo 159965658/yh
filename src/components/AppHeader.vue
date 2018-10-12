@@ -49,10 +49,11 @@ export default {
   color: #282828;
   padding: 0px 20px;
   background-color: #fff;
+   font-size: 38px;
   // padding-top: 54px;
   // background-color: red;
   .center {
-    font-size: 36px;
+   
     margin: 0 auto;
   }
   .right {
