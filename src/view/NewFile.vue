@@ -25,7 +25,7 @@
 	    			 		<li><i class="must">*</i><label for="">联系方式:</label></li>
 	    			 	</ul>
 	    			 	<div class="button-submit"> 
-		    				<a href="javascript:void(0)" class="button submit btn-save">保存</a>
+		    				<a href="javascript:void(0)" class="button submit btn-save" @click="save">保存</a>
 		    			</div>
 	    			</div>
 	    			<div class="ocr-content hide">
@@ -40,7 +40,15 @@
     </div>
 </template>
 <script>
-export default {};
+//报存提示
+import NewTipsVue from "./NewTips.vue";
+export default {
+  methods: {
+    save() {
+      this.$toastFull(NewTipsVue);
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
 .center-content {
