@@ -31,7 +31,7 @@
     			 <div style="width: 100%;height: 50px;"></div>
     		</div>
     		
-    		<div class="error-tips">您的身份证与系统用户身份证有冲突</div>
+    		<!-- <div class="error-tips">您的身份证与系统用户身份证有冲突</div> -->
          
     </div>
 </template>
