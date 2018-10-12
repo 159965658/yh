@@ -90,8 +90,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.index-page{
-	background: #f5f5f5;
+.index-page {
+  background: #f5f5f5;
 }
 
 .right-content {
@@ -171,5 +171,6 @@ export default {
     li:last-child {
       border-bottom: none;
     }
+  }
 }
 </style>
