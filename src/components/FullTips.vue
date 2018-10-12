@@ -1,25 +1,35 @@
 <template>
-     <div class="dialog-div">
-        <div class="dialog-body">
-            <slot name="body">
-            <p>创建新账户</p>
+<div class="dialog-div">
+    <div class="dialog-body">
+        <slot name="body">
+            <p>{{title}}</p>
             <p class="dialog-c">
-                创建新账户时需要验证当前设备激活码，是否继续下一步？
+                {{text}}
             </p>
-            </slot>
-            <div class="dialog-btn" style="padding-top:50px">
-                <button class="btn-default btn-can" @click="close">取消</button>
-                <button class="btn-default btn-next" @click="nextHref">继续</button>
-            </div>
+        </slot>
+        <div class="dialog-btn" style="padding-top:50px">
+            <button class="btn-default btn-can" @click="close">{{canText}}</button>
+            <button class="btn-default btn-next" @click="nextHref">{{subText}}</button>
         </div>
     </div>
+</div>
 </template>
 
 <script>
 export default {
+  props: {
+    type: {
+      type: Number,
+      default: 1
+    }
+  },
   data() {
     return {
       // isShow: false
+      title: "创建新用户",
+      text: "创建新账户时需要验证当前设备激活码，是否继续下一步？",
+      subText: "继续",
+      canText: "取消"
     };
   },
   methods: {
@@ -30,7 +40,12 @@ export default {
     nextHref: function() {
       //console.log(this, $vm);
       // this.visible = false;
-      if (this.type == 1) $vm.$router.push("/verification");
+      this.close();
+      if (this.type == 1 && this.title == "创建新用户")
+        $vm.$router.push("/verification");
+      else {
+        $vm.$emit("submit");
+      }
     }
   }
 };
@@ -52,14 +67,17 @@ export default {
     color: #282828;
     padding: 30px 58px;
     letter-spacing: 5px;
+
     > .dialog-btn {
       height: 84px;
       display: flex;
       justify-content: space-between;
+
       > button {
         width: 380px;
       }
     }
+
     > .dialog-c {
       white-space: pre-line;
       color: #cfcfcf;

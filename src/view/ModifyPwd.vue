@@ -22,7 +22,7 @@
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<a href="javascript:void(0)" class="button submit btn-save" @click='next'>保存</a>
+	    				<a href="javascript:void(0)" class="button submit btn-save">保存</a>
 	    			</div>
 	        		
 	        	</div>

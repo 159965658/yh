@@ -30,21 +30,27 @@ Toast.install = function (Vue) {
         }, duration);
     }
     //全屏 
-    Vue.prototype.$toastFull = (content, visible = true) => {
+    Vue.prototype.$toastFull = (content, visible = true, data) => {
         instanceFull.isShow = visible;
+
         if (!visible) return;
+        if (!content) return;
         //内容
-        console.log($vm.$refs[content._scopeId]);
-        var aElements = document.getElementsByTagName('div');
-        for (var i = 0; i < aElements.length; i++) {
-            if (aElements[i].getAttribute(content._scopeId) == '') {
-                return false;
-            }
-        }
+        console.log(content);
+        const divAA = instanceFull.$el.getElementsByTagName('div');
+        if (divAA.length)
+            divAA[0].remove();
         const constructor = Vue.extend(content)
         const instanceChild = new constructor();
         instanceChild.$mount(document.createElement('div'));
-        instanceFull.$el.appendChild(instanceChild.$el)
+        instanceFull.$el.appendChild(instanceChild.$el);
+        if (data) {
+            instanceChild.title = data.title || instanceChild.title
+            instanceChild.text = data.text || instanceChild.text
+            instanceChild.subText = data.subText || instanceChild.subText
+            instanceChild.canText = data.canText || instanceChild.canText
+        }
+        Toast.isBack = true;
     }
     //关闭全屏
     Vue.prototype.$closeFull = () => {
@@ -57,10 +63,10 @@ Toast.install = function (Vue) {
         $vm.$toastFull('', false);
     }
     //开启全屏通知
-    Vue.prototype.$openFull = () => {
-        //Toast.isBack = true;
-        $vm.$isfull = true
-    }
+    // Vue.prototype.$openFull = () => {
+    //     Toast.isBack = true;
+    //     //$vm.$isfull = true
+    // }
     //获取全屏状态
     Vue.prototype.$isfull = () => {
         return Toast.isBack;
