@@ -33,7 +33,7 @@
 	    			</div>
 	    			<div class="right-list">
 	    				<ul>
-	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。</li>
+	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。<b>已共享</b></li>
 	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。饮食宜有节制，四季营养合理搭配。</li>
 	    					<li>多食五谷杂粮，蔬菜水果，少食过于油腻及辛辣之物。</li>
 	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。</li>
@@ -105,7 +105,20 @@ export default {};
     			padding: 85px 305px;
     			margin-bottom: 35px;
     			margin-right: 60px;
-    			
+    			text-align: center;
+    			position:relative ;
+    			b{
+    				position: absolute;
+    				color: #FFFFFF;
+    				font-size: 28px;
+    				background: #00A6E7;
+    				padding: 0 15px;
+    				height: 44px;
+    				line-height: 44px;
+    				border-radius: 50px;
+    				left: 30px;
+    				top:30px ;
+    			}
     		}
     }
 }
