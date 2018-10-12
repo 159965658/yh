@@ -1,7 +1,7 @@
 <template>
      <div class="right-card">
         		<div class="top-nav">
-                <div class="search">
+                <div class="top-nav-search">
                     <input type="texe" placeholder="患者姓名／身份证号">
                     <i class="icon"></i>
                     <i class="sousuo"></i>
@@ -233,87 +233,10 @@ export default {
   float: left;
   width: calc(100% - 208px);
   height: 100%;
-  .top-nav {
-    height: 98px;
-    background: #fff;
-    padding-top: 20px;
-    position: relative;
-    .search {
-      height: 72px;
-      width: 810px;
-      border: 1px solid #e2e2e2;
-      margin: 0 auto;
-      border-radius: 50px;
-      input {
-        float: left;
-        height: 72px;
-        width: 550px;
-        border: none;
-        background: none;
-        color: #989898;
-        font-size: 30px;
-        padding-left: 38px;
-      }
-      i.icon {
-        float: left;
-        display: block;
-        width: 72px;
-        height: 72px;
-        background: url(../assets/index-erweima.png);
-        background-size: 48px 48px;
-        background-position: 12px 12px;
-        background-repeat: no-repeat;
-      }
-      i.sousuo {
-        float: right;
-        width: 128px;
-        height: 72px;
-        background-color: #3ba6dd;
-        border-radius: 70px;
-        background-image: url(../assets/index-sousuo.png);
-        background-size: 37px 37px;
-        background-repeat: no-repeat;
-        background-position: 45px 17px;
-      }
-    }
-    .shatubiao {
-      width: 59px;
-      height: 57px;
-      background-image: url(../assets/index-youshang.png);
-      float: right;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      position: absolute;
-      right: 60px;
-      top: 31px;
-    }
-  }
+
   .center-content {
-    padding-left: 60px;
-    padding-right: 5px;
-    height: calc(100% - 118px);
-    background-color: #f3f6fc;
-    .total {
-      padding-top: 62px;
-      color: #989898;
-      font-size: 36px;
-      position: relative;
-      margin-bottom: 30px;
-      span {
-        color: #282828;
-      }
-    }
-    .icon-paixu {
-      position: absolute;
-      background-image: url(../assets/inde-paixu.png);
-      background-repeat: no-repeat;
-      width: 60px;
-      height: 50px;
-      background-size: 100%;
-      position: absolute;
-      right: 50px;
-      top: 60px;
-    }
+     
+    
     .card_area {
       height: calc(100% - 150px);
       overflow-y: auto;
