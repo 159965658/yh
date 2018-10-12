@@ -7,8 +7,8 @@
     		</ul>
     		<div class="center-content">
     			 <div style="width: 100%;height: 5px;"></div>
-    			 <div class="border">
-    			 	<div class="edit-content">
+    			 <div class="border hide">
+    			 	<div class="edit-content ">
 	    			 	<ul>
 	    			 		<li class="dashed"><label for="">档案编号:</label>12344</li>
 	    			 		<li class="dashed"><i class="must">*</i><label for="">档案编号:</label>12344</li>
@@ -28,10 +28,18 @@
 		    				<a href="javascript:void(0)" class="button submit btn-save" @click="save">保存</a>
 		    			</div>
 	    			</div>
-	    			<div class="ocr-content hide">
-	    				<div class="blck-bg"></div>
-	    			</div>
-    			 </div>
+    			</div>
+    			 
+    			 <div class="ocr-content">
+    				<div class=" fail">
+    					<div class="img"><img src="../assets/iii.png" alt="" /></div>
+    					 <p>未识别出来，请重试...</p>
+    				
+	    				<div class="button-submit blue-btn"> 
+		    				<a href="javascript:void(0)" class="button submit btn-save">重试</a>
+		    			</div>
+		    		</div>
+    			</div>
     			 <div style="width: 100%;height: 50px;"></div>
     		</div>
     		
@@ -180,6 +188,35 @@ i.icon {
   background: #191919;
   height: 1126px;
   width: 100%;
+}
+
+.fail{
+	width:100%;
+	padding-bottom: 320px;
+	.img{ 
+		
+		width: 270px;
+	    height: 270px; 
+	    margin:0  auto;
+	    margin-top:255px;
+	    img{
+	    		width: 100%;
+	    }
+	 }
+	p{
+		font-size: 36px;
+		color: #989898;
+		text-align: center;
+		margin-top: 75px;
+		margin-bottom: 115px;
+	}	
+	.button-submit{ 
+		.button{
+			width: 910px;
+			margin: 0 auto;
+		}
+	}
+	 
 }
 .error-tips {
   top: 35%;
