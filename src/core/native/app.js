@@ -36,6 +36,7 @@ window['$appBack'] = function () {
         console.log('关闭app')
         return false
     }
+    $vm.$closeFull();
     $vm.$router.go(-1)
     // console.log($vm.$router);
 }

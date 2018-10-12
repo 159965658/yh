@@ -50,6 +50,8 @@ Toast.install = function (Vue) {
             instanceChild.subText = data.subText || instanceChild.subText
             instanceChild.canText = data.canText || instanceChild.canText
         }
+        if (content.__file.indexOf('NewTips') > -1)
+            return;
         Toast.isBack = true;
     }
     //关闭全屏
