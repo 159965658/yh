@@ -7,9 +7,9 @@
         <div class="popup_filter">
             <h2>筛选</h2>
             <ul class="forms">
-                <li class="clearfix time">
-                    <label for="">时间</label>
-                    <input type="text" />
+                <li class="clearfix time" style="position:relative">
+                    <label for="" >时间</label>
+                    <datepicker name='time' placeholder="" :inline = "false" :language='zh' :format="'yyyy-MM-dd'"></datepicker>
                     <p></p>
                     <input type="text" />
         		</li>
@@ -36,7 +36,17 @@
 </template>
 
 <script>
+import Datepicker from "vuejs-datepicker";
+import { zh } from "vuejs-datepicker/dist/locale";
 export default {
+  components: {
+    Datepicker
+  },
+  data() {
+    return {
+      zh: zh
+    };
+  },
   props: {
     isShow: false
   },
@@ -95,5 +105,22 @@ export default {
 .btn-save {
   margin-top: 100px;
   margin-left: 188px;
+}
+</style>
+<style>
+.vdp-datepicker__calendar {
+  position: absolute;
+  z-index: 100;
+  background: #fff;
+  width: 600px;
+  border: 1px solid #ccc;
+  top: 85px;
+  left: 160px;
+}
+[name="time"] {
+  font-size: 30px;
+}
+.vdp-datepicker__calendar .cell {
+  border: none;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%;">
-    		<div>查看档案</div>
+    				 <app-header :ltitle='"后退"' :ctitle='"查看档案"'></app-header>
     		<div class="clearfix all">
     			<div class="left-content fl">
     				<div class="dangan">
@@ -74,154 +74,154 @@
 export default {};
 </script>
 <style lang="less" scoped>
-.all{
-	width: 1635px;
-	margin: 0 auto; 
-	height:calc(100% - 180px);
+.all {
+  width: 1635px;
+  margin: 0 auto;
+  height: calc(100% - 180px);
 }
 .left-content,
-.right-content{
-	width: 770px;
-	padding-top: 40px;
-	.border{
-		ul,ol{
-			border: 1px solid #dcdcdc; 
-			margin: 0 50px;
-		}
-	}	
-	.shadow{
-		box-shadow: -1px 1px 30px #cacaca;
-		border-radius:10px;
-		
-		p.edit{
-			font-size: 36px;
-			color:#3ba6dd ;
-			text-align: right;
-			width: calc( 100% -50px );
-			height: 95px;
-			line-height: 95px;
-			padding-right: 50px; 
-		}
-	}
+.right-content {
+  width: 770px;
+  padding-top: 40px;
+  .border {
+    ul,
+    ol {
+      border: 1px solid #dcdcdc;
+      margin: 0 50px;
+    }
+  }
+  .shadow {
+    box-shadow: -1px 1px 30px #cacaca;
+    border-radius: 10px;
+
+    p.edit {
+      font-size: 36px;
+      color: #3ba6dd;
+      text-align: right;
+      width: calc(100% -50px);
+      height: 95px;
+      line-height: 95px;
+      padding-right: 50px;
+    }
+  }
 }
-.left-content{
-	.border{
-		ul{
-			li{
-				border-bottom: 1px dashed #e1e1e1;
-				font-size: 32px;
-				color: #282828;
-				margin: 0 30px;
-				padding-bottom: 32px;
-				padding-top: 32px;
-				label{
-					color: #989898;
-				}
-			}
-			li:last-child{
-				border: none;
-			}
-		}
-	}
-	.update{
-		margin-top: 30px;
-		.border{
-			padding-bottom: 15px;
-		}
-		h2{
-			color: #282828;
-			font-size: 36px;
-			text-align: center;
-			padding-top: 40px;
-			padding-bottom: 30px;
-			font-weight: bold;
-		}
-		ol{
-			padding-top: 45px;
-			max-height:220px ;
-			overflow-y: auto;
-			li{
-				border-left:1px dashed #dcdcdc ;
-				margin-left: 50px;
-				padding-left: 35px;
-				padding-bottom: 50px;
-				position: relative;
-				p{
-					height: auto;
-					line-height: auto;
-					font-size: 32px;
-					color: #282828;
-				}
-				p.time{
-					font-size: 28px;
-					color: #989898;
-					margin-bottom: 22px;
-				}
-				i.icon{
-					position: absolute;
-					left: -17px;
-					top: 0;
-				}
-			}
-			li:last-child{
-				border:none;
-			}
-		}
-	}	
+.left-content {
+  .border {
+    ul {
+      li {
+        border-bottom: 1px dashed #e1e1e1;
+        font-size: 32px;
+        color: #282828;
+        margin: 0 30px;
+        padding-bottom: 32px;
+        padding-top: 32px;
+        label {
+          color: #989898;
+        }
+      }
+      li:last-child {
+        border: none;
+      }
+    }
+  }
+  .update {
+    margin-top: 30px;
+    .border {
+      padding-bottom: 15px;
+    }
+    h2 {
+      color: #282828;
+      font-size: 36px;
+      text-align: center;
+      padding-top: 40px;
+      padding-bottom: 30px;
+      font-weight: bold;
+    }
+    ol {
+      padding-top: 45px;
+      max-height: 220px;
+      overflow-y: auto;
+      li {
+        border-left: 1px dashed #dcdcdc;
+        margin-left: 50px;
+        padding-left: 35px;
+        padding-bottom: 50px;
+        position: relative;
+        p {
+          height: auto;
+          line-height: auto;
+          font-size: 32px;
+          color: #282828;
+        }
+        p.time {
+          font-size: 28px;
+          color: #989898;
+          margin-bottom: 22px;
+        }
+        i.icon {
+          position: absolute;
+          left: -17px;
+          top: 0;
+        }
+      }
+      li:last-child {
+        border: none;
+      }
+    }
+  }
 }
-.dangan{
-	h3{
-		font-size:36px ;
-		color: #fff;
-		text-align: center;
-		line-height: 88px;
-		background: #00A6E7;
-		border-radius:10px 10px 0px 0px ;
-	}
+.dangan {
+  h3 {
+    font-size: 36px;
+    color: #fff;
+    text-align: center;
+    line-height: 88px;
+    background: #00a6e7;
+    border-radius: 10px 10px 0px 0px;
+  }
 }
-.right-content{
-	height: 100%;
-	.shadow{
-		height: calc( 100% -50px);
-		overflow-y: auto;
-	}
-	.hei50{
-		height: 50px;
-	}
-	ul{
-		
-		li{
-			margin: 0 50px; 
-			background: #eef2fa;
-			border: 1px solid #3ba6dd;
-			margin-bottom: 42px;
-			position: relative;
-			b{
-				display: block;
-				font-weight: normal;
-				margin: 0 50px; 
-			}
-			b.biaoti{
-				font-size: 32px;
-				color: #282828;
-				padding: 44px 0;
-			}
-			b.time{
-				padding-bottom: 40px;
-				font-size: 28px;
-				color: #989898;
-			}
-			i.jiao{
-				width: 56px;
-				height: 65px;
-				background: url(../assets/jiao_03.jpg) no-repeat;
-				background-size: 100%;
-				display: block;
-				position: absolute;
-				right: -1px;
-				bottom: -1px;
-			}
-		}
-	}
+.right-content {
+  height: 100%;
+  .shadow {
+    height: calc(100% -50px);
+    overflow-y: auto;
+  }
+  .hei50 {
+    height: 50px;
+  }
+  ul {
+    li {
+      margin: 0 50px;
+      background: #eef2fa;
+      border: 1px solid #3ba6dd;
+      margin-bottom: 42px;
+      position: relative;
+      b {
+        display: block;
+        font-weight: normal;
+        margin: 0 50px;
+      }
+      b.biaoti {
+        font-size: 32px;
+        color: #282828;
+        padding: 44px 0;
+      }
+      b.time {
+        padding-bottom: 40px;
+        font-size: 28px;
+        color: #989898;
+      }
+      i.jiao {
+        width: 56px;
+        height: 65px;
+        background: url(../assets/jiao_03.jpg) no-repeat;
+        background-size: 100%;
+        display: block;
+        position: absolute;
+        right: -1px;
+        bottom: -1px;
+      }
+    }
+  }
 }
 </style>

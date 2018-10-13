@@ -7,8 +7,8 @@
     		</ul>
     		<div class="center-content">
     			 <div style="width: 100%;height: 5px;"></div>
-    			 <div class="border hide">
-    			 	<div class="edit-content ">
+    			 <div class="border">
+    			 	<div class="edit-content">
 	    			 	<ul>
 	    			 		<li class="dashed"><label for="">档案编号:</label>12344</li>
 	    			 		<li class="dashed"><i class="must">*</i><label for="">档案编号:</label>12344</li>
@@ -20,7 +20,7 @@
 	    			 		</li>
 	    			 		<li><i class="must">*</i><label for="">民族:</label>汉</li>
 	    			 		<li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon rili"></i></li>
-	    			 		<li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon arrow"></i></li>
+	    			 		<li><i class="must">*</i><label for="">身份证:</label>1987-01-01 <i class="icon arrow"></i></li>
 	    			 		<li><i class="must">*</i><label for="">地址:</label>山东省滨州市滨城区黄河二路600号2号楼2单元402室</li>
 	    			 		<li><i class="must">*</i><label for="">联系方式:</label></li>
 	    			 	</ul>
@@ -30,7 +30,7 @@
 	    			</div>
     			</div>
     			 
-    			 <div class="ocr-content">
+    			 <div class="ocr-content hide">
     				<div class=" fail">
     					<div class="img"><img src="../assets/iii.png" alt="" /></div>
     					 <p>未识别出来，请重试...</p>
@@ -190,33 +190,31 @@ i.icon {
   width: 100%;
 }
 
-.fail{
-	width:100%;
-	padding-bottom: 320px;
-	.img{ 
-		
-		width: 270px;
-	    height: 270px; 
-	    margin:0  auto;
-	    margin-top:255px;
-	    img{
-	    		width: 100%;
-	    }
-	 }
-	p{
-		font-size: 36px;
-		color: #989898;
-		text-align: center;
-		margin-top: 75px;
-		margin-bottom: 115px;
-	}	
-	.button-submit{ 
-		.button{
-			width: 910px;
-			margin: 0 auto;
-		}
-	}
-	 
+.fail {
+  width: 100%;
+  padding-bottom: 320px;
+  .img {
+    width: 270px;
+    height: 270px;
+    margin: 0 auto;
+    margin-top: 255px;
+    img {
+      width: 100%;
+    }
+  }
+  p {
+    font-size: 36px;
+    color: #989898;
+    text-align: center;
+    margin-top: 75px;
+    margin-bottom: 115px;
+  }
+  .button-submit {
+    .button {
+      width: 910px;
+      margin: 0 auto;
+    }
+  }
 }
 .error-tips {
   top: 35%;
