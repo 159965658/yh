@@ -32,6 +32,8 @@ import NewFile from "@/view/NewFile"
 import SeeFile from "@/view/SeeFile"
 //知识库
 import KnowledgeBase from "@/view/KnowledgeBase";
+//体质辨识
+import Identification from "@/view/Identification"
 Vue.use(Router)
 
 export default new Router({
@@ -61,6 +63,8 @@ export default new Router({
       ]
     }, {
       path: '/newfile', name: 'newfile', component: NewFile
+    },, {
+      path: '/identification', name: 'identification', component: Identification
     }, {
       path: '/seefile', name: 'seefile', component: SeeFile
     }

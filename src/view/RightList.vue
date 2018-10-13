@@ -32,7 +32,9 @@
 	                					<li>已导出</li>
 	                				</ol>
 	                			</div>
-	                			<button>开始辨识</button>
+                         <router-link to="/identification" tag="button">开始辨识</router-link>
+                        
+	                			<!-- <button>开始辨识</button> -->
                         <router-link to="/seefile" tag="button">查看档案</router-link>
 	                			<!-- <button>查看档案</button> -->
 	                		</li>
