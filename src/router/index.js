@@ -36,6 +36,10 @@ import KnowledgeBase from "@/view/KnowledgeBase";
 import Identification from "@/view/Identification"
 //答题
 import Answer from "@/view/Answer"
+//查看报告
+import IdentificationReport from "@/view/IdentificationReport";
+//选择词条
+import SelectWord from "@/view/SelectWord";
 Vue.use(Router)
 
 export default new Router({
@@ -68,6 +72,8 @@ export default new Router({
     }, {
       path: '/identification', name: 'identification', component: Identification
     }, {
+      path: '/identificationreport', name: 'identificationreport', component: IdentificationReport
+    }, { path: '/selectword', name: 'selectword', component: SelectWord }, {
       path: '/answer', name: 'answer', component: Answer
     }, {
       path: '/seefile', name: 'seefile', component: SeeFile
