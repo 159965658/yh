@@ -122,15 +122,7 @@ export default {};
     		}
     }
 }
-.top-nav-search{
-	background: #FFFFFF;
-	width: 515px;
-	margin-left: 55px;
-	margin-top: -10px;
-	input{
-		width: 330px;
-	}
-}
+
 .knowledage-top-nav{
 	background: #fff;
 	ul{
