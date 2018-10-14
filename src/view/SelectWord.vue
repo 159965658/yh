@@ -35,7 +35,7 @@
     			</div>
     			<div class="right fr">
     				<textarea name="" rows="" cols="">xdfgh</textarea>
-    				 <div class="button-jh"> 
+    				 <div class="button-jh fang"> 
 	    				<a href="jvascript:void(0)" class="button jh">保存</a>
 	    			</div>
     			</div>
@@ -49,7 +49,11 @@ export default {};
 </script>
 
 <style lang="less" scoped>
- 
+.button-jh.fang{
+ 	 margin-left:235px ;
+    position:fixed ;
+    bottom: 40px;
+ }
 .select-content{
 	height: calc( 100% - 180px );
 }
@@ -123,17 +127,7 @@ export default {};
     			background: #fff;
     			height: 315px;
     		}
-    		.button-jh{
-    			width: 500px;
-    			height: 96px;
-    			border-radius:10px ;
-    			margin-left:235px ;
-    			position:fixed ;
-    			bottom: 40px;
-    			.button{
-    				border-radius:10px ;
-    			}
-    		}
+    		
     }
 }
 </style>
