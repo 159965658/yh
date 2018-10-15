@@ -20,14 +20,16 @@
 			                </div>
 			                <router-link to="/newfile" class="shatubiao"></router-link>
 	    					</li>
-	    					<li class="fl xiala">
-	    						<label for="">共享状态</label>
+							
+	    					<li class="fl xiala clearfix" style="position:relative">
+								<label for="">共享状态</label>
+								  	<Select v-on:opotion="opotion" :opotionList='opotionList'></Select>
+	    						<!-- <label for="">共享状态</label>
 	    						<select name="" id="">
 	    							<option value="">111</option>
 	    							<option value="">111</option>
 	    							<option value="">111</option>
-	    						</select>
-	    						<i class="icon arrow"></i>
+	    						</select> --> 
 	    					</li>
 	    				</ul>
 	    			</div>
@@ -49,109 +51,122 @@
 </template>
 
 <script>
-export default {};
+import Select from "../components/Select";
+export default {
+  components: {
+    Select
+  },
+  data() {
+    return {
+      opotionList: ["按钮-1", "按钮-2", "按钮-3", "按钮-4"]
+    };
+  },
+  methods: {
+    opotion(opotion) {
+      alert(opotion);
+    }
+  }
+};
 </script>
 
 <style lang='less' scoped>
-.right-cont-w{
-	float: left;
-	width: calc(100% - 208px);
-	height: calc( 100% - 120px );
-	.center-content{
-		height:calc( 100% - 20px );
-	}
-	.icon-add{
-        background-image: url(../assets/add2.png);
-        height: 60px;
-        right: 75px;
+.right-cont-w {
+  float: left;
+  width: calc(100% - 208px);
+  height: calc(100% - 120px);
+  .center-content {
+    height: calc(100% - 20px);
+  }
+  .icon-add {
+    background-image: url(../assets/add2.png);
+    height: 60px;
+    right: 75px;
+  }
+  .icon-del {
+    background-image: url(../assets/del.png);
+    right: 270px;
+    top: 63px;
+  }
+  ul {
+    li.xiala {
+      margin-top: -5px;
+      margin-left: 65px;
+      position: relative;
+      i.arrow {
+        position: absolute;
+        width: 26px;
+        height: 16px;
+        background-size: 100%;
+        right: 25px;
+        top: 25px;
+      }
+      select {
+        width: 210px;
+        height: 70px;
+        background: #fff;
+        border: 1px solid #dcdcdc;
+        border-radius: 10px;
+      }
     }
-    .icon-del{
-    		background-image: url(../assets/del.png);
-    		right: 270px;
-    		top:63px
-    }
-	ul{
-		li.xiala{
-			margin-top:-5px;
-			margin-left:65px;
-			position:relative;
-			i.arrow{
-				position:absolute ;
-				width: 26px;
-				height: 16px;
-				background-size:100% ;
-				right: 25px;
-				top: 25px;
-			}
-			select{
-    				width: 210px;
-    				height: 70px;
-    				background: #fff;
-    				border: 1px solid #dcdcdc;
-    				border-radius: 10px;
-    			}
-		}
-	}
+  }
 }
-.right-list{
-	height: calc( 100% - 140px );
-    overflow-y: auto;
-    
-    ul{
-    		li{
-    			box-shadow: -1px 1px 30px #cacaca;
-    			background: #FFFFFF;
-    			border-radius:15px ;
-    			padding: 85px 305px;
-    			margin-bottom: 35px;
-    			margin-right: 60px;
-    			text-align: center;
-    			position:relative ;
-    			b{
-    				position: absolute;
-    				color: #FFFFFF;
-    				font-size: 28px;
-    				background: #00A6E7;
-    				padding: 0 15px;
-    				height: 44px;
-    				line-height: 44px;
-    				border-radius: 50px;
-    				left: 30px;
-    				top:30px ;
-    			}
-    		}
+.right-list {
+  height: calc(100% - 140px);
+  overflow-y: auto;
+
+  ul {
+    li {
+      box-shadow: -1px 1px 30px #cacaca;
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 85px 305px;
+      margin-bottom: 35px;
+      margin-right: 60px;
+      text-align: center;
+      position: relative;
+      b {
+        position: absolute;
+        color: #ffffff;
+        font-size: 28px;
+        background: #00a6e7;
+        padding: 0 15px;
+        height: 44px;
+        line-height: 44px;
+        border-radius: 50px;
+        left: 30px;
+        top: 30px;
+      }
     }
+  }
 }
 
-.knowledage-top-nav{
-	background: #fff;
-	ul{
-		display: flex;
-		li{
-			flex: 1;
-			text-align: center;
-			font-size: 36px;
-			color: #656565;
-			height: 116px;
-			line-height: 116px;
-		}
-		li.active{
-			position: relative;
-			color: #3ba6dd;
-		}
-		li.active:after{
-			content: "";
-			position: absolute;
-			width: 138px;
-			height: 6px;
-			left: 50%;
-			bottom:0;
-			display: block;
-			background: #3ba6dd;
-			margin-left: -69px;
-			
-		}
-	}
+.knowledage-top-nav {
+  background: #fff;
+  ul {
+    display: flex;
+    li {
+      flex: 1;
+      text-align: center;
+      font-size: 36px;
+      color: #656565;
+      height: 116px;
+      line-height: 116px;
+    }
+    li.active {
+      position: relative;
+      color: #3ba6dd;
+    }
+    li.active:after {
+      content: "";
+      position: absolute;
+      width: 138px;
+      height: 6px;
+      left: 50%;
+      bottom: 0;
+      display: block;
+      background: #3ba6dd;
+      margin-left: -69px;
+    }
+  }
 }
-
 </style>
