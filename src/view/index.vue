@@ -1,6 +1,13 @@
 <template>
     <div class="index-page">
-    	<Select v-on:opotion="opotion" :opotionList='opotionList'></Select>
+    	<div style="width: 100%;height: 100px;">
+    		<div style="width: 100px;height: 50px; background:red;float: left;">
+    			测试div
+    		</div>
+    		<div style="float: left;">
+    			<Select v-on:opotion="opotion" :opotionList='opotionList'></Select>
+    		</div>
+    	</div>
 		<left-nav></left-nav>
        <router-view></router-view>
 		

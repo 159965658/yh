@@ -44,7 +44,7 @@ export default {
 <style lang="less" scoped>
   .select{
     width: 400px;
-    position:absolute;
+    position:relative;
     z-index: 99;
     background-color: #fff;
     .select_click_box{
@@ -68,6 +68,7 @@ export default {
       width: 100%;
       border: 1px solid #afdcf3 !important;
       background-color: #fff;
+      position: absolute;
       .select_box{
         .opotion{
           width: 100%;
