@@ -231,14 +231,50 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.top-nav-search {
+  height: 72px;
+  width: 810px;
+  border: 1px solid #e2e2e2;
+  margin: 0 auto;
+  border-radius: 50px;
+  input {
+    float: left;
+    height: 72px;
+    width: 550px;
+    border: none;
+    background: none;
+    color: #989898;
+    font-size: 30px;
+    padding-left: 38px;
+  }
+  i.icon {
+    float: left;
+    display: block;
+    width: 72px;
+    height: 72px;
+    background: url(../assets/index-erweima.png);
+    background-size: 48px 48px;
+    background-position: 12px 12px;
+    background-repeat: no-repeat;
+  }
+  i.sousuo {
+    float: right;
+    width: 128px;
+    height: 72px;
+    background-color: #3ba6dd;
+    border-radius: 70px;
+    background-image: url(../assets/index-sousuo.png);
+    background-size: 37px 37px;
+    background-repeat: no-repeat;
+    background-position: 45px 17px;
+  }
+}
 .right-card {
   float: left;
   width: calc(100% - 208px);
   height: 100%;
 
   .center-content {
-     
-    
     .card_area {
       height: calc(100% - 150px);
       overflow-y: auto;
