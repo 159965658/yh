@@ -21,8 +21,9 @@
 			                <router-link to="/newfile" class="shatubiao"></router-link>
 	    					</li>
 							
-	    					<li class="fl xiala clearfix" style="position:relative">
-								<label for="">共享状态</label>
+	    					<li class="fl xiala clearfix" style="position:relative ;display: flex;
+    align-items: center">
+								<label for="" style="margin-right:10px;">共享状态</label>
 								  	<Select v-on:opotion="opotion" :opotionList='opotionList'></Select>
 	    						<!-- <label for="">共享状态</label>
 	    						<select name="" id="">

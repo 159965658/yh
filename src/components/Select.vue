@@ -43,10 +43,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  .select{
-    width: 400px;
-    position:relative;
-    z-index: 99;
+.select {
+  width: 190px;
+  display: inline-blockl;
+  position: relative;
+  z-index: 99;
   .select_click_box {
     width: 100%;
     height: 70px;
@@ -58,7 +59,6 @@ export default {
     border: 1px solid #333;
     > span {
       position: absolute;
-      
     }
     > p {
       float: left;

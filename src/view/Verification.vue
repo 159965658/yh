@@ -2,7 +2,7 @@
 <div>
     <app-header :ctitle='"设备验证"'></app-header>
     <div class="blue-bg shebei clearfix">
-        <i class="icon icon-jhsb-saoyisao"></i>
+        <i class="icon icon-jhsb-saoyisao" @click="qrCode"></i>
         <div class="inputs">
             <ul>
                 <li class="code_input">
