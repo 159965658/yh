@@ -56,7 +56,7 @@ export default {
       this.$native.run("qrcode", {}, "qrcodeSuccess");
     },
     qrcodeSuccess(data) {
-      alert(data);
+      this.code = data;
     }
   }
   //   watch: {

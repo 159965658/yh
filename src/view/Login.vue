@@ -63,17 +63,19 @@ export default {
     },
     loginNative() {
       let params = {
-        userCode: "123",
+        userCode: "",
         loginName: this.name,
         password: this.pwd,
-        gesture: "222"
+        gesture: ""
       };
       window["loginSuccess"] = this.loginSuccess;
       this.$native.run("login", params, "loginSuccess");
     },
     loginSuccess(data) {
-      alert(JSON.stringify(data));
-       this.$router.push("/index");
+      console.log(data);
+      this.$cache.set(this.$cacheEnum["user"], JSON.parse(data));
+      // alert(this.$cache.get(this.$cacheEnum["user"]));
+      this.$router.push("/index");
     }
   }
 };

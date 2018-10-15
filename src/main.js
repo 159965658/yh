@@ -9,6 +9,7 @@ viewportUn.init({
   hack: viewportHack
 })
 import Toast from '@/core/toast'
+import {cache,cacheEnum} from '@/core/cache'
 Vue.use(Toast);
 import { native } from './core/native/app';
 
@@ -17,12 +18,12 @@ import AppHeader from "@/components/AppHeader";
 Vue.component("app-header", AppHeader);
 Vue.config.productionTip = false
 Vue.prototype.$native = native;
+Vue.prototype.$cache = cache;
+Vue.prototype.$cacheEnum = cacheEnum;
 /* eslint-disable no-new */
 window.$vm = new Vue({
   el: '#app',
   router,
   components: { App },
   template: '<App/>'
-});
-
-let $event = new Vue();
+}); 

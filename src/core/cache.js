@@ -1,18 +1,22 @@
 
 
 const cache = {}
-const cacheEnum = ['user']
-cache.get = (key) => {
-    const c = window.sessionStorage.getItem(key);
-    if (c) {
-        return JSON.parse(c);
+const cacheEnum = {'user':"userSession"};
+(function () {
+
+    cache.get = (key) => {
+        const c = window.sessionStorage.getItem(key);
+        if (c) {
+            return JSON.parse(c);
+        }
+        return null;
     }
-    return null;
-}
-cache.set = (key, object) => {
-    window.sessionStorage.setItem(key, JSON.parse(object));
-}
-cache.remove(key) = () => {
-    window.sessionStorage.removeItem(key);
-}
+    cache.set = (key, object) => {
+        window.sessionStorage.setItem(key, JSON.stringify(object));
+    }
+    cache.remove = (key) => {
+        window.sessionStorage.removeItem(key);
+    }
+
+}())
 export { cache, cacheEnum }
