@@ -37,7 +37,7 @@ export default {
       this.$native.run("getDeviceInfo", {}, "infoSuccess");
     },
     infoSuccess(data) {
-      if (data.activeCode && data.enterpriseIdentification) {
+      if (!data.activeCode && !data.enterpriseIdentification) {
         //不是首次激活
         this.$toastFull(newUser);
         return;
