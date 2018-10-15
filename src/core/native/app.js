@@ -19,11 +19,12 @@ if (platform.PC || !platform.android) {
 
 (function (window) {
     window['$error'] = function (data) { //处理失败请求
-        alert(data);
+        // alert(data);
         window.$vm.$toast(data);
+        // document.write(data);
     }
 }(window))
-window['$appBack'] = function () {
+window['$appBack'] = function (isforce = false) {
     const isFull = window.$vm.$isfull();
     console.log(isFull);
     if (isFull) {
@@ -36,8 +37,16 @@ window['$appBack'] = function () {
         console.log('关闭app')
         return false
     }
-    $vm.$closeFull();
-    $vm.$router.go(-1)
-    // console.log($vm.$router);
+    else {
+        //特殊页面处理 答题页面
+        if ($vm.$route.name == 'answer' && !isforce) {
+            //警告 是否要退出
+            $vm.$emit('tipsBack');
+            return;
+        }
+        $vm.$closeFull();
+        $vm.$router.go(-1)
+        // console.log($vm.$router);
+    }
 }
 export { native }
