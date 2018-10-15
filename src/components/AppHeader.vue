@@ -1,6 +1,6 @@
 <template>
     <div class="app-header">
-        <div class="left" :class="{'icon-back':ltitle}" @click='back'><slot name='left'></slot></div>
+        <div class="left" @click='back'><slot name='left'><i class='icon' :class="{'icon-back':ltitle}" ></i></slot></div>
         <div class="center">{{ctitle}}</div>
         <div class="right" @click="rClick">{{rtitle}}</div>
     </div>
@@ -29,18 +29,36 @@ export default {
   methods: {
     rClick() {
       if (this.type == 1) {
-        this.$toastFull(newUser);
+        this.getDeviceInfo();
       }
     },
+    getDeviceInfo() {
+      window["infoSuccess"] = this.infoSuccess;
+      this.$native.run("getDeviceInfo", {}, "infoSuccess");
+    },
+    infoSuccess(data) {
+      if (data.activeCode && data.enterpriseIdentification) {
+        //不是首次激活
+        this.$toastFull(newUser);
+        return;
+      }
+      //首次激活
+      this.$router.push("/createuser");
+    },
     back() {
+      if (this.type == 2) {
+        $vm.$emit("tipsBack");
+        return;
+      }
       $appBack();
     }
-  }
+  },
+  beforeDestroy() {}
 };
 </script>
 <style lang="less" scoped>
 .app-header {
-  // display: flex;
+  display: flex;
   justify-content: space-between;
   height: 88px;
   line-height: 88px;
@@ -54,21 +72,22 @@ export default {
   // background-color: red;
   .center {
     margin: 0 auto;
-    float: left;
-    width: 80%;
+    // float: left;
+    width: 70%;
     text-align: center;
   }
   .right {
-    position: absolute;
     right: 78px;
+    text-align: center;
     font-size: 36px;
-    width: 10%;
-    float: left;
+    width: 15%;
+    // float: left;
+    white-space: nowrap;
   }
   .left {
-    width: 10%;
+    width: 15%;
     white-space: nowrap;
-    float: left;
+    // float: left;
   }
   .icon-back {
     background: url("./../assets/back.png") no-repeat center;

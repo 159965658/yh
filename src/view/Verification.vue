@@ -41,15 +41,22 @@ export default {
         };
         window["success"] = this.success;
         let th = this;
-        window["error"] = function() {
-          th.$toast("您输入的激活码有误，请查证后输入");
-        };
-        this.$native.run("activition", params, "success", "error");
+        // window["error"] = function() {
+        //   th.$toast("您输入的激活码有误，请查证后输入");
+        // };
+        this.$native.run("activition", params, "success");
       }
     },
     success() {
       // alert("success Verification");
       this.$router.push("/createuser");
+    },
+    qrCode() {
+      window["qrcodeSuccess"] = this.qrcodeSuccess;
+      this.$native.run("qrcode", {}, "qrcodeSuccess");
+    },
+    qrcodeSuccess(data) {
+      alert(data);
     }
   }
   //   watch: {

@@ -1,25 +1,4 @@
-Skip to content
- 
-Search or jump to…
 
-Pull requests
-Issues
-Marketplace
-Explore
- @159965658 Sign out
- The password you provided has been reported as compromised due to re-use of that password on another service by you or someone else. GitHub has not been compromised directly. To increase your security, please change your password as soon as possible.
-
-Read our documentation on safer password practices. See our blog for more details.
-
-0
-0 0 159965658/yh
- Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights  Settings
-yh/src/view/Login.vue
-637a60b  22 hours ago
-@159965658 159965658 创建新账户
-@159965658 @957685825
-      
-152 lines (150 sloc)  3.16 KB
 <template>
     <div>
         <app-header :ctitle='"登录"' :rtitle='"创建新账户"' :type='1'></app-header>
@@ -78,11 +57,23 @@ export default {
         return;
       }
       console.log(this.name, this.pwd);
-      this.$router.push("/index");
+      // this.$router.push("/index");
+      this.loginNative();
       //  this.$native.run("fun", { name: this.name, pwd: this.pwd }, this.success);
     },
-    success() {
-      alert(success);
+    loginNative() {
+      let params = {
+        userCode: "123",
+        loginName: this.name,
+        password: this.pwd,
+        gesture: "222"
+      };
+      window["loginSuccess"] = this.loginSuccess;
+      this.$native.run("login", params, "loginSuccess");
+    },
+    loginSuccess(data) {
+      alert(JSON.stringify(data));
+       this.$router.push("/index");
     }
   }
 };
