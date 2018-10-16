@@ -5,7 +5,7 @@
         <h3>请选择登录您自已的帐号</h3>
         <div class="pic ">
             <!--active 为头像高亮显示-->
-            <dl v-for="(item,index) in user" :key="index" class="fr active">
+            <dl v-for="(item,index) in user" :key="index" class="fr active" @click="login(item)">
                 <dt></dt>
                 <dd>{{item.webNickName}}</dd>
             </dl>
@@ -36,8 +36,21 @@ export default {
     },
     setUser(data) {
       let res = JSON.parse(data);
-      console.log(res.userInfoList);
       this.user = res.userInfoList;
+    },
+    login(item) {
+      let params = {
+        loginName: item.loginName,
+        password: item.password
+      };
+      window["loginSuccess"] = this.loginSuccess;
+      this.$native.run("login", params, "loginSuccess");
+    },
+    loginSuccess(data) {
+      console.log(data);
+      this.$cache.set(this.$cacheEnum["user"], JSON.parse(data));
+      // alert(this.$cache.get(this.$cacheEnum["user"]));
+      this.$router.push("/index");
     }
   }
 };
@@ -62,7 +75,7 @@ export default {
     width: 742px;
     padding-bottom: 190px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     text-align: center;
   }
 
