@@ -39,18 +39,7 @@ export default {
       this.user = res.userInfoList;
     },
     login(item) {
-      let params = {
-        loginName: item.loginName,
-        password: item.password
-      };
-      window["loginSuccess"] = this.loginSuccess;
-      this.$native.run("login", params, "loginSuccess");
-    },
-    loginSuccess(data) {
-      console.log(data);
-      this.$cache.set(this.$cacheEnum["user"], JSON.parse(data));
-      // alert(this.$cache.get(this.$cacheEnum["user"]));
-      this.$router.push("/index");
+      this.$router.push("/login?name=" + item.loginName);
     }
   }
 };

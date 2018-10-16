@@ -46,6 +46,10 @@ export default {
   },
   mounted() {
     // this.$toast("提示", 2000);
+    if (this.$route.query.name) {
+      //Rurl = this.$route.query.Rurl;
+      this.name = this.$route.query.name;
+    }
   },
   methods: {
     login() {

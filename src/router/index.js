@@ -40,9 +40,11 @@ import Answer from "@/view/Answer"
 import IdentificationReport from "@/view/IdentificationReport";
 //选择词条
 import SelectWord from "@/view/SelectWord";
+//首页编辑
+import IndexEdit from "@/view/IndexEdit";
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   //mode: 'history',
   routes: [
     {
@@ -56,27 +58,62 @@ export default new Router({
     }, {
       path: '/modifypwd',
       name: 'modifypwd',
-      component: ModifyPwd
-    }, {
+      component: ModifyPwd,
+      meta: {
+        auth: true
+      }
+    },
+    {
+      path: "/indexedit", name: "indexedit", component: IndexEdit, meta: {
+        auth: true
+      }
+    },
+    {
       path: '/index',
       name: 'index',
       component: Index,
       redirect: '/index/list',
       children: [
-        { path: 'list', name: 'indexright', component: RightList },
-        { path: 'account', name: 'account', component: Account },
-        { path: 'knowledge', name: 'knowledge', component: KnowledgeBase }
+        {
+          path: 'list', name: 'indexright', component: RightList, meta: {
+            auth: true
+          }
+        },
+        {
+          path: 'account', name: 'account', component: Account, meta: {
+            auth: true
+          }
+        },
+        {
+          path: 'knowledge', name: 'knowledge', component: KnowledgeBase, meta: {
+            auth: true
+          }
+        }
       ]
     }, {
-      path: '/newfile', name: 'newfile', component: NewFile
+      path: '/newfile', name: 'newfile', component: NewFile, meta: {
+        auth: true
+      }
     }, {
-      path: '/identification', name: 'identification', component: Identification
+      path: '/identification', name: 'identification', component: Identification, meta: {
+        auth: true
+      }
     }, {
-      path: '/identificationreport', name: 'identificationreport', component: IdentificationReport
-    }, { path: '/selectword', name: 'selectword', component: SelectWord }, {
-      path: '/answer', name: 'answer', component: Answer
+      path: '/identificationreport', name: 'identificationreport', component: IdentificationReport, meta: {
+        auth: true
+      }
     }, {
-      path: '/seefile', name: 'seefile', component: SeeFile
+      path: '/selectword', name: 'selectword', component: SelectWord, meta: {
+        auth: true
+      }
+    }, {
+      path: '/answer', name: 'answer', component: Answer, meta: {
+        auth: true
+      }
+    }, {
+      path: '/seefile', name: 'seefile', component: SeeFile, meta: {
+        auth: true
+      }
     }
     , {
       path: '/createuser',
@@ -95,7 +132,9 @@ export default new Router({
     }, {
       path: '/setpw',
       name: 'setpw',
-      component: SetPw
+      component: SetPw, meta: {
+        auth: true
+      }
     }
     , {
       path: '/forgetpwd',
@@ -108,3 +147,25 @@ export default new Router({
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  // if (from.meta.keep_alive) { // 记录当前页面是否要记录位置 
+  //   from.meta.saved_position = {
+  //     x: window.pageXOffset,
+  //     y: window.pageYOffset
+  //   }
+  // }
+  if (to.matched.some(m => m.meta.auth)) {
+    // 对路由进行验证     
+    if (sessionStorage.getItem('userSession')) { // 已经登陆       
+      next()   // 正常跳转到你设置好的页面     
+    }
+    else {
+      // 未登录则跳转到登陆界面，query:{ Rurl: to.fullPath}表示把当前路由信息传递过去方便登录后跳转回来； 
+      next({ path: '/login', query: { Rurl: to.fullPath } })
+    }
+  } else {
+    next()
+  }
+})
+
+export default router

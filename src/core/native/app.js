@@ -18,8 +18,8 @@ if (platform.PC || !platform.android) {
 
 
 (function (window) {
-    window['$error'] = function (data) { //处理失败请求
-        // alert(data);
+    window['$error'] = function (data) { //处理失败请求 
+        $vm.$native.loadHide();
         window.$vm.$toast(data);
         // document.write(data);
     }

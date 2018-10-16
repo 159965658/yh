@@ -19,5 +19,10 @@ export default {
         window[success](JSON.stringify(data));
         //Android.run(fun, JSON.stringify(params), success, error);
         //Android.run("activition", JSON.stringify({ code: "12sdada122" }), 'success', '$error');
+    }, loadShow() {
+        Android.run('loadshow');
     },
+    loadHide() {
+        Android.run('loadHide');
+    }
 }

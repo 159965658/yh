@@ -1,16 +1,22 @@
 
 
 export default {
-    run(fun, params, success, error = 'window.$error') {
+    run(fun, params, success, error = 'window.$error', load = true) {
         console.log("log from js");
         console.log(fun, params, success, error)
-        Android.run(fun, JSON.stringify(params), success, error);
-        //Android.run("activition", JSON.stringify({ code: "12sdada122" }), 'success', '$error');
+        try {
+            if (load) {
+                //Android.run('loadshow', '', '', '');
+            }
+            Android.run(fun, JSON.stringify(params), success, error);
+        } catch (error) {
+            alert('android' + error);
+        }
     },
-    success(data, callBack) {
-        console.log("成功")
+    loadShow() {
+        Android.run('loadshow');
     },
-    error(msg, callBack) {
-        alert(msg)
+    loadHide() {
+        // Android.run('loadHide');
     }
 }
