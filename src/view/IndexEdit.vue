@@ -7,8 +7,8 @@
                     <ol class="to-btns clearfix">
                     		<li><i class="icon icon-shangchuan"></i>上传 <span>2</span></li>
                     		<li><i class="icon icon-daochu"></i>导出</li>
-                    		<li><i class="icon icon-shanchu"></i>删除</li>
-                    		<li><i class="radio-btn  active"></i>全选</li>
+                    		<li class="bor-h"><i class="icon icon-shanchu"></i>删除</li>
+                    		<li class="bor-h"><i class="radio-btn  active"></i>全选</li>
                     </ol>
                 </div>
                 	<div class="card_area">
@@ -234,7 +234,10 @@ ol.to-btns li{
 	margin-left: 50px;
 	color:#989898 ;
 	font-size: 32px;
-	line-height: 80px;
+	line-height: 82px;
+}
+ol.to-btns li.bor-h{
+	border:1px solid #ff9e35 !important;
 }
 ol.to-btns li span{
 	height: 34px;
