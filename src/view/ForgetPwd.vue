@@ -52,7 +52,7 @@ export default {
     },
     nextSuccess(data) {
       // alert("验证");
-      this.$cache.set(this.$cacheEnum["user"]);
+      this.$cache.set(this.$cacheEnum["user"], JSON.parse(data));
       this.$router.push("/setpw");
     }
   }

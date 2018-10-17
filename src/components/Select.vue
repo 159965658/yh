@@ -7,7 +7,7 @@
   </div>
   <div class="my_select" v-show='selectBool'>
    <ul class="select_box">
-     <li class="opotion" @click='updateOpotion(index)' :key="index" v-for='(opotion,index) in data'>{{opotion}}</li>
+     <li class="opotion" @click='updateOpotion(opotion)' :key="index" v-for='(opotion,index) in data'>{{opotion.name}}</li>
    </ul>
 </div>
 </div>
@@ -20,7 +20,7 @@ export default {
     return {
       selectBool: false,
       msg: "",
-      data: ["下拉菜单一", "下拉菜单二", "下拉菜单三", "下拉菜单四"]
+      data: []
     };
   },
   props: ["opotionList"],
@@ -30,13 +30,14 @@ export default {
     },
     updateOpotion(index) {
       this.selectBool = !this.selectBool;
-      this.msg = this.data[index];
-      this.$emit("opotion", this.msg);
+      this.msg = index.name;
+      this.$emit("opotion", index);
     }
   },
   mounted() {
     if (this.opotionList.length > 0) {
       this.data = this.opotionList;
+      this.msg = this.data[0].name;
     }
   }
 };
@@ -47,7 +48,7 @@ export default {
   width: 190px;
   display: inline-blockl;
   position: relative;
-  z-index: 99;
+  z-index: 3;
   .select_click_box {
     width: 100%;
     height: 70px;
@@ -65,9 +66,9 @@ export default {
       padding-left: 8px;
     }
   }
-  .select_click_box:hover {
-    border: 1px solid #afdcf3 !important;
-  }
+  // .select_click_box:hover {
+  //   border: 1px solid #afdcf3 !important;
+  // }
   .my_select {
     width: 100%;
     border: 1px solid #afdcf3 !important;

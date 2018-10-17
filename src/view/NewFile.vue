@@ -34,8 +34,11 @@
                     </li>
                     <!-- <li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon rili"></i></li> -->
 
-                    <li><i class="must">*</i><label for="">证件类型:</label>
-                       <app-sex @radioClick='idClick' :radioArr="idCardArr" :defaultHover='addUser.cCardType'></app-sex>
+                    <li><i class="must">*</i><label for="">
+                      <app-select class="idCard" :opotionList='idCardArr' @opotion='idClick'></app-select>
+                    </label>
+                        <input type="text" v-model="addUser.uCardNum" placeholder=""/>
+                        <!-- <app-sex @radioClick='idClick' :radioArr="idCardArr" :defaultHover='addUser.cCardType'></app-sex> -->
                         <!-- <i class="icon arrow"></i> -->
                     </li>
                     <li><i class="must">*</i><label for="">地址:</label><input type="text" v-model="addUser.contactAddress" placeholder="联系地址"></li>
@@ -80,7 +83,7 @@ export default {
       zh: zh,
       addUser: {
         customerCode: "",
-        creatorCode: "",
+        creatorCode: "222",
         cCardType: 101, // "101：身份证，105：其他",
         uCardNum: "",
         cName: "",
@@ -91,7 +94,16 @@ export default {
         mobileTel: "",
         contactAddress: ""
       },
-      idCardArr: [{ id: "101", name: "身份证" }, { id: 105, name: "其他" }]
+      idCardArr: [
+        {
+          id: "101",
+          name: "身份证"
+        },
+        {
+          id: 105,
+          name: "其他"
+        }
+      ]
     };
   },
   methods: {
@@ -107,6 +119,13 @@ export default {
       }
       if (!user.birth) {
         this.$toast("请填写出生日期");
+        return;
+      }
+      if (!user.uCardNum) {
+        if (user.cCardType == 101) this.$toast("请填写身份证号");
+        else {
+          this.$toast("请填写其他证件号");
+        }
         return;
       }
       if (!user.contactAddress) {
@@ -152,6 +171,13 @@ export default {
 
 i.icon {
   float: left;
+}
+
+.my-select {
+  font-size: 36px;
+  color: #989898;
+  border: none;
+  outline: none;
 }
 
 .tab {
@@ -339,16 +365,18 @@ i.icon {
     border: none;
   }
 }
-// .idcard {
-//   width: 100% !important;
-//   height: 120px !important;
-//   font-size: 36px;
-//   > .select_click_box {
-//     width: 950px;
-//     font-size: 36px;
-//     height: 100% !important;
-//     outline: none !important;
-//     border: none !important;
-//   }
-// }
+
+.idCard {
+  padding-top: 20px;
+
+  //font-size: 36px;
+  > .select_click_box {
+    outline: none !important;
+    border: none !important;
+
+    > p {
+      padding-left: 0px !important;
+    }
+  }
+}
 </style>
