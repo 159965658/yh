@@ -5,8 +5,8 @@ export default {
         console.log("log from js");
         console.log(fun, params, success, error)
         try {
-            if (load) {
-                //Android.run('loadshow', '', '', '');
+            if (load && (fun == 'activition' || fun == 'update' || fun == 'getdmz')) {
+                Android.run('loadshow', '', '', '');
             }
             Android.run(fun, JSON.stringify(params), success, error);
         } catch (error) {
@@ -18,5 +18,9 @@ export default {
     },
     loadHide() {
         // Android.run('loadHide');
+        try { Android.run('loadhide', '', '', ''); } catch (error) {
+            alert('android' + error);
+        }
+
     }
 }

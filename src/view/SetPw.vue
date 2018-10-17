@@ -7,17 +7,17 @@
 	        		<ul>
 	        			<li>
 	        				<label>设置密码：</label>
-	        				<input type="password" placeholder="请输入6-20位字符">
+	        				<input type="password" placeholder="请输入6-20位字符" v-model="pwd">
 	        				<i class="icon icon-zhengyan"></i>
 	        			</li>
 	        			<li class="m-t-60">
 	        				<label>确认密码：</label>
-	        				<input type="password" placeholder="请输入6-20位字符">
+	        				<input type="password" placeholder="请输入6-20位字符" v-model="sPwd">
 	        				<i class="icon icon-biyan"></i>
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<a href="javascript:void(0)" class="button submit" @click='next'>完 成</a>
+	    				<button class="button submit" @click='next'>完 成</button>
 	    			</div>
 	        		
 	        	</div>
@@ -26,8 +26,32 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      pwd: "",
+      sPwd: "",
+      user: {}
+    };
+  },
+  mounted() {
+    this.user = this.$cache.get(this.$cacheEnum["user"]);
+  },
   methods: {
     next() {
+      if (this.pwd.length < 6 || this.pwd.length > 20) {
+        this.$toast("密码为6-20为字符");
+        return;
+      }
+      if (this.pwd != this.sPwd) {
+        this.$toast("两次密码输入不一致");
+        return;
+      }
+      this.user.password = this.pwd;
+      window["nextSuccess"] = this.nextSuccess;
+      this.$native.run("updateuser", this.user, "nextSuccess");
+    },
+    nextSuccess() {
+      this.$cache.remove(this.$cacheEnum["user"]);
       this.$router.push("/login");
     }
   }

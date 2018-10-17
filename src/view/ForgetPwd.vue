@@ -7,15 +7,15 @@
 	        		<ul>
 	        			<li>
 	        				<label>账号：</label>
-	        				<input type="text" placeholder="请输入您的账号">
+	        				<input type="text" placeholder="请输入您的账号" v-model="loginName">
 	        			</li>
 	        			<li class="m-t-60">
 	        				<label>网络版用户名：</label>
-	        				<input type="text" placeholder="请输入网络版用户名">
+	        				<input type="text" placeholder="请输入网络版用户名" v-model="webNickName">
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<a href="javascript:void(0)" @click='next' class="button submit">下一步</a>
+	    				<button  @click='next' class="button submit">下一步</button>
 	    			</div>
 	        		
 	        	</div>
@@ -24,13 +24,39 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      loginName: "",
+      webNickName: ""
+    };
+  },
   methods: {
     next() {
+      if (this.loginName == "") {
+        this.$toast("请输入您的账号");
+        return;
+      }
+      if (this.webNickName == "") {
+        this.$toast("请输入您的网络版用户名");
+        return;
+      }
+      window["nextSuccess"] = this.nextSuccess;
+      this.$native.run(
+        "forgetpassword",
+        {
+          loginName: this.loginName,
+          webNickName: this.webNickName
+        },
+        "nextSuccess"
+      );
+    },
+    nextSuccess(data) {
+      // alert("验证");
+      this.$cache.set(this.$cacheEnum["user"]);
       this.$router.push("/setpw");
     }
   }
 };
 </script>
 <style lang="less" scoped>
-
 </style>
