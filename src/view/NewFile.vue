@@ -63,6 +63,7 @@ export default {
   box-shadow: -1px 1px 30px #cacaca;
   width: 1370px;
   margin: 0 auto;
+  background: #fff;
 }
 
 i.icon {
