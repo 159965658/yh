@@ -9,7 +9,7 @@
             <ul class="forms">
                 <li class="clearfix time" style="position:relative">
                     <label for="" >时间</label>
-                    <datepicker name='time' placeholder="" :inline = "false" :language='zh' :format="'yyyy-MM-dd'"></datepicker>
+                    <datepicker :calendar-class='"filterC"' :input-class='"filterTime"' name='time' placeholder="" :inline = "false" :language='zh' :format="'yyyy-MM-dd'"></datepicker>
                     <p></p>
                     <input type="text" />
         		</li>
@@ -108,7 +108,7 @@ export default {
 }
 </style>
 <style>
-.vdp-datepicker__calendar {
+.filterC {
   position: absolute;
   z-index: 100;
   background: #fff;
@@ -117,10 +117,10 @@ export default {
   top: 85px;
   left: 160px;
 }
-[name="time"] {
+.filterTime {
   font-size: 30px;
 }
-.vdp-datepicker__calendar .cell {
+.filterC .cell {
   border: none;
 }
 </style>

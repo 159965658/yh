@@ -19,14 +19,14 @@
 	                <ul class="card clearfix">
                         
 	                		<!--默认卡片样式-->
-	                		<li class="default">
+	                		<li class="default" v-for="(item,index) in userList" :key="index">
 	                			<div class="bg">
 	                				<ol class="message clearfix">
-	                					<li class="name">张三</li>
-	                					<li class="sex">男</li>
+	                					<li class="name">{{item.cName}}</li>
+	                					<li class="sex">{{item.sex | sex}}</li>
 	                					<li class="age">30岁</li>
 	                				</ol>
-	                				<p class="nums">630521199304167742</p>
+	                				<p class="nums">{{item.uCardNum}}</p>
 	                				<ol class="btns clearfix">
 	                					<li>已上传</li>
 	                					<li>已导出</li>
@@ -204,16 +204,36 @@ export default {
   },
   data() {
     return {
-      filterVis: false
+      filterVis: false,
+      userList: [],
+      cacheUser: {}
     };
   },
   mounted() {
     setTimeout(() => {
       $vm.$on("search", this.searchFilter);
     }, 1);
+    //获取数据
+    this.cacheUser = this.$cache.getUser();
+    this.getCustomer();
     // console.log(this);
   },
   methods: {
+    getCustomer() {
+      //获取用户信息
+      window["getCustomerSuccess"] = this.getCustomerSuccess;
+      this.$native.run(
+        "getcustomer",
+        { userCode: this.cacheUser.userCode },
+        "getCustomerSuccess"
+      );
+    },
+    getCustomerSuccess(data) {
+      // alert(data);
+      let res = JSON.parse(data).customerInfoList;
+      this.userList = res;
+      console.log(this.userList);
+    },
     filterShow() {
       // this.filterVis = !this.filterVis
 

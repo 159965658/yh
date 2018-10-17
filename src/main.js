@@ -9,13 +9,17 @@ viewportUn.init({
   hack: viewportHack
 })
 import Toast from '@/core/toast'
-import {cache,cacheEnum} from '@/core/cache'
+import { cache, cacheEnum } from '@/core/cache'
 Vue.use(Toast);
 import { native } from './core/native/app';
 
-
+import * as filters from './filter.js';//全局过滤器 and 全局指令
+import Select from "@/components/Select";
 import AppHeader from "@/components/AppHeader";
+import sex from "@/components/sex";
 Vue.component("app-header", AppHeader);
+Vue.component("app-select", Select);
+Vue.component("app-sex", sex);
 Vue.config.productionTip = false
 Vue.prototype.$native = native;
 Vue.prototype.$cache = cache;

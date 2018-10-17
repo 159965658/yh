@@ -17,6 +17,8 @@ const cacheEnum = { 'user': "userSession" };
     cache.remove = (key) => {
         window.sessionStorage.removeItem(key);
     }
-
+    cache.getUser = () => {
+        return cache.get(cacheEnum['user']);
+    }
 }())
 export { cache, cacheEnum }

@@ -11,10 +11,27 @@ export default {
             data = {};
         }
         else if (fun == 'login') {
-            data = { loginName: '1' };
+            data = { loginName: '1', userCode: "22" };
         }
         else if (fun == 'getUser') {
             data = { "userInfoList": [{ "createdOnUTC": 1539423941533, "creator": "", "crowdFlag": "0", "gesture": "", "institutionCode": "", "institutionName": "", "isAudit": "0", "isDelete": "0", "loginName": "", "modifier": "", "password": "", "updatedOnUTC": 1539423941533, "userCode": "", "webNickName": "" }, { "createdOnUTC": 1539423941548, "creator": "", "crowdFlag": "0", "gesture": "", "institutionCode": "", "institutionName": "", "isAudit": "0", "isDelete": "0", "loginName": "", "modifier": "", "password": "", "updatedOnUTC": 1539423941548, "userCode": "", "webNickName": "" }] }
+        }
+        else if (fun == 'getcustomer') {
+            data = {
+                "customerInfoList": [{
+                    customerCode: '客户编号',
+                    creatorCode: "创建用户编号",
+                    cCardType: 101,// "101：身份证，105：其他",
+                    uCardNum: "证件编号",
+                    cName: "客户姓名",
+                    birth: "出生日期",
+                    nation: "民族",
+                    sex: 0,//"性别 0：男，1：女",
+                    fixedTel: " 办公电话，选填",
+                    mobileTel: "手机号码, 选填",
+                    contactAddress: "联系地址，选填"
+                }]
+            };
         }
         window[success](JSON.stringify(data));
         //Android.run(fun, JSON.stringify(params), success, error);
