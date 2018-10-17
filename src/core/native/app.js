@@ -33,7 +33,7 @@ window['$appBack'] = function (isforce = false) {
     }
     else if (window.history.length <= 1) {
         //调用原生的方法 关闭app
-        $vm.native.run('close');
+        $vm.native.run('finish');
         console.log('关闭app')
         return false
     }

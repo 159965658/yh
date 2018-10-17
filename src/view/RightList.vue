@@ -24,7 +24,7 @@
 	                				<ol class="message clearfix">
 	                					<li class="name">{{item.cName}}</li>
 	                					<li class="sex">{{item.sex | sex}}</li>
-	                					<li class="age">30岁</li>
+	                					<li class="age">{{item.birth | birth}}岁</li>
 	                				</ol>
 	                				<p class="nums">{{item.uCardNum}}</p>
 	                				<ol class="btns clearfix">

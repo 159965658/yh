@@ -83,7 +83,7 @@ export default {
       zh: zh,
       addUser: {
         customerCode: "",
-        creatorCode: "222",
+        userCode: "222",
         cCardType: 101, // "101：身份证，105：其他",
         uCardNum: "",
         cName: "",
@@ -105,6 +105,9 @@ export default {
         }
       ]
     };
+  },
+  mounted() {
+    this.addUser.userCode = this.$cache.getUser().userCode;
   },
   methods: {
     save() {
@@ -136,8 +139,12 @@ export default {
         this.$toast("请填写联系方式");
         return;
       }
-      window["addcustomer"] = this.addcustomer;
-      this.$native.run("addcustomer", user, "addcustomer");
+      try {
+        window["addcustomerSucess"] = this.addcustomer;
+        this.$native.run("addcustomer", user, "addcustomerSucess");
+      } catch (error) {
+        alert(error);
+      }
     },
     addcustomer() {
       this.$toastFull(NewTipsVue);
