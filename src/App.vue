@@ -19,6 +19,7 @@ export default {
       // }
     };
     ra();
+   
     // console.log(this.$native);
     // this.$native.run();
     // window["testFun"] = this.testFun;

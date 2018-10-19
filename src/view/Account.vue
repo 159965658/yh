@@ -17,20 +17,20 @@
             <div class="personal">
                 <dl>
                     <dt></dt>
-                    <dd><label for="">账号：</label>张三 </dd>
-                    <dd><label for="">企业标识：</label>123456 </dd>
-                    <dd><label for="">企业名称：</label>小米科技信息技术有限公司 </dd>
-                    <dd><label for="">企业访问地址：</label>xxxx </dd>
+                    <dd><label for="">账号：</label>{{user.loginName}} </dd>
+                    <dd><label for="">企业标识：</label>{{device.enterpriseIdentification}} </dd>
+                    <dd><label for="">企业名称：</label>{{device.enterpriseName}} </dd>
+                    <dd><label for="">企业访问地址：</label>{{device.enterpriseUrl}} </dd>
                 </dl>
             </div>
             <ul class="list">
-                <li @click="tipsModify">机构名称：<i class="icon more"></i><span></span></li>
-                <li>机构编号：<i class="icon more"></i><span></span></li>
-                <li>网络版用户名：<i class="icon more"></i><span></span></li>
+                <li @click="tipsModify">机构名称：<i class="icon more"></i><span>{{user.institutionName}}</span></li>
+                <li>机构编号：<i class="icon more"></i><span>{{user.institutionCode}}</span></li>
+                <li>网络版用户名：<i class="icon more"></i><span>{{user.webNickName}}</span></li>
                 <li @click="selectUserTip">辨识人群选择：<i class="icon more"></i><span>全部</span></li>
                 <router-link tag="li" to="/modifypwd">设置密码：<i class="icon more"></i><span></span></router-link>
                 <!-- <li><i class="icon more"></i><span></span></li> -->
-                <li>手势密码：<i class="icon more"></i><span>全部</span></li>
+                <li>手势密码：<i class="icon more"></i><span></span></li>
                 <li @click="update">版本号：<i class="icon more"></i><span class="version">V1.0</span></li>
             </ul>
         </div>
@@ -51,7 +51,10 @@ export default {
   data() {
     return {
       orgName: "",
-      tipsVis: false
+      tipsVis: false,
+      deviceInfo: {},
+      user: {},
+      device: {}
     };
   },
   mounted() {
@@ -59,10 +62,14 @@ export default {
       $vm.$on("submit", this.childSubmit);
       $vm.$on("selectUser", this.selectUser);
     }, 1);
+    this.user = this.$cache.getUser();
+    this.device = this.$cache.get(this.$cacheEnum["device"]);
   },
   methods: {
     tipsModify() {
-      this.$toastFull(ModifyOrgVue);
+      this.$toastFull(ModifyOrgVue, true, {
+        orgName: this.user.institutionName
+      });
       //  this.tipsVis = true;
     },
     update() {

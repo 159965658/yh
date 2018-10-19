@@ -30,7 +30,7 @@ Toast.install = function (Vue) {
         }, duration);
     }
     //全屏 
-    Vue.prototype.$toastFull = (content, visible = true, data) => {
+    Vue.prototype.$toastFull = (content, visible = true, data = {}) => {
         instanceFull.isShow = visible;
 
         if (!visible) return;
@@ -44,12 +44,16 @@ Toast.install = function (Vue) {
         const instanceChild = new constructor();
         instanceChild.$mount(document.createElement('div'));
         instanceFull.$el.appendChild(instanceChild.$el);
-        if (data) {
-            instanceChild.title = data.title || instanceChild.title
-            instanceChild.text = data.text || instanceChild.text
-            instanceChild.subText = data.subText || instanceChild.subText
-            instanceChild.canText = data.canText || instanceChild.canText
-        }
+        // if (data) {
+        //     instanceChild.title = data.title || instanceChild.title
+        //     instanceChild.text = data.text || instanceChild.text
+        //     instanceChild.subText = data.subText || instanceChild.subText
+        //     instanceChild.canText = data.canText || instanceChild.canText
+        // }
+        Object.keys(data).forEach(function (key) {
+            console.log(key, data[key]);
+            instanceChild[key] = data[key];
+        });
         if (content.__file.indexOf('NewTips') > -1)
             return;
         Toast.isBack = true;
