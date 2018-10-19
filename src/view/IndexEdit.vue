@@ -153,22 +153,22 @@ ol.to-btns li i {
 }
 
 .radio-btn {
-  width: 32px;
-  height: 32px;
-  border: 4px solid #dcdcdc;
-  border-radius: 50px;
-  background: #fff;
+  width: 40px;
+  height: 40px; 
+  background: url(../assets/111.png) no-repeat;
+  background-size:100% ;
 }
 
 .card_area ul.card > li .radio-btn {
   position: absolute;
   right: 10px;
-  top: 6px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
 }
 
 .radio-btn.active {
-  width: 14px;
-  height: 14px;
-  border: 10px solid #3ba6dd !important;
+  background: url(../assets/222.png) no-repeat;
+  background-size:100% ;
 }
 </style>
