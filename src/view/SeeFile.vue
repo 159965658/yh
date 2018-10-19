@@ -19,7 +19,7 @@
                         <ul v-show="edit">
                             <li><i class="must">*</i><label for="">姓名：</label>
                             <input type="text" v-model="cardModel.cName"> </li>
-                            <li class="sex"><i class="must">*</i><label for="">性别：</label><app-sex :defaultHover='cardModel.sex'></app-sex></li>
+                            <li class="sex xingbie"><i class="must">*</i><label for="">性别：</label><app-sex :defaultHover='cardModel.sex'></app-sex></li>
                             <li><i class="must">*</i><label for="">民族：</label>{{cardModel.nation}}</li>
                             <li><i class="must">*</i><label for="">出生：</label>{{cardModel.birth}}</li>
                             <li><i class="must">*</i><label for="">身份证：</label>{{cardModel.uCardNum}}</li>
@@ -162,7 +162,7 @@ export default {
           padding-left: 9px;
         }
       }
-
+		
       li:last-child {
         border: none;
       }
@@ -222,8 +222,10 @@ export default {
       }
     }
   }
+} 
+.xingbie ol{
+	width: 400px;
 }
-
 .dangan {
   h3 {
     font-size: 36px;
