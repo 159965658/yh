@@ -3,7 +3,7 @@
         <div class="left-nav">
         	<dl class="head-img">
         		<dt><img src="../assets/index-wangyisheng.png"></dt>
-        		<dd>王医生</dd>
+        		<dd>{{cacheUser.webNickName}}</dd>
         	</dl>
         	<ul>
                 <router-link tag="li"  to="/index/list" active-class="active" class="index"><i class="icon"></i>首页</router-link>
@@ -19,7 +19,17 @@
         </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      cacheUser: {}
+    };
+  },
+  mounted() {
+    //获取数据
+    this.cacheUser = this.$cache.getUser();
+  }
+};
 </script>
 <style lang="less" scoped>
 </style>

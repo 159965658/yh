@@ -1,5 +1,5 @@
 <template>
-<ol class="">
+<ol class="clearfix">
     <li v-for="item in radioArr" :key="item.id" @click="sClick(item)">
         <i class="icon radio" :class="{'active':item.id == currenHover}"><b></b></i>{{item.name}}</li>
     <!-- <li @click="sClick"><i class="icon radio"><b></b></i>女</li> -->
@@ -42,6 +42,10 @@ export default {
 
 <style lang='less' scoped>
 ol {
+  display: inline-flex;
+  justify-content: space-around;
+  border: none !important;
+  margin: 0 !important;
   li {
     float: left;
     width: 260px;
