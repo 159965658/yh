@@ -31,7 +31,7 @@
                 <router-link tag="li" to="/modifypwd">设置密码：<i class="icon more"></i><span></span></router-link>
                 <!-- <li><i class="icon more"></i><span></span></li> -->
                 <li>手势密码：<i class="icon more"></i><span></span></li>
-                <li @click="update">版本号：<i class="icon more"></i><span class="version">V1.0</span></li>
+                <li @click="update">版本号：<i class="icon more"></i><span class="version">V{{version}}</span></li>
             </ul>
         </div>
     </div>
@@ -54,7 +54,8 @@ export default {
       tipsVis: false,
       deviceInfo: {},
       user: {},
-      device: {}
+      device: {},
+      version: "1.0.0"
     };
   },
   mounted() {
@@ -71,6 +72,13 @@ export default {
         orgName: this.user.institutionName
       });
       //  this.tipsVis = true;
+    },
+    versionName() {
+      window["versionname"] = this.versionScuess;
+      this.$native.run(versionName, "", versionname);
+    },
+    versionScuess(data) {
+      this.version = data;
     },
     update() {
       this.$toastFull(FullTips, true, {

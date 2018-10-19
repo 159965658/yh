@@ -43,7 +43,7 @@ export default {
 <style lang='less' scoped>
 ol {
   display: inline-flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   border: none !important;
   margin: 0 !important;
   li {

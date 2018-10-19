@@ -131,8 +131,8 @@ ol.to-btns li i {
 }
 
 .radio-btn.active {
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   border: 10px solid #3ba6dd !important;
 }
 </style>
