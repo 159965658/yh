@@ -8,22 +8,30 @@
                 <div class="shadow">
                     <p class="edit" @click="editClick">{{btnText}}</p>
                     <div class="border">
-                        <ul v-show="!edit">
+                        <ul v-if="!edit">
                             <li><label for="">姓名：</label><span>{{cardModel.cName}}</span></li>
-                            <li><label for="">性别：</label>{{cardModel.sex | sex}}</li>
-                            <li><label for="">民族：</label>{{cardModel.nation}}</li>
-                            <li><label for="">出生：</label>{{cardModel.birth}}</li>
-                            <li><label for="">身份证：</label>{{cardModel.uCardNum}}</li>
-                            <li><label for="">地址：</label>{{cardModel.contactAddress}}</li>
+                            <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
+                            <li><label for="">民族：</label><span>{{cardModel.nation}}</span></li>
+                            <li><label for="">出生：</label><span>{{cardModel.birth}}</span></li>
+                            <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
+                            <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
                         </ul>
-                        <ul v-show="edit">
+                        <ul v-if="edit">
                             <li><i class="must">*</i><label for="">姓名：</label>
-                            <input type="text" v-model="cardModel.cName"> </li>
-                            <li class="sex xingbie"><i class="must">*</i><label for="">性别：</label><app-sex :defaultHover='cardModel.sex'></app-sex></li>
-                            <li><i class="must">*</i><label for="">民族：</label>{{cardModel.nation}}</li>
-                            <li><i class="must">*</i><label for="">出生：</label>{{cardModel.birth}}</li>
-                            <li><i class="must">*</i><label for="">身份证：</label>{{cardModel.uCardNum}}</li>
-                            <li><i class="must">*</i><label for="">地址：</label>{{cardModel.contactAddress}}</li>
+                                <input type="text" v-model="cardModelCopy.cName"> </li>
+                            <li class="sex xingbie"><i class="must">*</i><label for="">性别：</label>
+                                <app-sex :defaultHover='cardModelCopy.sex'></app-sex>
+                            </li>
+                            <li><i class="must">*</i><label for="">民族：</label><input type="text" v-model="cardModelCopy.nation"> </li>
+                            <li><i class="must">*</i><label for="">出生：</label> <span @click="openPicker">{{cardModelCopy.birth}}</span>
+                                <mt-datetime-picker @confirm="handleConfirm" ref="picker" type="date" v-model="cardModelCopy.birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
+                                </mt-datetime-picker> <!-- @confirm="handleConfirm" -->
+                            </li>
+                            <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
+                      <app-select class="idCard" style="" :opotionList='idCardArr' :id='cardModelCopy.cCardType' @opotion='idClick'></app-select>
+                    </label>
+                     <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum"></li>
+                            <li><i class="must">*</i><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
                         </ul>
                     </div>
                     <div style="height: 25px;"></div>
@@ -85,7 +93,18 @@ export default {
     return {
       cardModel: {},
       edit: false,
-      btnText: "编辑"
+      btnText: "编辑",
+      cardModelCopy: {},
+      idCardArr: [
+        {
+          id: 101,
+          name: "身份证"
+        },
+        {
+          id: 105,
+          name: "其他"
+        }
+      ]
     };
   },
   mounted() {
@@ -93,22 +112,134 @@ export default {
   },
   methods: {
     editClick() {
-      this.edit = !this.edit;
-      this.btnText = this.edit ? "保存" : "编辑";
+      if (!this.edit) {
+        this.cardModelCopy = JSON.parse(JSON.stringify(this.cardModel));
+        window["appBackCall"] = this.appBackCall;
+      }
+      let is = true;
+      if (this.btnText == "保存") {
+        console.log(this.cardModelCopy);
+        is = this.save();
+      }
+      console.log(is);
+      if (is) {
+        this.edit = !this.edit;
+        this.btnText = this.edit ? "保存" : "编辑";
+      }
+    },
+    save() {
+      const model = this.cardModelCopy,
+        oldModel = this.cardModel;
+      if (!model.cName) {
+        this.$toast("请填写您的姓名");
+        return false;
+      }
+      if (!model.nation) {
+        this.$toast("请填写您的民族");
+        return false;
+      }
+      if (!model.uCardNum) {
+        this.$toast("请填写您的证件号");
+        return false;
+      }
+      if (!model.contactAddress) {
+        this.$toast("请填写您的地址");
+        return false;
+      }
+      this.modifyHis(model, oldModel);
+      return true;
+    },
+    modifyHis(model, oldModel) {
+      //修改记录
+      if (mode.cName != oldModel.cName) {
+        //修改姓名
+      }
+      if (mode.nation != oldModel.nation) {
+        //修改民族
+      }
+      if (mode.sex != oldModel.sex) {
+        //修改性别
+      }
+      if (mode.birth != oldModel.birth) {
+        //出生日期
+      }
+      if (mode.cCardType != oldModel.cCardType) {
+        //证件类型
+      }
+      if (mode.uCardNum != oldModel.uCardNum) {
+        //证件号
+      }
+      if (mode.contactAddress != oldModel.contactAddress) {
+        //证件地址
+      }
+      return true;
+    },
+    appBack() {
+      return true;
+    },
+    openPicker() {
+      this.$refs.picker.open();
+    },
+    handleConfirm(value) {
+      console.log(value);
+      this.cardModelCopy.birth = value.format("yyyy-MM-dd");
+    },
+    idClick(item) {
+      this.cardModelCopy.cCardType = item.id;
+      this.cardModelCopy.uCardNum = "";
+      console.log(item);
+    },
+    appBackCall() {
+      this.edit = false;
+      window["appBackCall"] = this.appBack;
+      return false;
     }
+  },
+  beforeDestroy() {
+    window["appBackCall"] = this.appBack;
   }
 };
 </script>
 
 <style lang="less" scoped>
+.carInput {
+  margin-left: 120px;
+  width: 50%;
+  position: absolute;
+  left: 100px;
+  top: 40px;
+}
+.idCard {
+  padding-top: 20px;
+  position: absolute !important;
+  top: -72px;
+  left: 12px;
+  // .select idCard {
+  //   position: absolute;
+  //   top: -10px;
+  //   left: 0px;
+  // }
+
+  //font-size: 36px;
+  > .select_click_box {
+    outline: none !important;
+    border: none !important;
+
+    > p {
+      padding-left: 0px !important;
+    }
+  }
+}
+
 .all {
   width: 1635px;
   margin: 0 auto;
   height: calc(100% - 180px);
 }
-.sex{
-  
+
+.sex {
 }
+
 .left-content,
 .right-content {
   width: 770px;
@@ -151,18 +282,21 @@ export default {
 
         label {
           color: #989898;
+          position: relative;
         }
+
         input {
           border: none;
           outline: none;
-          width: 80%;
+          width: 70%;
           padding-left: 0px;
         }
+
         span {
           padding-left: 9px;
         }
       }
-		
+
       li:last-child {
         border: none;
       }
@@ -222,10 +356,12 @@ export default {
       }
     }
   }
-} 
-.xingbie ol{
-	width: 400px;
 }
+
+.xingbie ol {
+  width: 400px;
+}
+
 .dangan {
   h3 {
     font-size: 36px;

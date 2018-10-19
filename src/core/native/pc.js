@@ -24,9 +24,9 @@ export default {
                     cCardType: 101,// "101：身份证，105：其他",
                     uCardNum: "证件编号",
                     cName: "客户姓名",
-                    birth: "出生日期",
+                    birth: "2019-01-01",
                     nation: "民族",
-                    sex: 0,//"性别 0：男，1：女",
+                    sex: 1,//"性别 0：男，1：女",
                     fixedTel: " 办公电话，选填",
                     mobileTel: "手机号码, 选填",
                     contactAddress: "联系地址，选填"

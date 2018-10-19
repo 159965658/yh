@@ -73,6 +73,11 @@ if (platform.PC || !platform.android) {
     };
 }(window))
 window['$appBack'] = function (isforce = false) {
+    const call = window['appBackCall']();
+    console.log(call);
+    if (!call) {
+        return false;
+    };
     const isFull = window.$vm.$isfull();
     console.log(isFull);
     if (isFull) {
@@ -97,4 +102,7 @@ window['$appBack'] = function (isforce = false) {
         // console.log($vm.$router);
     }
 }
+window['appBackCall'] = function () {
+    return true;
+};
 export { native }

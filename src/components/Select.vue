@@ -23,7 +23,7 @@ export default {
       data: []
     };
   },
-  props: ["opotionList"],
+  props: ["opotionList", "id"],
   methods: {
     updateMySelect() {
       this.selectBool = !this.selectBool;
@@ -37,7 +37,13 @@ export default {
   mounted() {
     if (this.opotionList.length > 0) {
       this.data = this.opotionList;
-      this.msg = this.data[0].name;
+      // console.log(this.data.find(p => p.id == this.id),this.id);
+      if (this.id) {
+        const model = this.data.find(p => p.id == this.id);
+        if (model) this.msg = model.name;
+      } else {
+        this.msg = this.data[0].name;
+      }
     }
   }
 };
