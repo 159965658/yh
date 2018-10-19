@@ -207,78 +207,77 @@
 export default {};
 </script>
 
-<style>
-.center-content{
-	width: 1740px;
-	margin: 0 auto;
-	
+<style lang='less' scoped>
+.center-content {
+  width: 1740px;
+  margin: 0 auto;
 }
-.total{
-	padding-top: 32px !important;
-	margin-bottom: 36px !important;
+.total {
+  padding-top: 32px !important;
+  margin-bottom: 36px !important;
 }
-.total p{
-	float: left;
-	line-height: 80px;
+.total p {
+  float: left;
+  line-height: 80px;
 }
-ol.to-btns{
-	float:right;
+ol.to-btns {
+  float: right;
 }
-ol.to-btns li{
-	float: left;
-	width: 240px;
-	height: 80px;
-	background: #FFFFFF;
-	border:1px solid #3ba6dd !important;
-	border-radius: 10px;
-	margin-left: 50px;
-	color:#989898 ;
-	font-size: 32px;
-	line-height: 82px;
+ol.to-btns li {
+  float: left;
+  width: 240px;
+  height: 80px;
+  background: #ffffff;
+  border: 1px solid #3ba6dd !important;
+  border-radius: 10px;
+  margin-left: 50px;
+  color: #989898;
+  font-size: 32px;
+  line-height: 82px;
 }
-ol.to-btns li.bor-h{
-	border:1px solid #ff9e35 !important;
+ol.to-btns li.bor-h {
+  border: 1px solid #ff9e35 !important;
 }
-ol.to-btns li span{
-	height: 34px;
-	background: #ff9e35;
-	border-radius:50% ;
-	color: #fff !important;
-	font-size: 30px;
-	padding:  0 8px;
+ol.to-btns li span {
+  height: 34px;
+  background: #ff9e35;
+  border-radius: 50%;
+  color: #fff !important;
+  font-size: 30px;
+  padding: 0 8px;
 }
-ol.to-btns li i{
-	float: left;
-	margin-left: 56px;
-	margin-top: 20px;
-	margin-right: 18px;
-	position: initial !important;
+ol.to-btns li i {
+  float: left;
+  margin-left: 56px;
+  margin-top: 20px;
+  margin-right: 18px;
+  position: initial !important;
 }
-.card_area,.total{
-	padding-left: 10px;
+.card_area,
+.total {
+  padding-left: 10px;
 }
-.card_area ul.card > li:nth-child(4n){
-	margin: 0;
+.card_area ul.card > li:nth-child(4n) {
+  margin: 0;
 }
-.card_area ul.card > li{
-	position: relative;
-	
+.card_area ul.card > li {
+  position: relative;
 }
-.radio-btn{
-	width: 32px;
-	height: 32px;
-	border:4px solid #dcdcdc ;
-	border-radius: 50px;
-	background: #fff;
+.radio-btn {
+  width: 32px;
+  height: 32px;
+  border: 4px solid #dcdcdc;
+  border-radius: 50px;
+  background: #fff;
 }
-.card_area ul.card > li .radio-btn{
-	position: absolute;
-	right: 10px;
-	top: 6px;
+.card_area ul.card > li .radio-btn {
+  position: absolute;
+  right: 10px;
+  top: 6px;
 }
-.radio-btn.active{
-	width: 14px;
-	height: 14px;
-	border:10px solid #3ba6dd !important;
+.radio-btn.active {
+  width: 14px;
+  height: 14px;
+  border: 10px solid #3ba6dd !important;
 }
 </style>

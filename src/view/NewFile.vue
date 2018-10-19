@@ -29,8 +29,11 @@
                     <li><i class="must">*</i><label for="">民族:</label> <input type="text" v-model="addUser.nation" placeholder="汉"></li>
                     <li>
                         <i class="must">*</i><label for="">出生:</label>
-                        <datepicker v-model="addUser.birth" ref="programaticOpen" :calendar-class='"newc"' @opened="datepickerOpenedFunction" :input-class='"inputTime"' name='time' placeholder="" :inline="false" :language='zh' :format="'yyyy-MM-dd'"></datepicker>
-                        <i class="icon rili" @click="openPicker"></i>
+                        <span>{{addUser.birth}}</span>
+                        <mt-datetime-picker ref="picker" type="date"  year-format="{value} 年"
+  month-format="{value} 月"
+  date-format="{value} 日" @confirm="handleConfirm" >
+                        </mt-datetime-picker> <i class="icon rili" @click="openPicker"></i>
                     </li>
                     <!-- <li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon rili"></i></li> -->
 
@@ -72,18 +75,13 @@
 //报存提示
 import NewTipsVue from "./NewTips.vue";
 
-import Datepicker from "vuejs-datepicker";
-import { zh } from "vuejs-datepicker/dist/locale";
 export default {
-  components: {
-    Datepicker
-  },
   data() {
     return {
-      zh: zh,
       addUser: {
         customerCode: "",
-        userCode: "222",
+        userCode: "",
+        cId: "",
         cCardType: 101, // "101：身份证，105：其他",
         uCardNum: "",
         cName: "",
@@ -110,6 +108,10 @@ export default {
     this.addUser.userCode = this.$cache.getUser().userCode;
   },
   methods: {
+    handleConfirm(value) {
+      console.log(this.addUser.birth, value);
+      this.addUser.birth = value.format("yyyy-MM-dd");
+    },
     save() {
       const user = this.addUser;
       if (!user.cName) {
@@ -153,7 +155,7 @@ export default {
       console.log("open");
     },
     openPicker() {
-      this.$refs.programaticOpen.showCalendar();
+      this.$refs.picker.open();
     },
     sexClick(item) {
       //男女
@@ -276,13 +278,6 @@ i.icon {
         font-size: 36px;
         border: none;
         // color: #989898;
-      }
-
-      .vdp-datepicker {
-        width: 850px;
-        // line-height: 0px;
-        position: absolute;
-        left: 170px;
       }
 
       i.rili {

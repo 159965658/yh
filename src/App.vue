@@ -13,16 +13,17 @@ export default {
     // tips
   },
   mounted() {
+    var h = document.body.scrollHeight;
+    window.onresize = function() {
+      ra();
+      // }
+    };
+    ra();
     // console.log(this.$native);
     // this.$native.run();
     // window["testFun"] = this.testFun;
   },
-  methods: {
-    // testFun() {
-    //   alert("回调");
-    //   console.log("回调");
-    // }
-  }
+  methods: {}
 };
 </script>
 

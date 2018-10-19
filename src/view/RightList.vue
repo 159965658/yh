@@ -28,11 +28,11 @@
 	                				</ol>
 	                				<p class="nums">{{item.uCardNum}}</p>
 	                				<ol class="btns clearfix">
-	                					<li>已上传</li>
-	                					<li>已导出</li>
+	                					<li v-if="item.isupload">已上传</li>
+	                					<li v-if="item.IsExport">已导出</li>
 	                				</ol>
 	                			</div>
-                         <router-link to="/identification" tag="button">开始辨识</router-link>
+                         <router-link to="/identification" tag="button" class="rl">开始辨识 </router-link>
                         
 	                			<!-- <button>开始辨识</button> -->
                         <router-link to="/seefile" tag="button">查看档案</router-link>
@@ -349,31 +349,37 @@ export default {
           //box-shadow: 0px 0px 10px #4791c0;
         }
         ol.btns {
-          padding: 0 40px;
+          padding: 5px 40px;
           li {
-            height: 45px;
-            line-height: 45px;
+            height: 40px;
+            // line-height: 45px;
             background-color: #4db7e8;
             border-radius: 40px;
+            padding: 2px 1px;
             width: 106px;
-            float: left;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            // float: left;
             color: #c5e4f6;
             font-size: 28px;
             text-align: center;
-            margin-right: 10px;
+            margin-right: 8px;
           }
         }
-        button {
-          width: 308px;
-          height: 66px;
-          border: 1px solid #ff8a00 !important;
-          border-radius: 10px;
-          background: #fff;
-          margin-bottom: 20px;
-          margin-left: 40px;
-          font-size: 30px;
-          color: #ff8a00;
-        }
+        // .rl {
+        //   display: flex;
+        //   justify-content: center;
+        //   width: 308px;
+        //   border: 1px solid #ff8a00 !important; 
+        //   border-radius: 10px;
+        //   background: #fff;
+        //   // margin-left: 40px;
+        //   font-size: 30px;
+        //   color: #ff8a00;
+        //   margin: 0 auto;
+        //   margin-bottom: 20px;
+        // }
       }
 
       > li.status1 {

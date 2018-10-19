@@ -42,6 +42,7 @@ import IdentificationReport from "@/view/IdentificationReport";
 import SelectWord from "@/view/SelectWord";
 //首页编辑
 import IndexEdit from "@/view/IndexEdit";
+import NewBase from "@/view/NewBase";
 Vue.use(Router)
 
 const router = new Router({
@@ -51,6 +52,10 @@ const router = new Router({
       path: '/',
       name: 'Login',
       component: Login
+    }, {
+      path: '/a',
+      name: 'a',
+      component: HelloWorld
     }, {
       path: '/login',
       name: 'Login',
@@ -85,13 +90,17 @@ const router = new Router({
           }
         },
         {
-          path: 'knowledge', name: 'knowledge', component: KnowledgeBase, meta: {
+          path: 'Knowledgebase', name: 'Knowledgebase', component: KnowledgeBase, meta: {
             auth: true
           }
         }
       ]
     }, {
       path: '/newfile', name: 'newfile', component: NewFile, meta: {
+        auth: true
+      }
+    }, {
+      path: '/newbase', name: 'newbase', component: NewBase, meta: {
         auth: true
       }
     }, {

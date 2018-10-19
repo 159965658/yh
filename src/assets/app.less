@@ -28,19 +28,6 @@ td {
     padding: 0;
 }
 
-body {
-    background: #fff;
-    color: #555;
-    font-size: 14px;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-td,
-th,
-caption {
-    font-size: 14px;
-}
-
 h1,
 h2,
 h3,
@@ -81,13 +68,6 @@ ol,
 ul,
 li {
     list-style: none;
-}
-
-input,
-textarea,
-select,
-button {
-    font: 14px Verdana, Helvetica, Arial, sans-serif;
 }
 
 table {
@@ -134,7 +114,7 @@ body {
         content: normal !important;
     }
     * {
-        // font-size: 24px;
+        font-size: 32px;
         padding: 0;
         margin: 0;
         border-color: #dddddd !important;
@@ -225,8 +205,15 @@ html,
 body,
 #app {
     height: 100%;
+    position: static; // orientation: pow(landscape) // orientation：portrait | landscape
 }
 
+// @media screen and (orientation:portrait) {
+//     body {
+//         transform-origin: 0 0;
+//         transform: rotateZ(90deg) translateY(-100%);
+//     }
+// }
 #app {
     text-align: left !important;
 }
@@ -350,12 +337,12 @@ button {
 .inputs {
     width: 68%;
     margin: 0 auto;
-    height: 100px;
+    // height: 100px;
     ul {
         li {
             background: #fff;
-            height: 102px;
-            line-height: 102px;
+            height: 105px;
+            line-height: 105px;
             border-radius: 100px;
             position: relative;
             label {
@@ -379,8 +366,8 @@ button {
                 left: 0;
                 text-align: center;
                 background: none;
-                height: 102px;
-                line-height: 102px;
+                height: 105px;
+                line-height: 105px;
                 text-align: center;
             }
             .icon-mima {
@@ -439,6 +426,15 @@ button {
         font-size: 36px;
         text-align: center;
     }
+}
+
+.m-picker .m-picker-box {
+    position: absolute;
+    z-index: 100;
+    bottom: 0;
+    background: #fff;
+    width: 100%;
+    height: 900px;
 }
 
 .button-submit.blue-btn {

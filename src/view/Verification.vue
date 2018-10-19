@@ -74,7 +74,7 @@ export default {
     letter-spacing: 2px;
   }
   > input {
-    letter-spacing: 20px;
+    letter-spacing: 10px;
   }
 }
 </style>

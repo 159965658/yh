@@ -1,34 +1,34 @@
-
 <template>
-    <div>
-        <app-header :ctitle='"登录"' :rtitle='"创建新账户"' :type='1'></app-header>
-        <div class="blue-bg">
-        	<div class="login-logo">
-        	</div>
-        	<div class="inputs">
-        		<ul>
-        			<li>
-        				<label>账号：</label>
-        				<input type="text" :placeholder=nullName v-model="name">
-        			</li>
-        			<li class="m-t-60">
-        				<label>密码：</label>
-        				<input type="password" :placeholder=nullPwd v-model="pwd">
-        				<div class="icon-mima"></div>
-        			</li>
-        		</ul>
-    			<div class="forget-mima clearfix">
-					<router-link to='/forgetpwd' class='forget'>忘记密码</router-link>
-          <router-link to='/switch' class='change'>切换登录账号</router-link> 
-    			</div>
-    			<div class="button-submit m-t-100"> 
-    				<button class="button submit" @click="login">登 录</button>
-    			</div>
-        		
-        	</div>
+<div>
+    <app-header :ctitle='"登录"' :rtitle='"创建新账户"' :type='1'></app-header>
+    <div class="blue-bg">
+        <div class="login-logo">
+        </div>
+        <div class="inputs">
+            <ul>
+                <li>
+                    <label>账号：</label>
+                    <input type="text" :placeholder=nullName v-model="name">
+        		</li>
+                <li class="m-t-60">
+                    <label>密码：</label>
+                    <input type="password" :placeholder=nullPwd v-model="pwd">
+                    <div class="icon-mima"></div>
+                </li>
+            </ul>
+            <div class="forget-mima clearfix">
+                <router-link to='/forgetpwd' class='forget'>忘记密码</router-link>
+                <router-link to='/switch' class='change'>切换登录账号</router-link>
+            </div>
+            <div class="button-submit m-t-100">
+                <button class="button submit" @click="login">登 录</button>
+            </div>
+        <!-- <button class="rl">登录</button> -->
         </div>
     </div>
+</div>
 </template>
+
 <script>
 import AppHeader from "@/components/AppHeader";
 export default {
@@ -84,6 +84,7 @@ export default {
   }
 };
 </script>
+
 <style lang="less" scoped>
 .blue-bg {
   width: 65%;
@@ -108,5 +109,25 @@ export default {
   background-size: 100%;
   background-position: 0 60px;
   margin-bottom: 48px;
+}
+
+.rl {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  width: 308px;
+  height: 180px;
+  border: 1px solid #ff8a00 !important;
+  /*no*/
+  border-radius: 10px;
+  background: #fff;
+  font-size: 60px;
+  color: #ff8a00;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  line-height: normal;
 }
 </style>

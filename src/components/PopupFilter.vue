@@ -9,7 +9,6 @@
             <ul class="forms">
                 <li class="clearfix time" style="position:relative">
                     <label for="" >时间</label>
-                    <datepicker :calendar-class='"filterC"' :input-class='"filterTime"' name='time' placeholder="" :inline = "false" :language='zh' :format="'yyyy-MM-dd'"></datepicker>
                     <p></p>
                     <input type="text" />
         		</li>
@@ -35,16 +34,10 @@
 </div>
 </template>
 
-<script>
-import Datepicker from "vuejs-datepicker";
-import { zh } from "vuejs-datepicker/dist/locale";
-export default {
-  components: {
-    Datepicker
-  },
+<script> 
+export default { 
   data() {
-    return {
-      zh: zh
+    return { 
     };
   },
   props: {
@@ -107,7 +100,7 @@ export default {
   margin-left: 188px;
 }
 </style>
-<style>
+<style lang='less'>
 .filterC {
   position: absolute;
   z-index: 100;

@@ -3,7 +3,7 @@
     	  <app-header :ctitle='"创建账号"'></app-header>
 	    <div class="blue-bg">
 	    		<h3>设备激活成功 ！您可以创建一个属于自已的帐户</h3>
-	        	<div class="inputs">
+	        	<div class="inputs clearfix">
 	        		<ul>
 	        			<li>
 	        				<label>账号：</label>
@@ -85,6 +85,8 @@ export default {
 </script>
 <style lang="less" scoped>
 .blue-bg {
+  // height: 1279px;
+  padding-bottom: 60px;
   h3 {
     font-size: 36px;
     color: #ffffff;
@@ -94,11 +96,11 @@ export default {
   }
 }
 .inputs {
-  height: 1020px;
+  // height: 1020px;
   padding-bottom: 60px;
 }
 .inputs ul li {
-  margin-bottom: 40px;
+  margin-bottom: 44px;
 }
 .button-submit {
   margin-top: 96px;
