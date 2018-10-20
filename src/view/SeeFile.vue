@@ -42,8 +42,8 @@
                 <h2>修改记录</h2>
                 <div class="border">
                     <ol>
-                        <li v-for="(item,index) in histList" :key="index">
-                            <p class="time">{{item.updatedOnUTC | timeStamp('yyyy-MM-dd')}}</p>
+                        <li v-for="(item,index) in histList" :key="index"> 
+                            <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
                             <p>{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
                             <i class="icon radio active"></i>
                         </li>
