@@ -12,7 +12,7 @@
 	    		<div class="center-content ">
 	    			<div class="total">
 	    				<ul class="clearfix">
-	    					<li class="fl"><p>当前共有数据：<span>10</span></p> <i class="icon icon-paixu icon-del"></i><i class="icon icon-paixu icon-add"></i></li>
+	    					<li class="fl"><p>当前共有数据：<span>10</span></p> <i class="icon icon-paixu icon-del" @click="delClick"></i><i class="icon icon-paixu icon-add" @click="addClick"></i></li>
 	    					<li class="fl">
 	    						<div class="top-nav-search">
 			                    <input type="texe" placeholder="输入关键字">
@@ -65,6 +65,12 @@ export default {
   methods: {
     opotion(opotion) {
       alert(opotion);
+    },
+    addClick() {
+      this.$router.push("/selectword");
+    },
+    delClick() {
+      this.$router.push("/delword");
     }
   }
 };

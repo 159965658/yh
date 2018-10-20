@@ -43,6 +43,7 @@ import SelectWord from "@/view/SelectWord";
 //首页编辑
 import IndexEdit from "@/view/IndexEdit";
 import NewBase from "@/view/NewBase";
+import DelWord from "@/view/DelWord";
 Vue.use(Router)
 
 const router = new Router({
@@ -60,6 +61,10 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    }, {
+      path: '/delword',
+      name: 'delword',
+      component: DelWord
     }, {
       path: '/modifypwd',
       name: 'modifypwd',

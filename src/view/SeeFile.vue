@@ -42,24 +42,9 @@
                 <h2>修改记录</h2>
                 <div class="border">
                     <ol>
-                        <li>
-                            <p class="time">2018-08-21</p>
-                            <p>李四 把性别修改为男</p>
-                            <i class="icon radio active"></i>
-                        </li>
-                        <li>
-                            <p class="time">2018-08-21</p>
-                            <p>李四 把性别修改为男</p>
-                            <i class="icon radio active"></i>
-                        </li>
-                        <li>
-                            <p class="time">2018-08-21</p>
-                            <p>李四 把性别修改为男</p>
-                            <i class="icon radio active"></i>
-                        </li>
-                        <li>
-                            <p class="time">2018-08-21</p>
-                            <p>李四 把性别修改为男</p>
+                        <li v-for="(item,index) in histList" :key="index">
+                            <p class="time">{{item.updatedOnUTC | timeStamp('yyyy-MM-dd')}}</p>
+                            <p>{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
                             <i class="icon radio active"></i>
                         </li>
                     </ol>
@@ -88,6 +73,7 @@
 </template>
 
 <script>
+import { sex } from "@/filters/index.js";
 export default {
   data() {
     return {
@@ -96,6 +82,8 @@ export default {
       btnText: "编辑",
       cardModelCopy: {},
       birth: new Date(),
+      histList: [],
+      user: {},
       idCardArr: [
         {
           id: 101,
@@ -110,6 +98,8 @@ export default {
   },
   mounted() {
     this.cardModel = this.$cache.get(this.$cacheEnum["cardModel"]);
+    this.user = this.$cache.getUser();
+    this.getHistory(this.cardModel.customerCode);
     // alert(this.cardModel.birth);
     // this.cardModel.birth = new Date(this.cardModel.birth)
     //   .format("yyyy-MM-dd")
@@ -160,32 +150,6 @@ export default {
         this.$toast("请填写您的地址");
         return false;
       }
-      this.modifyHis(model, oldModel);
-      return true;
-    },
-    modifyHis(model, oldModel) {
-      //修改记录
-      if (model.cName != oldModel.cName) {
-        //修改姓名
-      }
-      if (model.nation != oldModel.nation) {
-        //修改民族
-      }
-      if (model.sex != oldModel.sex) {
-        //修改性别
-      }
-      if (model.birth != oldModel.birth) {
-        //出生日期
-      }
-      if (model.cCardType != oldModel.cCardType) {
-        //证件类型
-      }
-      if (model.uCardNum != oldModel.uCardNum) {
-        //证件号
-      }
-      if (model.contactAddress != oldModel.contactAddress) {
-        //证件地址
-      }
       // updatecustomer
       try {
         window["updatecustomer"] = this.updateCustomer;
@@ -193,12 +157,63 @@ export default {
       } catch (error) {
         alert(error);
       }
+      return true;
+    },
+    modifyHis(model, oldModel) {
+      //修改记录
+      if (model.cName != oldModel.cName) {
+        //修改姓名
+        this.modifyHisSub("姓名", model.cName);
+      }
+      if (model.nation != oldModel.nation) {
+        //修改民族
+        this.modifyHisSub("民族", model.nation);
+      }
+      if (model.sex != oldModel.sex) {
+        //修改性别
+        let text = sex(model.cName);
+        this.modifyHisSub("性别", text);
+      }
+      if (model.birth != oldModel.birth) {
+        //出生日期
+        this.modifyHisSub("出生日期", model.birth);
+      }
+      if (model.cCardType != oldModel.cCardType) {
+        //证件类型
+        const id = this.idCardArr.find(p => p.id == model.cCardType);
+        this.modifyHisSub("证件类型", id.name);
+      }
+      if (model.uCardNum != oldModel.uCardNum) {
+        //证件号
+        this.modifyHisSub("证件号", model.uCardNum);
+      }
+      if (model.contactAddress != oldModel.contactAddress) {
+        //证件地址
+        this.modifyHisSub("地址", model.contactAddress);
+      }
 
       return true;
+    },
+    modifyHisSub(t, c) {
+      try {
+        let histModel = {
+          editHistoryCode: "", // 修改记录编号
+          customerCode: this.cardModel.customerCode, // 被修改档案编号
+          webNickName: this.cardModel.webNickName, // 修改者（用户）姓名
+          editTitle: t, // 修改项
+          editContent: c // 修改后内容
+        };
+        this.$native.run("addcustomeredithistory", histModel, "");
+      } catch (error) {
+        alert(error);
+      }
     },
     updateCustomer() {
       this.btnText = "编辑";
       this.edit = false;
+      const model = this.cardModelCopy,
+        oldModel = this.cardModel;
+      this.modifyHis(model, oldModel);
       this.$router.push("/index");
       // this.editClick();
     },
@@ -221,6 +236,18 @@ export default {
       this.edit = false;
       window["appBackCall"] = this.appBack;
       return false;
+    },
+    getHistory(code) {
+      window["getHistory"] = this.getHistoryList;
+      this.$native.run(
+        "getcustomeredithistory",
+        { customerCode: code },
+        "getHistory"
+      );
+    },
+    getHistoryList(data) {
+      const res = JSON.parse(data).customerEditHistoryList;
+      this.histList = res;
     }
   },
   beforeDestroy() {
