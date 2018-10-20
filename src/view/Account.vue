@@ -62,6 +62,7 @@ export default {
     setTimeout(() => {
       $vm.$on("submit", this.childSubmit);
       $vm.$on("selectUser", this.selectUser);
+      $vm.$on("changeOrg", this.changeOrg);
     }, 1);
     this.user = this.$cache.getUser();
     this.device = this.$cache.get(this.$cacheEnum["device"]);
@@ -95,11 +96,18 @@ export default {
     },
     selectUser() {
       console.log("选择人群");
+    },
+    changeOrg(value) {
+      // alert(value);
+      this.user.institutionName = value;
+      //更新缓存
+      this.$cache.setUser(this.user);
     }
   },
   beforeDestroy() {
     $vm.$off("submit", this.childSubmit);
     $vm.$off("selectUser", this.selectUser);
+    $vm.$off("changeOrg", this.changeOrg);
   }
 };
 </script>

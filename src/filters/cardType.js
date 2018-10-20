@@ -1,13 +1,19 @@
-export default (value) => { //data 为空 type = 1 type 0 时间戳 1时间对象 2时间字符串 
+export default (value) => {
     //  if (value) {
-    switch (value) {
-        case 101:
-            return '身份证'
-            break;
-        case 105:
-            return '其他'
-        default:
-            return '未知'
-            break;
+    let name = '';
+    console.log(value);
+    if (value == '101') {
+        name = '身份证'
     }
+    else if (value == "105") {
+        name = "其他"
+    }
+    // switch (value) {
+    //     case "101":
+    //         name = '身份证'
+    //     case "105":
+    //         name = '其他'
+
+    // }
+    return name;
 }

@@ -20,11 +20,11 @@
                             <li><i class="must">*</i><label for="">姓名：</label>
                                 <input type="text" v-model="cardModelCopy.cName"> </li>
                             <li class="sex xingbie"><i class="must">*</i><label for="">性别：</label>
-                                <app-sex :defaultHover='cardModelCopy.sex'></app-sex>
+                                <app-sex :defaultHover='cardModelCopy.sex' @radioClick='sexClick'></app-sex>
                             </li>
                             <li><i class="must">*</i><label for="">民族：</label><input type="text" v-model="cardModelCopy.nation"> </li>
                             <li><i class="must">*</i><label for="">出生：</label> <span @click="openPicker">{{cardModelCopy.birth}}</span>
-                                <mt-datetime-picker @confirm="handleConfirm" ref="picker" type="date" v-model="cardModelCopy.birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
+                                <mt-datetime-picker @confirm="handleConfirm" ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
                                 </mt-datetime-picker> <!-- @confirm="handleConfirm" -->
                             </li>
                             <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
@@ -95,6 +95,7 @@ export default {
       edit: false,
       btnText: "编辑",
       cardModelCopy: {},
+      birth: new Date(),
       idCardArr: [
         {
           id: 101,
@@ -109,11 +110,24 @@ export default {
   },
   mounted() {
     this.cardModel = this.$cache.get(this.$cacheEnum["cardModel"]);
+    // alert(this.cardModel.birth);
+    // this.cardModel.birth = new Date(this.cardModel.birth)
+    //   .format("yyyy-MM-dd")
+    //   .toString();
+    // alert(this.cardModel.birth);
   },
   methods: {
+    sexClick(item) {
+      //男女
+      this.cardModelCopy.sex = item.id;
+      console.log(item);
+    },
     editClick() {
       if (!this.edit) {
-        this.cardModelCopy = JSON.parse(JSON.stringify(this.cardModel));
+        //alert(this.cardModel.birth);
+        let model = JSON.parse(JSON.stringify(this.cardModel));
+        this.birth = new Date(model.birth);
+        this.cardModelCopy = model;
         window["appBackCall"] = this.appBackCall;
       }
       let is = true;
@@ -151,28 +165,42 @@ export default {
     },
     modifyHis(model, oldModel) {
       //修改记录
-      if (mode.cName != oldModel.cName) {
+      if (model.cName != oldModel.cName) {
         //修改姓名
       }
-      if (mode.nation != oldModel.nation) {
+      if (model.nation != oldModel.nation) {
         //修改民族
       }
-      if (mode.sex != oldModel.sex) {
+      if (model.sex != oldModel.sex) {
         //修改性别
       }
-      if (mode.birth != oldModel.birth) {
+      if (model.birth != oldModel.birth) {
         //出生日期
       }
-      if (mode.cCardType != oldModel.cCardType) {
+      if (model.cCardType != oldModel.cCardType) {
         //证件类型
       }
-      if (mode.uCardNum != oldModel.uCardNum) {
+      if (model.uCardNum != oldModel.uCardNum) {
         //证件号
       }
-      if (mode.contactAddress != oldModel.contactAddress) {
+      if (model.contactAddress != oldModel.contactAddress) {
         //证件地址
       }
+      // updatecustomer
+      try {
+        window["updatecustomer"] = this.updateCustomer;
+        this.$native.run("updatecustomer", model, "updatecustomer");
+      } catch (error) {
+        alert(error);
+      }
+
       return true;
+    },
+    updateCustomer() {
+      this.btnText = "编辑";
+      this.edit = false;
+      this.$router.push("/index");
+      // this.editClick();
     },
     appBack() {
       return true;

@@ -21,7 +21,7 @@ export default {
 <style lang="less" scoped>
 .dialog-tips {
   position: fixed;
-  z-index: 100;
+  z-index: 1000;
   min-width: 220px;
   padding: 40px 40px;
   white-space: nowrap;

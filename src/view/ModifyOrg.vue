@@ -23,7 +23,21 @@ export default {
     };
   },
   methods: {
-    nextHref() {}
+    nextHref() {
+      if (!this.orgName) {
+        this.$toast("请填写机构名称");
+        return;
+      }
+      let user = this.$cache.getUser();
+      user.institutionName = this.orgName;
+      window["chageOrg"] = this.chageOrg;
+      // alert(JSON.stringify(user));
+      this.$native.run("updateUser", user, "chageOrg");
+    },
+    chageOrg() {
+      this.$closeFull();
+      $vm.$emit("changeOrg", this.orgName);
+    }
   }
 };
 </script>
