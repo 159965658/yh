@@ -6,19 +6,19 @@
         </div>
     </app-header>
     <div v-show="!isAnswer">
-        <div class="answer shadow " v-for="(item,i) in answer" :key="i">
-            <h2>{{i+1}}.{{item.title}}</h2>
+        <div class="answer shadow ">
+            <h2>{{currentAnswer.title}}</h2>
             <ul>
-                <li class="active">A. 没有（从来没有）</li>
-                <li>B. 很少（可以忽略）</li>
-                <li>C. 有时（偶尔出现）</li>
-                <li>D. 经常（有规律）</li>
-                <li>E. 总是（一直有）</li>
+                <li v-for="(model,i) in currentAnswer.table" :key="i" :class="{active:i == answerHover-1}" @click="selAnswer(model,i,$event)">{{model}}</li>
+                <!-- <li>{{item.B || answerMolde.B}}</li>
+                <li>{{item.C || answerMolde.C}}</li>
+                <li>{{item.D || answerMolde.D}}</li>
+                <li>{{item.E || answerMolde.E}}</li> -->
             </ul>
         </div>
         <div class="button-jh fang clearfix">
-            <a href="jvascript:void(0)" class="button jh fl prev">上一题</a>
-            <a href="jvascript:void(0)" class="button jh fr" @click="next">下一题</a>
+            <button  class="button jh fl prev" @click="prev"  :class="{'btn-active':index > 1}">上一题</button>
+            <button  class="button jh fr" @click="next">下一题</button>
         </div>
     </div>
     <!--答题完成-->
@@ -31,7 +31,7 @@
             </dl>
         </div>
         <div class="button-jh wid500 fang">
-            <router-link to="/IdentificationReport" class="button jh ">进入体质辨识报告</router-link>
+            <button class="button jh " @click="submit">进入体质辨识报告</button>
             <!-- <a href="jvascript:void(0)" >进入体质辨识报告</a> -->
         </div>
     </div>
@@ -45,20 +45,105 @@ export default {
     return {
       answer: [],
       index: 1,
+      //   currentAnswer: {},
       countitle: "辨识答题(1/33)",
-      isAnswer: false
+      isAnswer: false,
+      query: {},
+      subModel: {
+        auditDate: "",
+        customerCode: "",
+        question1: "1",
+        question10: "2",
+        question11: "1",
+        question12: "2",
+        question13: "1",
+        question14: "2",
+        question15: "1",
+        question16: "2",
+        question17: "1",
+        question18: "2",
+        question19: "1",
+        question2: "2",
+        question20: "1",
+        question21: "2",
+        question22: "1",
+        question23: "2",
+        question24: "1",
+        question25: "2",
+        question26: "1",
+        question27: "2",
+        question28: "1",
+        question29: "2",
+        question3: "1",
+        question30: "2",
+        question31: "1",
+        question32: "2",
+        question33: "1",
+        question34: "2",
+        question35: "1",
+        question36: "2",
+        question37: "1",
+        question38: "2",
+        question39: "1",
+        question4: "2",
+        question40: "1",
+        question41: "2",
+        question42: "1",
+        question43: "2",
+        question44: "1",
+        question45: "2",
+        question46: "1",
+        question47: "2",
+        question48: "1",
+        question49: "2",
+        question5: "1",
+        question50: "2",
+        question51: "1",
+        question52: "2",
+        question53: "1",
+        question54: "2",
+        question55: "1",
+        question56: "2",
+        question57: "1",
+        question58: "2",
+        question59: "1",
+        question6: "2",
+        question60: "1",
+        question7: "2",
+        question8: "1",
+        question9: "2",
+        reportType: "",
+        blockContent: "", //调理方案Html字串
+        jieqiContent: "", //节气养生Html字串
+        promptContent: "", //温馨提示Html字串
+        ysjyContent: "" //医师建议Html字串
+      },
+      defaultModel: [
+        "A. 没有（从来没有）",
+        "B. 很少（可以忽略）",
+        "C. 有时（偶尔出现）",
+        "D. 经常（有规律）",
+        "E. 总是（一直有）"
+      ],
+      answerHover: -1
     };
   },
   computed: {
-    // isAnswer() {
-    //   return this.answer < this.index;
-    // }
+    currentAnswer() {
+      return (
+        this.answer[this.index - 1] || {
+          title: ""
+        }
+      );
+    }
   },
   mounted() {
-    this.answer.push({
-      title: "您精力充沛吗？（指精神头足，乐于做事）"
-    });
-    this.setTitle();
+    this.query = this.$route.query;
+    //获得测评数据
+    this.getHxJson();
+    const cardModel = this.$cache.get(this.$cacheEnum["cardModel"]);
+    //获取客户编号
+    this.subModel.customerCode = cardModel.customerCode;
     setTimeout(() => {
       $vm.$on("tipsBack", this.tips); //检测是否回退
 
@@ -66,14 +151,69 @@ export default {
     }, 1);
   },
   methods: {
-    next() {
-      if (this.answer.length > this.index) {
+    selAnswer(item, i, e) {
+      this.answerHover = i + 1;
+    },
+    hisAnswer(prev = false) {
+      let i = this.index;
+      if (prev) {
+        //恢复答案
+        this.index--;
+        this.answerHover = this.subModel["question" + this.index];
+      } else {
+        const i2 = i + 1,
+          next = this.subModel["question" + i2];
+        if (next) {
+          //如果下一题答过 重新赋值选中上一次的答案
+          this.answerHover = next;
+        } else {
+          this.subModel["question" + i] = this.answerHover;
+          //恢复选中答案默认值
+          this.answerHover = -1;
+        }
         this.index++;
-        this.setTitle();
+      }
+      this.setTitle();
+    },
+    next() {
+      //下一题
+      if (this.answerHover == -1) {
+        this.$toast("请选择答案");
+        return;
+      }
+      if (this.answer.length > this.index) {
+        //记录答案
+        this.hisAnswer();
         return;
       }
       this.isAnswer = true;
       this.countitle = `辨识答题`;
+      //this.submit();
+      //this.uploadReportSuccess();
+    },
+    submit() {
+      let model = this.subModel;
+      model.reportType = this.answer.length;
+      window["uploadreport"] = this.uploadReportSuccess;
+      // document.write(JSON.stringify(model));
+      this.$native.run("addinventoryinfo", model, "uploadreport");
+    },
+    uploadReportSuccess(data) {
+      // document.write(data);
+      this.$cache.set(this.$cacheEnum["report"], JSON.parse(data));
+      this.$router.replace("/IdentificationReport");
+
+      // {"auditDate":"","blockContent":"","cId":"","createdOnUTC":1540194666448,"creator":"","customerCode":"customer1540194338874","gwauditDate":"","inventoryCode":"inventory1540194666448","isAudit":"0","isDelete":"0","isupload":"0","jieqiContent":"","mainPhysical":"","mainPhysicalScore":0,"modifier":"","pingheScore":50,"pingheType":"0","promptContent":"","qixuScore":0,"qixuType":"0","qiyuScore":0,"qiyuType":"0","question1":"1","question10":"2","question11":"1","question12":"2","question13":"1","question14":"2","question15":"1","question16":"2","question17":"1","question18":"2","question19":"1","question2":"2","question20":"1","question21":"2","question22":"1","question23":"2","question24":"1","question25":"2","question26":"1","question27":"2","question28":"1","question29":"2","question3":"1","question30":"2","question31":"1","question32":"2","question33":"1","question34":"2","question35":"1","question36":"2","question37":"1","question38":"2","question39":"1","question4":"2","question40":"1","question41":"2","question42":"1","question43":"2","question44":"1","question45":"2","question46":"1","question47":"2","question48":"1","question49":"2","question5":"1","question50":"2","question51":"1","question52":"2","question53":"1","question54":"2","question55":"1","question56":"2","question57":"1","question58":"2","question59":"1","question6":"2","question60":"1","question7":"2","question8":"1","question9":"2","reportType":"60","shireScore":0,"shireType":"0","tanshiScore":0,"tanshiType":"0","tebingScore":0,"tebingType":"0","testDate":"","upFlag":"0","updatedOnUTC":1540194666448,"xueyuScore":0,"xueyuType":"0","yangxuScore":0,"yangxuType":"0","yinxuScore":0,"yinxuType":"0","ysjyContent":""}
+      // const res = JSON.parse(data);
+      // if (res.state == 0) {
+      //   alert("提交成功");
+      // }
+    },
+    prev() {
+      //上一题
+      if (this.index > 1) {
+        this.hisAnswer(true); //选中上一题的答案
+      }
     },
     sub() {
       $appBack(true);
@@ -87,6 +227,43 @@ export default {
         text: "退出后，答题记录不报存，是否要退出答题状态",
         subText: "确认"
       });
+    },
+    getHxJson() {
+      //获取测评数据
+      try {
+        window["getjson"] = this.getJson;
+        let fun = "gethxjson";
+        if (this.query.type == 1) fun = "getgwjson";
+        //  alert(fun);
+        this.$native.run(fun, "", "getjson");
+      } catch (error) {
+        alert(error);
+      }
+    },
+    getJson(data) {
+      try {
+        const res = JSON.parse(data);
+        console.log(res, res.questions.length);
+        const titleArr = ["A. ", "B. ", "C. ", "D. ", "E. ", "F. ", "G. "];
+        res.questions.forEach(item => {
+          const arrSplit = item.split("|");
+          let answerModel = {};
+          answerModel.table = [];
+          arrSplit.forEach((model, i) => {
+            if (i == 0) {
+              answerModel.title = arrSplit[i];
+            }
+            answerModel.table[i - 1] = titleArr[i - 1] + arrSplit[i];
+          });
+          if (answerModel.table.length == 0)
+            answerModel.table = this.defaultModel;
+          this.answer.push(answerModel);
+        });
+        //开始答题
+        this.setTitle(); //设置标题
+      } catch (error) {
+        alert(error);
+      }
     }
   },
   beforeDestroy() {
@@ -97,6 +274,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.btn-active {
+  background-color: #249dcc !important;
+}
+
 .button-jh {
   width: 860px;
   margin: 0 auto;
@@ -136,6 +317,7 @@ export default {
     font-size: 48px;
     color: #282828;
     padding-top: 115px;
+    padding-left: 60px;
   }
 
   ul {

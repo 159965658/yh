@@ -14,7 +14,10 @@ import { cache, cacheEnum } from '@/core/cache'
 Vue.use(Toast);
 import { native } from './core/native/app';
 import { DatetimePicker } from 'mint-ui';
+// 引入echarts
+import echarts from 'echarts'
 
+Vue.prototype.$echarts = echarts
 Vue.component(DatetimePicker.name, DatetimePicker);
 import * as filters from './filter.js';//全局过滤器 and 全局指令
 import Select from "@/components/Select";

@@ -7,7 +7,7 @@
                 {{text}}
             </p>
         </slot>
-        <div class="dialog-btn" style="padding-top:50px">
+        <div class="dialog-btn" style="">
             <button class="btn-default btn-can" @click="close">{{canText}}</button>
             <button class="btn-default btn-next" @click="nextHref">{{subText}}</button>
         </div>
@@ -52,6 +52,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.dialog-btn {
+  padding-top: 80px;
+}
 .dialog-div {
   display: flex;
   align-items: center;

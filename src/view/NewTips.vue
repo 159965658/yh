@@ -7,7 +7,7 @@
                 请选择您要执行的操作
             </p>
         </slot>
-        <div class="dialog-btn" style="padding-top:50px">
+        <div class="dialog-btn" style="">
             <button class="btn-default btn-next" @click="close">首页</button>
             <button class="btn-default btn-next" @click="nextHref">进入体质识别报告</button>
         </div>
@@ -30,4 +30,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.dialog-btn {
+  padding-top: 80px;
+}
 </style>

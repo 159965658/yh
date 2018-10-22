@@ -7,7 +7,7 @@
                <input type="text" v-model="orgName" :placeholder="orgName">
             </p>
         </slot>
-        <div class="dialog-btn" style="padding-top:50px">
+        <div class="dialog-btn" style="">
             <button class="btn-default btn-can" @click="$closeFull">取消</button>
             <button class="btn-default btn-next" @click="nextHref">确认</button>
         </div>
@@ -43,6 +43,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.dialog-btn {
+  padding-top: 80px;
+}
 input {
   height: 80px;
   border: none;

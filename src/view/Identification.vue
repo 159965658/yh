@@ -2,8 +2,8 @@
 <div>
     <app-header :ltitle='"后退"' :ctitle='"开始辨识"'></app-header>
     <div class="card">
-        <router-link to="/answer" class="left fl active" tag="div">
-         <i class="icon"></i>
+        <router-link :to="{ path: 'answer', query: { type: 0 }}" class="left fl " tag="div" replace>
+            <i class="icon"></i>
             <h2>普通人群</h2>
             <div class="left-q"></div>
         </router-link>
@@ -12,17 +12,19 @@
             <h2>普通人群</h2>
             <div class="left-q"></div>
         </div> -->
-        <div class="right fr">
+        <router-link   :to="{ path: 'answer', query: { type: 1 }}" class="right fr " tag="div" replace>
             <i class="icon"></i>
             <h2>老年人群</h2>
             <div class="right-q"></div>
-        </div>
+        </router-link>
     </div>
 </div>
 </template>
 
 <script>
-export default {};
+export default {
+ 
+};
 </script>
 
 <style lang="less" scoped>

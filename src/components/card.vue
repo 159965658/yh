@@ -12,8 +12,8 @@
             <li v-if="item.IsExport">已导出</li>
         </ol>
     </div>
-    <router-link to="/identification" tag="button">开始辨识</router-link>
-    <!-- <button>开始辨识</button> -->
+    <!-- <router-link to="/identification" tag="button">开始辨识</router-link> -->
+    <button @click="nextiden(item)">开始辨识</button>
     <!-- <router-link to="/seefile" tag="button">查看档案</router-link> -->
     <button @click="seeFile(item)">查看档案</button>
 
@@ -44,6 +44,10 @@ export default {
     seeFile(item) {
       this.$cache.set(this.$cacheEnum["cardModel"], item);
       this.$router.push("/seefile");
+    },
+    nextiden(item) {
+      this.$cache.set(this.$cacheEnum["cardModel"], item);
+      this.$router.push("/identification");
     }
   }
 };
