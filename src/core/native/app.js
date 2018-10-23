@@ -34,7 +34,7 @@ if (platform.PC || !platform.android) {
                 return;
             }
             document.documentElement.style.fontSize =
-                200 * (document.documentElement.clientHeight / 1536) + "px";
+                200 * (document.documentElement.clientHeight / 2048) + "px";
         }
         if (window.orientation == 90 || window.orientation == -90) { //竖屏
             //ipad、iphone横屏；Andriod竖屏

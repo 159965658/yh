@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100%;">
-    <app-header :ltitle='"后退"' :ctitle='"体质辨识报告"'></app-header>
+    <app-header :ltitle='"后退"' :ctitle='title'></app-header>
     <div class="scroll">
         <div class="report">
             <div class="shadow">
@@ -38,7 +38,7 @@
                 </div>
             </div>
 
-            <div class="shadow">
+            <div class="shadow" v-if='query.type == 0'>
                 <h2>中医体质辨识报告</h2>
                 <div class="bor-b">
                     <p class="nr">夏至是一年之中阳气最旺的节气，气候趋于炎热，人们更喜欢长时间呆在空调房中。 温度低，不通风的空调环境，不利于机体阳气的舒展，寒湿之气的驱除。 建议少吹空调，少在空调房停留，尽量多到户外活动，借助自然界的阳气培补自身的阳气，促进腠理开泄，排除湿气与寒气。 炎热烦躁之时，可试着调整呼吸，使心神安静，体会夏日的清爽宁静。</p>
@@ -96,8 +96,8 @@
                         </div>
                     </div>
                 </div>
-                    <div class="bor-b">
-                    <h3><i></i>节气养生</h3> 
+                <div class="bor-b">
+                    <h3><i></i>节气养生</h3>
                     <div class="html-fu" v-html="report.jieqiContent">
 
                     </div>
@@ -122,6 +122,34 @@
                     </div>
                 </div>
             </div>
+            <div class="shadow" v-if="query.type == 1">
+                <h2>中医体质辨体施养方案</h2>
+                <div class="bor-b">
+                    <h3><i></i>节气养生</h3>
+                    <div class="html-fu">
+                        <i class="icon icon-add"></i>
+                        <div id="editor" class="editor" type="text/plain"></div>
+                    </div>
+                </div>
+                <div class="bor-b">
+                    <h3><i></i>调养方案</h3>
+                    <div class="html-fu">
+                        <i class="icon icon-add"></i>
+                        <div id="editor1" class="editor" type="text/plain"></div>
+                    </div>
+                </div>
+                <div class="bor-b">
+                    <h3><i></i>医师建议</h3>
+                    <div class="html-fu">
+                        <i class="icon icon-add"></i>
+                        <div id="editor2" class="editor" type="text/plain"></div>
+                    </div>
+                </div>
+                <div class="button-jh fang">
+                    <button class="button jh" @click="updateSave">保存</button>
+                </div>
+
+            </div>
         </div>
     </div>
 
@@ -135,7 +163,9 @@ export default {
       card: {
         cName: ""
       },
-      report: {}
+      report: {},
+      query: {},
+      title: "体质辨识报告"
     };
   },
   mounted() {
@@ -144,9 +174,42 @@ export default {
     console.log(this.card, this.report);
     setTimeout(() => {
       this.drawLine();
+       this.ueInit();
     }, 100);
+    this.query = this.$route.query;
+    if (this.query.type == 1) {
+      this.title = "编辑体质辨识报告";
+    }
+   
   },
   methods: {
+    updateSave() {
+      let report = this.report;
+      report.jieqiContent = this.ue.getContent();
+      report.blockContent = this.ue1.getContent();
+      report.ysjyContent = this.ue2.getContent();
+      window["updateinventoryinfo"] = this.updateSaveSuccess;
+      this.$native.run("updateinventoryinfo", report, "updateinventoryinfo");
+      console.log(this.ue.getContent());
+    },
+    updateSaveSuccess() {
+      this.$router.push("/index");
+    },
+    ueInit() {
+      this.ue = UE.getEditor("editor", {
+        BaseUrl: "",
+        UEDITOR_HOME_URL: "static/js/UE/"
+      });
+      this.ue1 = UE.getEditor("editor1", {
+        BaseUrl: "",
+        UEDITOR_HOME_URL: "static/js/UE/"
+      });
+      this.ue2 = UE.getEditor("editor2", {
+        BaseUrl: "",
+        UEDITOR_HOME_URL: "static/js/UE/"
+      });
+    },
+
     drawLine() {
       const report = this.report;
       const dataChart = [
@@ -319,8 +382,34 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.fang {
+  margin: 0 auto;
+  padding-top: 40px;
+}
+.icon-add {
+  position: absolute;
+  background-repeat: no-repeat;
+  width: 60px;
+  height: 50px;
+  background-size: 100%;
+  // float: t;
+  right: -90px;
+  top: 40px;
+}
+
+.icon-add {
+  background-image: url(../assets/add2.png);
+  height: 60px;
+}
+
+.editor {
+  width: 100%;
+  // height: 500px;
+}
+
 .html-fu {
   min-height: 60px;
+  position: relative;
 }
 
 .scroll {
@@ -387,8 +476,9 @@ export default {
     padding-bottom: 15px;
     border-bottom: 1px solid #dcdcdc;
     display: flex;
-    justify-content:flex-start;
+    justify-content: flex-start;
     flex-wrap: wrap;
+
     li {
       // float: left;
       font-size: 30px;

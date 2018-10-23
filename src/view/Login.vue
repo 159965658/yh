@@ -24,6 +24,7 @@
                 <button class="button submit" @click="login">登 录</button>
             </div>
         <!-- <button class="rl">登录</button> -->
+        
         </div>
     </div>
 </div>
@@ -50,6 +51,7 @@ export default {
       //Rurl = this.$route.query.Rurl;
       this.name = this.$route.query.name;
     }
+  
   },
   methods: {
     login() {

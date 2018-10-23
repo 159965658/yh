@@ -100,13 +100,20 @@ export default {
     this.cardModel = this.$cache.get(this.$cacheEnum["cardModel"]);
     this.user = this.$cache.getUser();
     this.getHistory(this.cardModel.customerCode);
-    // alert(this.cardModel.birth);
-    // this.cardModel.birth = new Date(this.cardModel.birth)
-    //   .format("yyyy-MM-dd")
-    //   .toString();
-    // alert(this.cardModel.birth);
+    this.getInventoryInfo();
   },
   methods: {
+    getInventoryInfo() {
+      window["getinventoryinfo"] = this.getInventorySuccess;
+      this.$native.run(
+        "getinventoryinfo",
+        { customerCode: this.user.customerCode },
+        "getinventoryinfo"
+      );
+    },
+    getInventorySuccess(data) {
+      // document.write(data);
+    },
     sexClick(item) {
       //男女
       this.cardModelCopy.sex = item.id;
