@@ -30,7 +30,7 @@
                     <li>
                         <i class="must">*</i><label for="">出生:</label>
                         <span>{{addUser.birth}}</span>
-                        <mt-datetime-picker ref="picker" :startDate='startDate' type="date" v-model="birth" year-format="{value} 年"
+                        <mt-datetime-picker ref="picker" :startDate='startDate' :endDate='endDate' type="date" v-model="birth" year-format="{value} 年"
   month-format="{value} 月"
   date-format="{value} 日" @confirm="handleConfirm" >
                         </mt-datetime-picker> <i class="icon rili" @click="openPicker"></i>
@@ -81,7 +81,7 @@ export default {
       addUser: {
         customerCode: "",
         userCode: "",
-        cId: "",
+        cId: 0,
         cCardType: 101, // "101：身份证，105：其他",
         uCardNum: "",
         cName: "",
@@ -95,6 +95,7 @@ export default {
       error: false,
       birth: "",
       startDate: new Date("1970-01-01"),
+      endDate: new Date(),
       idCardArr: [
         {
           id: "101",
@@ -163,8 +164,10 @@ export default {
         this.$toast("请填写地址");
         return;
       }
-      if (!user.mobileTel) {
-        this.$toast("请填写联系方式");
+
+      var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+      if (!user.mobileTel || !myreg.test(user.mobileTel)) {
+        this.$toast("请填写正确联系方式");
         return;
       }
       try {
@@ -174,7 +177,9 @@ export default {
         alert(error);
       }
     },
-    addcustomer() {
+    addcustomer(data) {
+      // alert(data);
+      this.$cache.set(this.$cacheEnum["cardModel"], JSON.parse(data));
       this.$toastFull(NewTipsVue);
     },
     datepickerOpenedFunction() {

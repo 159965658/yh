@@ -12,7 +12,8 @@
 	    		<div class="center-content ">
 	    			<div class="total">
 	    				<ul class="clearfix">
-	    					<li class="fl"><p>当前共有数据：<span>10</span></p> <i class="icon icon-paixu icon-del" @click="delClick"></i><i class="icon icon-paixu icon-add" @click="addClick"></i></li>
+	    					<li class="fl"><p>当前共有数据：<span>10</span></p> <i class="icon icon-paixu icon-del" @click="delClick"></i>
+                <i class="icon icon-paixu icon-add" @click="addClick"></i></li>
 	    					<li class="fl">
 	    						<div class="top-nav-search">
 			                    <input type="texe" placeholder="输入关键字">
@@ -78,14 +79,17 @@ export default {
       );
     },
     getKnowledgeSuccess(data) {
-      // document.write(data);
+      //document.write(data);
+      //sessionStorage.setItem("L", data);
       try {
+        //alert(sessionStorage.getItem("L"));
+        // data = data.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
         const res = JSON.parse(data).knowledgeList;
-        this.$cache.setBase(res);
-        alert(res[0]);
+        // this.$cache.setBase(res);
+        // alert(res[0]);
         this.knowledgeList = res;
-        this.setList();
-        console.log(this.knowledgeList);
+        // this.setList();
+        // console.log(this.knowledgeList);
       } catch (error) {
         alert(error);
       }
@@ -95,7 +99,12 @@ export default {
       alert(opotion);
     },
     addClick() {
-      this.$router.push("/selectword");
+      this.setCache();
+      this.$router.push("/selectword?type=" + this.type);
+    },
+    setCache() {
+      this.$cache.setBase(this.knowledgeList.filter(p => p.type == this.type));
+      // console.log(list);
     },
     delClick() {
       this.$router.push("/delword");

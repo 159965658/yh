@@ -30,7 +30,7 @@
                 <li @click="selectUserTip">辨识人群选择：<i class="icon more"></i><span>全部</span></li>
                 <router-link tag="li" to="/modifypwd">设置密码：<i class="icon more"></i><span></span></router-link>
                 <!-- <li><i class="icon more"></i><span></span></li> -->
-                <li>手势密码：<i class="icon more"></i><span></span></li>
+                <li @click="checkGesture">手势密码：<i class="icon more"></i><span></span></li>
                 <li @click="update">版本号：<i class="icon more"></i><span class="version">V{{version}}</span></li>
             </ul>
         </div>
@@ -68,6 +68,28 @@ export default {
     this.device = this.$cache.get(this.$cacheEnum["device"]);
   },
   methods: {
+    checkGesture() {
+      const gesture = this.user.gesture;
+      if (gesture) {
+        window["checkgesture"] = this.checkGestureSuccess;
+        this.$native.run("checkgesture", { gesture: gesture },'checkgesture');
+      } else {
+        window["setgesture"] = this.setgestureSuccess;
+        this.$native.run("setgesture", "", "setgesture");
+      }
+    },
+    checkGestureSuccess(data) {
+      window["setgesture"] = this.setgestureSuccess;
+      this.$native.run("setgesture", "", "setgesture");
+    },
+    setgestureSuccess(data) {
+      //更新用户信息
+      let user = this.user;
+      user.gesture = data;
+      this.$native.run("updateuser", user, "");
+      this.$cache.setUser(user);
+      this.$toast("手势密码设置成功");
+    },
     tipsModify() {
       this.$toastFull(ModifyOrgVue, true, {
         orgName: this.user.institutionName

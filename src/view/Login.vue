@@ -13,7 +13,7 @@
                 <li class="m-t-60">
                     <label>密码：</label>
                     <input type="password" :placeholder=nullPwd v-model="pwd">
-                    <div class="icon-mima"></div>
+                    <div class="icon-mima" @click="gesture"></div>
                 </li>
             </ul>
             <div class="forget-mima clearfix">
@@ -42,7 +42,8 @@ export default {
       name: "",
       pwd: "",
       nullName: "请输入您的账号",
-      nullPwd: "请输入您的密码"
+      nullPwd: "请输入您的密码",
+      user: {}
     };
   },
   mounted() {
@@ -51,9 +52,37 @@ export default {
       //Rurl = this.$route.query.Rurl;
       this.name = this.$route.query.name;
     }
-  
   },
   methods: {
+    gesture() {
+      if (!this.name) {
+        this.$toast(this.nullName);
+        return;
+      }
+      window["getuserbyname"] = this.getuserbyname;
+      this.$native.run(
+        "getuserbyname",
+        { loginName: this.name },
+        "getuserbyname"
+      );
+    },
+    getuserbyname(data) {
+      const res = JSON.parse(data);
+      if (!res.gesture) {
+        this.$toast("您还没用手势密码，请用密码登录");
+        return;
+      }
+      this.user = res;
+      window["checkgesture"] = this.checkgesture;
+      this.$native.run(
+        "checkgesture",
+        { gesture: res.gesture },
+        "checkgesture"
+      );
+    },
+    checkgesture() {
+      this.loginSuccess(JSON.stringify(this.user));
+    },
     login() {
       if (!this.name) {
         this.$toast(this.nullName);
@@ -81,7 +110,7 @@ export default {
       console.log(data);
       this.$cache.set(this.$cacheEnum["user"], JSON.parse(data));
       // alert(this.$cache.get(this.$cacheEnum["user"]));
-      this.$router.push("/index");
+      this.$router.replace("/index");
     }
   }
 };

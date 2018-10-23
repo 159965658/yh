@@ -22,6 +22,7 @@ import '../static/js/UE/ueditor.all.js';
 import '../static/js/UE/lang/zh-cn/zh-cn.js';
 Vue.prototype.$echarts = echarts
 Vue.component(DatetimePicker.name, DatetimePicker);
+// Vue.component(Indicator, Indicator);
 import * as filters from './filter.js';//全局过滤器 and 全局指令
 import Select from "@/components/Select";
 import AppHeader from "@/components/AppHeader";

@@ -2,39 +2,25 @@
     <div style="height: 100%;">
            	 <app-header :ltitle='"后退"' :ctitle='"选择词条"'></app-header>
       	 
-    		<div class="select-content clearfix">
-    			<div class="scroll-y fl">
+    		<div class="select-content">
+    			<div class="scroll-y">
 	    			<div class="left fl">
 	    				<div class="top-nav-search">
 	                    <input type="texe" placeholder="输入关键字">
 	                    <i class="sousuo"></i>
 	                </div>
 	                <ul>
-	                		<li class="shadow">
-	                			<i class="icon icon-add"></i>
-	                			<p>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态</p>
-	                			<i class="icon arrow"></i>
-	                		</li>
-	                		<li class="shadow">
-	                			<i class="icon icon-add"></i>
-	                			<p>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态</p>
-	                			<i class="icon arrow"></i>
-	                		</li>
-	                		<li class="shadow">
-	                			<i class="icon icon-add"></i>
-	                			<p>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态</p>
-	                			<i class="icon arrow"></i>
-	                		</li>
-	                		<li class="shadow">
-	                			<i class="icon icon-add"></i>
-	                			<p>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态</p>
-	                			<i class="icon arrow"></i>
-	                		</li>
+	                		<li class="shadow" v-for="(item,i) in baseList" :key="i">
+	                			<i class="icon icon-add" @click="addWord(item)"></i>
+	                			<p v-html="item.content"></p>
+	                			<!-- <i class="icon arrow"></i> -->
+	                		</li> 
 	                </ul>
 	    			</div>
     			</div>
-    			<div class="right fr">
+    			<div class="right">
     			 <div id="editor" class="editor" width="100%;height:600px" type="text/plain"></div>
+
     				 <div class="button-jh fang"> 
 	    				<button class="button jh" @click="save">保存</button>
 	    			</div>
@@ -55,12 +41,16 @@ export default {
         content: "", // 条目内容的html字串
         isShared: 0 //是否共享 0：不共享，1：共享
       },
-      user: {}
+      user: {},
+      cache: false
     };
   },
   mounted() {
+    this.addBase.type = this.$route.query.type;
+    this.cache = this.$route.query.cache;
     setTimeout(() => {
       UE.delEditor("editor");
+      UE.registerUI = function() {};
       // this.ue = window.UE.getEditor("editor");
       this.ue = UE.getEditor("editor", {
         BaseUrl: "",
@@ -68,7 +58,7 @@ export default {
         // initialFrameWidth: 800, //设置富文本的宽度为600px
         initialFrameHeight: 200 //设置富文本的高度为200px
       });
-    }, 100);
+    }, 1);
     this.baseList = this.$cache.getBase(); //获取知识库列表
     this.user = this.$cache.getUser(); //获取用户信息
   },
@@ -78,11 +68,14 @@ export default {
     }
   },
   methods: {
+    addWord(item) {
+      this.ue.setContent(item.content);
+    },
     save() {
       try {
         let addBase = this.addBase;
         addBase.userCode = this.user.userCode;
-        addBase.content = this.ue.getContent().trim();
+        addBase.content = this.ue.getContent();
         // alert(addBase.content);
         window["addknowledge"] = this.addKnowledge;
         this.$native.run("addknowledge", addBase, "addknowledge");
@@ -91,7 +84,13 @@ export default {
       }
     },
     addKnowledge() {
+      if (this.cache) {
+        this.$cache.set("word" + this.addBase.type, {
+          content: this.addBase.content
+        });
+      }
       this.$toast("保存成功");
+      $appBack();
     }
   }
 };
@@ -99,9 +98,17 @@ export default {
 
 <style lang="less" scoped>
 .button-jh.fang {
-  margin-left: 235px;
-  position: fixed;
-  bottom: 40px;
+  // margin-left: 235px;
+  // position: fixed;
+  // bottom: 40px;
+  display: flex;
+  justify-content: center;
+
+  margin: 0 auto;
+  margin-top: 50px;
+  > button {
+    text-align: center;
+  }
 }
 .select-content {
   height: calc(100% - 180px);
@@ -122,10 +129,11 @@ export default {
   }
 }
 .select-content {
-  width: 2408px;
+  width: 100%;
   margin: 0 auto;
   margin-top: 35px;
-
+  display: flex;
+  justify-content: space-around;
   .left {
     width: 925px;
     ul {
@@ -136,7 +144,7 @@ export default {
         .icon-add {
           position: absolute;
           top: 20px;
-          right: 20px;
+          right: 30px;
         }
         p {
           color: #282828;
@@ -168,14 +176,14 @@ export default {
   }
 
   .right {
-    width: 1200px;
+    width: 800px;
     background: #fff;
     height: 100%;
-    textarea {
-      width: 100%;
-      background: #fff;
-      height: 315px;
-    }
+    // textarea {
+    //   width: 100%;
+    //   background: #fff;
+    //   height: 315px;
+    // }
   }
 }
 </style>

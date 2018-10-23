@@ -127,22 +127,29 @@
                 <div class="bor-b">
                     <h3><i></i>节气养生</h3>
                     <div class="html-fu">
-                        <i class="icon icon-add"></i>
+                        <i class="icon icon-add" @click="next(2)"></i>
                         <div id="editor" class="editor" type="text/plain"></div>
                     </div>
                 </div>
                 <div class="bor-b">
                     <h3><i></i>调养方案</h3>
                     <div class="html-fu">
-                        <i class="icon icon-add"></i>
+                        <i class="icon icon-add" @click="next(1)"></i>
                         <div id="editor1" class="editor" type="text/plain"></div>
                     </div>
                 </div>
                 <div class="bor-b">
                     <h3><i></i>医师建议</h3>
                     <div class="html-fu">
-                        <i class="icon icon-add"></i>
+                        <i class="icon icon-add" @click="next(3)"></i>
                         <div id="editor2" class="editor" type="text/plain"></div>
+                    </div>
+                </div>
+                 <div class="bor-b">
+                    <h3><i></i>温馨提示</h3>
+                    <div class="html-fu">
+                        <i class="icon icon-add" @click="next(4)"></i>
+                        <div id="editor3" class="editor" type="text/plain"></div>
                     </div>
                 </div>
                 <div class="button-jh fang">
@@ -157,6 +164,7 @@
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
 export default {
   data() {
     return {
@@ -165,39 +173,77 @@ export default {
       },
       report: {},
       query: {},
-      title: "体质辨识报告"
+      title: "体质辨识报告",
+      type: 1
     };
   },
   mounted() {
+    Indicator.open({
+      text: "正在生成报告...",
+      spinnerType: "fading-circle"
+    });
     this.card = this.$cache.get(this.$cacheEnum["cardModel"]);
     this.report = this.$cache.get(this.$cacheEnum["report"]);
-    console.log(this.card, this.report);
+
+    this.query = this.$route.query;
+    let th = this;
     setTimeout(() => {
       this.drawLine();
-      if (this.query.type == 1) this.ueInit();
+      if (th.query.type == 1) th.ueInit();
     }, 100);
-    this.query = this.$route.query;
     if (this.query.type == 1) {
       this.title = "编辑体质辨识报告";
     }
   },
   methods: {
+    getKnowledge() {
+      window["getknowledge"] = this.getKnowledgeSuccess;
+      const user = this.$cache.getUser();
+      this.$native.run(
+        "getknowledge",
+        { userCode: user.userCode },
+        "getknowledge"
+      );
+    },
+    getKnowledgeSuccess(data) {
+      try {
+        const res = JSON.parse(data).knowledgeList;
+        this.$cache.setBase(res.filter(p => p.type == this.type));
+        this.$cache.set("word2", { content: this.ue.getContent() }); //节气养生
+        this.$cache.set("word1", { content: this.ue1.getContent() }); //调养方案
+        this.$cache.set("word3", { content: this.ue2.getContent() }); //医师建议、
+        this.$cache.set("word4", { content: this.ue3.getContent() }); //温馨提示
+        this.$router.push("/selectword?type=" + this.type + "&cache=" + true);
+      } catch (error) {
+        alert(error);
+      }
+    },
+    next(type) {
+      this.type = type;
+      this.getKnowledge();
+    },
     updateSave() {
       let report = this.report;
       report.jieqiContent = this.ue.getContent();
       report.blockContent = this.ue1.getContent();
       report.ysjyContent = this.ue2.getContent();
+      report.promptContent = this.ue3.getContent();
       window["updateinventoryinfo"] = this.updateSaveSuccess;
       this.$native.run("updateinventoryinfo", report, "updateinventoryinfo");
       console.log(this.ue.getContent());
     },
     updateSaveSuccess() {
+      this.$cache.remove("word1");
+      this.$cache.remove("word2");
+      this.$cache.remove("word3");
+      this.$cache.remove("word4");
       this.$router.push("/index");
     },
     ueInit() {
       UE.delEditor("editor");
       UE.delEditor("editor1");
       UE.delEditor("editor2");
+      UE.delEditor("editor3");
       this.ue = UE.getEditor("editor", {
         BaseUrl: "",
         UEDITOR_HOME_URL: "static/js/UE/"
@@ -210,6 +256,22 @@ export default {
         BaseUrl: "",
         UEDITOR_HOME_URL: "static/js/UE/"
       });
+      this.ue3 = UE.getEditor("editor3", {
+        BaseUrl: "",
+        UEDITOR_HOME_URL: "static/js/UE/"
+      });
+      let th = this;
+      setTimeout(() => {
+        const word = this.$cache.get("word2");
+        if (word) th.ue.setContent(word.content); //节气养生
+        const word1 = this.$cache.get("word1");
+        if (word1) th.ue1.setContent(word1.content); //调养方案
+        const word2 = this.$cache.get("word3");
+        if (word2) th.ue2.setContent(word2.content); //医师建议、
+        const word3 = this.$cache.get("word4");
+        if (word3) th.ue3.setContent(word3.content); //温馨提示
+        Indicator.close();
+      }, 1000);
     },
 
     drawLine() {
@@ -220,7 +282,7 @@ export default {
         report.yangxuScore,
         report.yinxuScore,
         report.tanshiScore,
-        report.shireScore, 
+        report.shireScore,
         report.xueyuScore,
         report.qiyuScore,
         report.tebingScore
@@ -380,6 +442,10 @@ export default {
         ]
       });
     }
+  },
+  beforeDestroy() {
+    this.$cache.remove("base");
+    Indicator.close();
   }
 };
 </script>

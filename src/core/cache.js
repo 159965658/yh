@@ -1,7 +1,7 @@
 
 
 const cache = {}
-const cacheEnum = { 'user': "userSession", 'list': 'userList', 'cardModel': 'cardModel', device: "deviceInfo", report: 'reportCache' };
+const cacheEnum = { 'user': "userSession", 'list': 'userList', 'cardModel': 'cardModel', device: "deviceInfo", report: 'reportCache', base: "baseModel" };
 (function () {
 
     cache.get = (key) => {

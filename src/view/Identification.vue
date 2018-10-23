@@ -29,10 +29,11 @@ export default {
 
 <style lang="less" scoped>
 .card {
-  width: 1718px;
-  margin: 0 auto;
-  margin-top: 100px;
-
+  // width: 1718px;
+  // margin: 0 auto;
+   margin-top: 100px;
+  display: flex;
+  justify-content: space-around;
   .left,
   .right {
     width: 765px;

@@ -23,6 +23,7 @@ export default {
       $vm.$router.push("/index");
     },
     nextHref() {
+      // this.$cache.set(this.$cacheEnum["cardModel"], this.addUser);
       this.$closeFull();
       $vm.$router.replace("/Identification");
     }

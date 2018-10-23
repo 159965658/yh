@@ -140,3 +140,12 @@ ol.to-btns li i {
   border: 10px solid #3ba6dd !important;
 }
 </style>
+
+<style lang="less">
+.card {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+</style>
+
