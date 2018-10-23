@@ -2,20 +2,20 @@
 <div>
     <app-header :ltitle='"后退"' :ctitle='"新建档案"'></app-header>
     <ul class="tab clearfix">
-        <li class="active edit">
+        <li class=" edit" :class="{active:!error}">
             <p> <i class="icon"></i> 人工输入</p>
         </li>
-        <li class="ocr">
-            <p><i class="icon"></i>OCR识别</p>
+        <li class="ocr" @click="ocr" :class="{active:error}">
+            <p><i class="icon" ></i>OCR识别</p>
         </li>
     </ul>
     <div class="center-content">
         <div style="width: 100%;height: 5px;"></div>
         <div class="border">
-            <div class="edit-content">
+            <div class="edit-content" v-if="!error">
                 <ul>
-                    <li class="dashed"><label for="">档案编号:</label>
-                        <input type="text" placeholder="档案编号" v-model="addUser.customerCode"></li>
+                    <!-- <li class="dashed"><label for="">档案编号:</label>
+                        <input type="text" placeholder="档案编号" v-model="addUser.customerCode"></li> -->
                     <li class="dashed"><i class="must">*</i><label for="">姓名:</label>
                         <input type="text" placeholder="姓名" v-model="addUser.cName">
                     </li>
@@ -30,7 +30,7 @@
                     <li>
                         <i class="must">*</i><label for="">出生:</label>
                         <span>{{addUser.birth}}</span>
-                        <mt-datetime-picker ref="picker" type="date"  year-format="{value} 年"
+                        <mt-datetime-picker ref="picker" :startDate='startDate' type="date" v-model="birth" year-format="{value} 年"
   month-format="{value} 月"
   date-format="{value} 日" @confirm="handleConfirm" >
                         </mt-datetime-picker> <i class="icon rili" @click="openPicker"></i>
@@ -53,13 +53,13 @@
             </div>
         </div>
 
-        <div class="ocr-content hide">
+        <div class="ocr-content" v-if="error">
             <div class=" fail">
                 <div class="img"><img src="../assets/iii.png" alt="" /></div>
                     <p>未识别出来，请重试...</p>
 
                     <div class="button-submit blue-btn">
-                        <a href="javascript:void(0)" class="button submit btn-save">重试</a>
+                        <button class="button submit btn-save" @click="ocr">重试</button>
                     </div>
                 </div>
             </div>
@@ -92,6 +92,9 @@ export default {
         mobileTel: "",
         contactAddress: ""
       },
+      error: false,
+      birth: "",
+      startDate: new Date("1970-01-01"),
       idCardArr: [
         {
           id: "101",
@@ -108,6 +111,29 @@ export default {
     this.addUser.userCode = this.$cache.getUser().userCode;
   },
   methods: {
+    ocr() {
+      window["ocr"] = this.ocrSuccess;
+      window["ocrError"] = this.ocrError;
+      this.$native.run("ocr", "", "ocr", "ocrError");
+    },
+    ocrError() {
+      this.error = true;
+    },
+    ocrSuccess(data) {
+      const res = JSON.parse(data);
+      console.log(res);
+      this.addUser.cName = res.Name.value;
+      this.addUser.sex = res.Sex.value == "男" ? 0 : 1;
+      $vm.$emit("sexChange", this.addUser.sex);
+      this.addUser.nation = res.Folk.value;
+      let b = res.Birt.value.replace("年", "-");
+      b = b.replace("月", "-");
+      b = b.replace("日", "");
+      this.addUser.birth = b;
+      this.birth = b;
+      this.addUser.uCardNum = res.Num.value;
+      this.addUser.contactAddress = res.Addr.value;
+    },
     handleConfirm(value) {
       console.log(this.addUser.birth, value);
       this.addUser.birth = value.format("yyyy-MM-dd");

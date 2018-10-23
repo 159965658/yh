@@ -36,14 +36,9 @@
 	    			</div>
 	    			<div class="right-list">
 	    				<ul>
-	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。<b>已共享</b></li>
-	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。饮食宜有节制，四季营养合理搭配。</li>
-	    					<li>多食五谷杂粮，蔬菜水果，少食过于油腻及辛辣之物。</li>
-	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。</li>
-	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。</li>
-	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。饮食宜有节制，四季营养合理搭配。</li>
-	    					<li>多食五谷杂粮，蔬菜水果，少食过于油腻及辛辣之物。</li>
-	    					<li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。</li>
+	    					<li  v-for="(item,i) in list" :key="i">
+                  <span v-html="item.content"></span><b v-if="item.isShared == 1">已共享</b></li>
+	    			
 	    				</ul>
 	    			</div>
 	    		</div>
@@ -59,10 +54,43 @@ export default {
   },
   data() {
     return {
-      opotionList: ["按钮-1", "按钮-2", "按钮-3", "按钮-4"]
+      opotionList: ["按钮-1", "按钮-2", "按钮-3", "按钮-4"],
+      knowledgeList: [],
+      type: 1
     };
   },
+  computed: {
+    list() {
+      return this.knowledgeList.filter(p => p.type == this.type);
+    }
+  },
+  mounted() {
+    this.getKnowledge();
+  },
   methods: {
+    getKnowledge() {
+      window["getknowledge"] = this.getKnowledgeSuccess;
+      const user = this.$cache.getUser();
+      this.$native.run(
+        "getknowledge",
+        { userCode: user.userCode },
+        "getknowledge"
+      );
+    },
+    getKnowledgeSuccess(data) {
+      // document.write(data);
+      try {
+        const res = JSON.parse(data).knowledgeList;
+        this.$cache.setBase(res);
+        alert(res[0]);
+        this.knowledgeList = res;
+        this.setList();
+        console.log(this.knowledgeList);
+      } catch (error) {
+        alert(error);
+      }
+    },
+    setList() {},
     opotion(opotion) {
       alert(opotion);
     },

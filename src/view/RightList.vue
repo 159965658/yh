@@ -2,7 +2,7 @@
      <div class="right-card">
         		<div class="top-nav">
                 <div class="top-nav-search">
-                    <input type="texe" placeholder="患者姓名／身份证号">
+                    <input type="texe" placeholder="患者姓名／身份证号" v-model="searchText">
                     <i class="icon"></i>
                     <i class="sousuo"></i>
                 </div>
@@ -42,7 +42,8 @@ export default {
     return {
       filterVis: false,
       userList: [],
-      cacheUser: {}
+      cacheUser: {},
+      searchText: ""
     };
   },
   mounted() {
@@ -55,6 +56,7 @@ export default {
     // console.log(this);
   },
   methods: {
+ 
     getCustomer() {
       //获取用户信息
       window["getCustomerSuccess"] = this.getCustomerSuccess;

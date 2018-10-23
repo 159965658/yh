@@ -56,15 +56,16 @@
             <div class="shadow">
                 <div class="hei50"></div>
                 <ul>
-                    <li>
-                        <b class="biaoti">体质辨识报告    张三</b>
-                        <b class="time">2018-05-02</b>
+                    <li v-for="(item,i) in report" :key="i" @click='iden'>
+                        <b class="biaoti">体质辨识报告    {{user.webNickName}}</b>
+                        <b class="time">{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
+                        <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
                         <i class="jiao"></i>
                     </li>
-                    <li>
+                    <!-- <li>
                         <b class="biaoti">体质辨识报告    张三</b>
                         <b class="time">2018-05-02</b>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>
@@ -84,6 +85,7 @@ export default {
       birth: new Date(),
       histList: [],
       user: {},
+      report: {},
       idCardArr: [
         {
           id: 101,
@@ -103,6 +105,10 @@ export default {
     this.getInventoryInfo();
   },
   methods: {
+    iden() {
+      this.$cache.set(this.$cacheEnum["reportCache"], this.report);
+      this.$router.push("/IdentificationReport?type=0");
+    },
     getInventoryInfo() {
       window["getinventoryinfo"] = this.getInventorySuccess;
       this.$native.run(
@@ -113,6 +119,9 @@ export default {
     },
     getInventorySuccess(data) {
       // document.write(data);
+      const res = JSON.parse(data).customerInventoryInfoList;
+      console.log(res);
+      this.report = res;
     },
     sexClick(item) {
       //男女

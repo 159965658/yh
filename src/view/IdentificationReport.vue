@@ -174,13 +174,12 @@ export default {
     console.log(this.card, this.report);
     setTimeout(() => {
       this.drawLine();
-       this.ueInit();
+      if (this.query.type == 1) this.ueInit();
     }, 100);
     this.query = this.$route.query;
     if (this.query.type == 1) {
       this.title = "编辑体质辨识报告";
     }
-   
   },
   methods: {
     updateSave() {
@@ -196,6 +195,9 @@ export default {
       this.$router.push("/index");
     },
     ueInit() {
+      UE.delEditor("editor");
+      UE.delEditor("editor1");
+      UE.delEditor("editor2");
       this.ue = UE.getEditor("editor", {
         BaseUrl: "",
         UEDITOR_HOME_URL: "static/js/UE/"
@@ -218,13 +220,14 @@ export default {
         report.yangxuScore,
         report.yinxuScore,
         report.tanshiScore,
-        report.shireScore,
+        report.shireScore, 
         report.xueyuScore,
         report.qiyuScore,
         report.tebingScore
       ];
       // 基于准备好的dom，初始化echarts实例
       let myChart = this.$echarts.init(document.getElementById("myChart"));
+      myChart.resize();
       // 绘制图表
       myChart.setOption({
         title: {

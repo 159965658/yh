@@ -62,8 +62,8 @@ export default {
       this.$native.run("updateUser", this.user, "changePwd");
     },
     changePwd() {
-      this.$cache.remove(this.$cacheEnum["user"]);
-      this.$router.push("/login");
+      // this.$cache.remove(this.$cacheEnum["user"]);
+      this.$router.replace("/index/account");
     }
   }
 };

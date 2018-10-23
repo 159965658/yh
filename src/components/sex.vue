@@ -29,13 +29,25 @@ export default {
       currenHover: this.defaultHover
     };
   },
+  mounted() {
+    setTimeout(() => {
+      $vm.$on("sexChange", this.sexChange);
+    }, 2);
+  },
   methods: {
+    sexChange(id) {
+      console.log(id);
+      this.currenHover = id;
+    },
     sClick(item) {
       this.$emit("radioClick", item);
       if (!this.isHover) {
         this.currenHover = item.id;
       }
     }
+  },
+  beforeDestroy() {
+    $vm.$off("sexChange", this.sexChange);
   }
 };
 </script>

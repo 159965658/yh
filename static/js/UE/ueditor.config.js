@@ -30,7 +30,7 @@
         UEDITOR_HOME_URL: URL
 
         // 服务器统一请求接口路径
-       // , serverUrl: URL + "jsp/controller.jsp"
+        // , serverUrl: URL + "jsp/controller.jsp"
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的重新定义
         , toolbars: [[
@@ -40,11 +40,16 @@
             'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
             'directionalityltr', 'directionalityrtl', 'indent', '|',
             'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
-            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
-            'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
-            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
-            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
-            'print', 'preview', 'searchreplace', 'drafts', 'help'
+            //  'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+            //'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'music', 'attachment', 'map', 'gmap', 'insertframe', 'insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
+            //'simpleupload', 'insertimage', 'emotion', 'scrawl', 'insertvideo', 'attachment', 'insertframe', 'insertcode', 'pagebreak', 'template', 'background', '|',
+
+            //   'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+            // 'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+            // 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+
+            //'print', 'preview', 'searchreplace', 'drafts', 'help'
+            //'print', 'preview', 'searchreplace'
         ]]
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
         //,labelMap:{
@@ -97,9 +102,9 @@
         //,autoClearEmptyNode : true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         //启用自动保存
-        //,enableAutoSave: true
+        , enableAutoSave: false
         //自动保存间隔时间， 单位ms
-        //,saveInterval: 500
+        , saveInterval: 0
 
         //,fullscreen : false //是否开启初始化时即全屏，默认关闭
 
@@ -247,7 +252,7 @@
 
         //elementPathEnabled
         //是否启用元素路径，默认是显示
-        //,elementPathEnabled : true
+        , elementPathEnabled: false
 
         //wordCount
         //,wordCount:true          //是否开启字数统计
@@ -277,24 +282,24 @@
 
         //autoHeightEnabled
         // 是否自动长高,默认true
-        //,autoHeightEnabled:true
+        , autoHeightEnabled: false
 
         //scaleEnabled
         //是否可以拉伸长高,默认true(当开启时，自动长高失效)
         //,scaleEnabled:false
-        //,minFrameWidth:800    //编辑器拖动时最小宽度,默认800
-        //,minFrameHeight:220  //编辑器拖动时最小高度,默认220
+        , minFrameWidth: 800    //编辑器拖动时最小宽度,默认800
+        , minFrameHeight: 1200  //编辑器拖动时最小高度,默认220
 
         //autoFloatEnabled
         //是否保持toolbar的位置不动,默认true
-        //,autoFloatEnabled:true
+        , autoFloatEnabled: false
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
         //,topOffset:30
         //编辑器底部距离工具栏高度(如果参数大于等于编辑器高度，则设置无效)
         //,toolbarTopOffset:400
 
         //设置远程图片是否抓取到本地保存
-        //,catchRemoteImageEnable: true //设置是否抓取远程图片
+        , catchRemoteImageEnable: false //设置是否抓取远程图片
 
         //pageBreakTag
         //分页标识符,默认是_ueditor_page_break_tag_
@@ -355,78 +360,78 @@
         //,allowDivTransToP:true      //允许进入编辑器的div标签自动变成p标签
         //,rgb2Hex:true               //默认产出的数据中的color自动从rgb格式变成16进制格式
 
-		// xss 过滤是否开启,inserthtml等操作
-		,xssFilterRules: true
-		//input xss过滤
-		,inputXssFilter: true
-		//output xss过滤
-		,outputXssFilter: true
-		// xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
-		,whitList: {
-			a:      ['target', 'href', 'title', 'class', 'style'],
-			abbr:   ['title', 'class', 'style'],
-			address: ['class', 'style'],
-			area:   ['shape', 'coords', 'href', 'alt'],
-			article: [],
-			aside:  [],
-			audio:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'class', 'style'],
-			b:      ['class', 'style'],
-			bdi:    ['dir'],
-			bdo:    ['dir'],
-			big:    [],
-			blockquote: ['cite', 'class', 'style'],
-			br:     [],
-			caption: ['class', 'style'],
-			center: [],
-			cite:   [],
-			code:   ['class', 'style'],
-			col:    ['align', 'valign', 'span', 'width', 'class', 'style'],
-			colgroup: ['align', 'valign', 'span', 'width', 'class', 'style'],
-			dd:     ['class', 'style'],
-			del:    ['datetime'],
-			details: ['open'],
-			div:    ['class', 'style'],
-			dl:     ['class', 'style'],
-			dt:     ['class', 'style'],
-			em:     ['class', 'style'],
-			font:   ['color', 'size', 'face'],
-			footer: [],
-			h1:     ['class', 'style'],
-			h2:     ['class', 'style'],
-			h3:     ['class', 'style'],
-			h4:     ['class', 'style'],
-			h5:     ['class', 'style'],
-			h6:     ['class', 'style'],
-			header: [],
-			hr:     [],
-			i:      ['class', 'style'],
-			img:    ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'data-latex'],
-			ins:    ['datetime'],
-			li:     ['class', 'style'],
-			mark:   [],
-			nav:    [],
-			ol:     ['class', 'style'],
-			p:      ['class', 'style'],
-			pre:    ['class', 'style'],
-			s:      [],
-			section:[],
-			small:  [],
-			span:   ['class', 'style'],
-			sub:    ['class', 'style'],
-			sup:    ['class', 'style'],
-			strong: ['class', 'style'],
-			table:  ['width', 'border', 'align', 'valign', 'class', 'style'],
-			tbody:  ['align', 'valign', 'class', 'style'],
-			td:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
-			tfoot:  ['align', 'valign', 'class', 'style'],
-			th:     ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
-			thead:  ['align', 'valign', 'class', 'style'],
-			tr:     ['rowspan', 'align', 'valign', 'class', 'style'],
-			tt:     [],
-			u:      [],
-			ul:     ['class', 'style'],
-			video:  ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style']
-		}
+        // xss 过滤是否开启,inserthtml等操作
+        , xssFilterRules: true
+        //input xss过滤
+        , inputXssFilter: true
+        //output xss过滤
+        , outputXssFilter: true
+        // xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
+        , whitList: {
+            a: ['target', 'href', 'title', 'class', 'style'],
+            abbr: ['title', 'class', 'style'],
+            address: ['class', 'style'],
+            area: ['shape', 'coords', 'href', 'alt'],
+            article: [],
+            aside: [],
+            audio: ['autoplay', 'controls', 'loop', 'preload', 'src', 'class', 'style'],
+            b: ['class', 'style'],
+            bdi: ['dir'],
+            bdo: ['dir'],
+            big: [],
+            blockquote: ['cite', 'class', 'style'],
+            br: [],
+            caption: ['class', 'style'],
+            center: [],
+            cite: [],
+            code: ['class', 'style'],
+            col: ['align', 'valign', 'span', 'width', 'class', 'style'],
+            colgroup: ['align', 'valign', 'span', 'width', 'class', 'style'],
+            dd: ['class', 'style'],
+            del: ['datetime'],
+            details: ['open'],
+            div: ['class', 'style'],
+            dl: ['class', 'style'],
+            dt: ['class', 'style'],
+            em: ['class', 'style'],
+            font: ['color', 'size', 'face'],
+            footer: [],
+            h1: ['class', 'style'],
+            h2: ['class', 'style'],
+            h3: ['class', 'style'],
+            h4: ['class', 'style'],
+            h5: ['class', 'style'],
+            h6: ['class', 'style'],
+            header: [],
+            hr: [],
+            i: ['class', 'style'],
+            img: ['src', 'alt', 'title', 'width', 'height', 'id', '_src', 'loadingclass', 'class', 'data-latex'],
+            ins: ['datetime'],
+            li: ['class', 'style'],
+            mark: [],
+            nav: [],
+            ol: ['class', 'style'],
+            p: ['class', 'style'],
+            pre: ['class', 'style'],
+            s: [],
+            section: [],
+            small: [],
+            span: ['class', 'style'],
+            sub: ['class', 'style'],
+            sup: ['class', 'style'],
+            strong: ['class', 'style'],
+            table: ['width', 'border', 'align', 'valign', 'class', 'style'],
+            tbody: ['align', 'valign', 'class', 'style'],
+            td: ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+            tfoot: ['align', 'valign', 'class', 'style'],
+            th: ['width', 'rowspan', 'colspan', 'align', 'valign', 'class', 'style'],
+            thead: ['align', 'valign', 'class', 'style'],
+            tr: ['rowspan', 'align', 'valign', 'class', 'style'],
+            tt: [],
+            u: [],
+            ul: ['class', 'style'],
+            video: ['autoplay', 'controls', 'loop', 'preload', 'src', 'height', 'width', 'class', 'style']
+        }
     };
 
     function getUEBasePath(docUrl, confUrl) {
@@ -439,7 +444,7 @@
 
         var configPath = document.getElementsByTagName('script');
 
-        return configPath[ configPath.length - 1 ].src;
+        return configPath[configPath.length - 1].src;
 
     }
 
@@ -466,7 +471,7 @@
 
     function optimizationPath(path) {
 
-        var protocol = /^[a-z]+:\/\//.exec(path)[ 0 ],
+        var protocol = /^[a-z]+:\/\//.exec(path)[0],
             tmp = null,
             res = [];
 
@@ -474,11 +479,11 @@
 
         path = path.replace(/\\/g, '/').split(/\//);
 
-        path[ path.length - 1 ] = "";
+        path[path.length - 1] = "";
 
         while (path.length) {
 
-            if (( tmp = path.shift() ) === "..") {
+            if ((tmp = path.shift()) === "..") {
                 res.pop();
             } else if (tmp !== ".") {
                 res.push(tmp);

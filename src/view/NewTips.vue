@@ -24,6 +24,7 @@ export default {
     },
     nextHref() {
       this.$closeFull();
+      $vm.$router.replace("/Identification");
     }
   }
 };

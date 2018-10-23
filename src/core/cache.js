@@ -23,5 +23,11 @@ const cacheEnum = { 'user': "userSession", 'list': 'userList', 'cardModel': 'car
     cache.setUset = (obj) => {
         cache.set(cacheEnum['user'], obj)
     }
+    cache.getBase = () => {
+        return cache.get(cacheEnum['base']);
+    }
+    cache.setBase = (obj) => {
+        cache.set(cacheEnum['base'], obj)
+    }
 }())
 export { cache, cacheEnum }
