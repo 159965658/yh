@@ -32,14 +32,15 @@ Toast.install = function (Vue) {
     //全屏 
     Vue.prototype.$toastFull = (content, visible = true, data = {}) => {
         instanceFull.isShow = visible;
-
+        if (visible)
+            Toast.isBack = true;
         if (!visible) return;
-        if (!content) return;
-        //内容
-        console.log(content);
         const divAA = instanceFull.$el.getElementsByTagName('div');
         if (divAA.length)
             divAA[0].remove();
+        if (!content) { return; }
+        //内容
+        console.log(content);
         const constructor = Vue.extend(content)
         const instanceChild = new constructor();
         instanceChild.$mount(document.createElement('div'));

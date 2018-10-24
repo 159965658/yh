@@ -64,7 +64,7 @@ export default {
   > .dialog-body {
     width: 860px;
     text-align: center;
-    height: 458px;
+    // height: 458px;
     background-color: #fff;
     border-radius: 10px;
     color: #282828;

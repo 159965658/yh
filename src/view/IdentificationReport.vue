@@ -190,6 +190,7 @@ export default {
     setTimeout(() => {
       this.drawLine();
       if (th.query.type == 1) th.ueInit();
+      Indicator.close();
     }, 100);
     if (this.query.type == 1) {
       this.title = "编辑体质辨识报告";
@@ -270,7 +271,6 @@ export default {
         if (word2) th.ue2.setContent(word2.content); //医师建议、
         const word3 = this.$cache.get("word4");
         if (word3) th.ue3.setContent(word3.content); //温馨提示
-        Indicator.close();
       }, 1000);
     },
 

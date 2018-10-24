@@ -5,7 +5,7 @@
             <p>辨识人群众选择 <i class="icon close" @click="$closeFull"></i></p>
             <ol class="clearfix">
 
-                <li v-for="item in user" :key="item.id" @click="switchFun(item.id)">
+                <li v-for="item in user" :key="item.id" @click="switchFun(item)">
                     <i class="icon radio" :class="{'active':id == item.id}"><b></b></i>
                     <!-- <input type="radio" /> -->
                     {{item.name}}
@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  // props: ["idActive"],
   data() {
     return {
       user: [
@@ -39,11 +40,14 @@ export default {
       id: 0
     };
   },
+  mounted() {
+    // this.id = this.idActive;
+  },
   methods: {
-    switchFun(id) {
-      this.id = id;
+    switchFun(item) {
+      this.id = item.id;
       //   this.$closeFull();
-      $vm.$emit("selectUser");
+      $vm.$emit("selectUser", item);
     }
   }
 };

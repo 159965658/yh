@@ -24,7 +24,7 @@
                             </li>
                             <li><i class="must">*</i><label for="">民族：</label><input type="text" v-model="cardModelCopy.nation"> </li>
                             <li><i class="must">*</i><label for="">出生：</label> <span @click="openPicker">{{cardModelCopy.birth}}</span>
-                                <mt-datetime-picker @confirm="handleConfirm" ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
+                                <mt-datetime-picker @confirm="handleConfirm" :startDate='startDate' :endDate='endDate'  ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
                                 </mt-datetime-picker> <!-- @confirm="handleConfirm" -->
                             </li>
                             <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
@@ -56,7 +56,7 @@
             <div class="shadow">
                 <div class="hei50"></div>
                 <ul>
-                    <li v-for="(item,i) in report" :key="i" @click='iden'>
+                    <li v-for="(item,i) in report" :key="i" @click='iden(item)'>
                         <b class="biaoti">体质辨识报告    {{user.webNickName}}</b>
                         <b class="time">{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
@@ -86,6 +86,8 @@ export default {
       histList: [],
       user: {},
       report: {},
+      startDate: new Date("1971-01-01"),
+      endDate: new Date(),
       idCardArr: [
         {
           id: 101,
@@ -105,15 +107,16 @@ export default {
     this.getInventoryInfo();
   },
   methods: {
-    iden() {
-      this.$cache.set(this.$cacheEnum["reportCache"], this.report);
+    iden(item) {
+      this.$cache.set(this.$cacheEnum["report"], item);
       this.$router.push("/IdentificationReport?type=0");
     },
     getInventoryInfo() {
       window["getinventoryinfo"] = this.getInventorySuccess;
+      // alert(this.cardModel.customerCode);
       this.$native.run(
         "getinventoryinfo",
-        { customerCode: this.user.customerCode },
+        { customerCode: this.cardModel.customerCode },
         "getinventoryinfo"
       );
     },

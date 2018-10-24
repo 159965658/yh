@@ -30,21 +30,21 @@ if (platform.PC || !platform.android) {
             //ipad、iphone竖屏；Andriod横屏 
             if (platform.iPad || platform.PC) {
                 document.documentElement.style.fontSize =
-                    200 * (document.documentElement.clientWidth / 2048) + "px";
+                    150 * (document.documentElement.clientWidth / 2048) + "px";
                 return;
             }
             document.documentElement.style.fontSize =
-                200 * (document.documentElement.clientHeight / 2048) + "px";
+                150 * (document.documentElement.clientHeight / 2048) + "px";
         }
         if (window.orientation == 90 || window.orientation == -90) { //竖屏
             //ipad、iphone横屏；Andriod竖屏
             if (platform.iPad || platform.PC) {
                 document.documentElement.style.fontSize =
-                    200 * (document.documentElement.clientHeight / 2048) + "px";
+                    150 * (document.documentElement.clientHeight / 2048) + "px";
                 return;
             }
             document.documentElement.style.fontSize =
-                200 * (document.documentElement.clientWidth / 2048) + "px";
+                150 * (document.documentElement.clientWidth / 2048) + "px";
         }
     }
 

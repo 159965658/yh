@@ -1,7 +1,7 @@
 <template>
 <li class="default">
     <div class="bg">
-        <ol class="message clearfix">
+        <ol class="message">
             <li class="name">{{item.cName}}</li>
             <li class="sex">{{item.sex | sex}}</li>
             <li class="age">{{item.birth | birth}}岁</li>
@@ -63,7 +63,14 @@ export default {
   padding-top: 32px !important;
   margin-bottom: 36px !important;
 }
-
+.message {
+  display: flex;
+  justify-content:start;
+  align-items: center; 
+  >li{
+    flex: 1 auto;
+  }
+}
 .total p {
   float: left;
   line-height: 80px;
@@ -112,39 +119,35 @@ ol.to-btns li i {
   padding-left: 10px;
 }
 
-.card_area ul.card > li:nth-child(4n) {
-  margin: 0;
-}
-
 .card_area ul.card > li {
   position: relative;
 }
 
 .radio-btn {
-  width: 32px;
-  height: 32px;
-  border: 4px solid #dcdcdc;
-  border-radius: 50px;
-  background: #fff;
+  width: 40px;
+  height: 40px;
+  background: url(../assets/111.png) no-repeat;
+  background-size: 100%;
 }
 
 .card_area ul.card > li .radio-btn {
   position: absolute;
   right: 10px;
-  top: 6px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
 }
 
 .radio-btn.active {
-  width: 15px;
-  height: 15px;
-  border: 10px solid #3ba6dd !important;
+  background: url(../assets/222.png) no-repeat;
+  background-size: 100%;
 }
 </style>
 
 <style lang="less">
 .card {
   display: flex;
-  justify-content: flex-start;
+  justify-content: start;
   flex-wrap: wrap;
 }
 </style>

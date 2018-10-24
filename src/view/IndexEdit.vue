@@ -7,7 +7,7 @@
             <ol class="to-btns clearfix">
                 <li><i class="icon icon-shangchuan"></i>上传 <span>{{selectedCount}}</span></li>
                 <li><i class="icon icon-daochu"></i>导出</li>
-                <li class="bor-h"><i class="icon icon-shanchu"></i>删除</li>
+                <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除</li>
                 <li class="bor-h" @click="allSelect"><i class="radio-btn " :class="{active:isAll}"></i>全选</li>
             </ol>
         </div>
@@ -26,6 +26,7 @@
 
 <script>
 import card from "@/components/card";
+import FullTipsVue from "../components/FullTips.vue";
 export default {
   components: {
     card
@@ -80,7 +81,30 @@ export default {
       else {
         this.isAll = false;
       }
-    }
+    },
+    delSubmit() {
+      $vm.$on("submit", this.updata);
+      this.$toastFull(FullTipsVue, true, {
+        title: "提示",
+        text: "确认要删除客户信息吗？",
+        canText: "取消",
+        subText: "确认"
+      });
+    },
+    updata() {
+      window["updatecustomer"] = this.updateSuccess;
+      this.cardList.forEach(item => {
+        if (item.seletedCard) {
+          item.isDelete = 1;
+          this.$native.run("updatecustomer", item, "updatecustomer");
+        }
+      });
+      $appBack();
+    },
+    updateSuccess() {}
+  },
+  beforeDestroy() {
+    $vm.$off("submit", this.updata);
   }
 };
 </script>
@@ -144,9 +168,9 @@ ol.to-btns li i {
   padding-left: 10px;
 }
 
-.card_area ul.card > li:nth-child(4n) {
-  margin: 0;
-}
+// .card_area ul.card > li:nth-child(4n) {
+//   margin: 0;
+// }
 
 .card_area ul.card > li {
   position: relative;
@@ -154,9 +178,9 @@ ol.to-btns li i {
 
 .radio-btn {
   width: 40px;
-  height: 40px; 
+  height: 40px;
   background: url(../assets/111.png) no-repeat;
-  background-size:100% ;
+  background-size: 100%;
 }
 
 .card_area ul.card > li .radio-btn {
@@ -169,6 +193,6 @@ ol.to-btns li i {
 
 .radio-btn.active {
   background: url(../assets/222.png) no-repeat;
-  background-size:100% ;
+  background-size: 100%;
 }
 </style>

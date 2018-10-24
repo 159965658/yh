@@ -5,6 +5,7 @@
    
     <span  class="icon arrow" v-show='!selectBool'></span>
   </div>
+  
   <div class="my_select" v-show='selectBool'>
    <ul class="select_box">
      <li class="opotion" @click='updateOpotion(opotion)' :key="index" v-for='(opotion,index) in data'>{{opotion.name}}</li>
@@ -32,9 +33,18 @@ export default {
       this.selectBool = !this.selectBool;
       this.msg = index.name;
       this.$emit("opotion", index);
+    },
+    chageEmit(id) {
+      let model = this.opotionList.find(p => p.id == id);
+      console.log(model);
+      this.msg = model.name;
+      //不发送事件通知
     }
   },
   mounted() {
+    setTimeout(() => {
+      $vm.$on("selectChange", this.chageEmit);
+    }, 1);
     if (this.opotionList.length > 0) {
       this.data = this.opotionList;
       // console.log(this.data.find(p => p.id == this.id),this.id);
@@ -45,6 +55,9 @@ export default {
         this.msg = this.data[0].name;
       }
     }
+  },
+  beforeDestroy() {
+    $vm.$off("selectChange", this.chageEmit);
   }
 };
 </script>

@@ -27,7 +27,7 @@
                 <li @click="tipsModify">机构名称：<i class="icon more"></i><span>{{user.institutionName}}</span></li>
                 <li>机构编号：<i class="icon more"></i><span>{{user.institutionCode}}</span></li>
                 <li>网络版用户名：<i class="icon more"></i><span>{{user.webNickName}}</span></li>
-                <li @click="selectUserTip">辨识人群选择：<i class="icon more"></i><span>全部</span></li>
+                <li @click="selectUserTip">辨识人群选择：<i class="icon more"></i><span>{{user.crowdFlag |flag }}</span></li>
                 <router-link tag="li" to="/modifypwd">设置密码：<i class="icon more"></i><span></span></router-link>
                 <!-- <li><i class="icon more"></i><span></span></li> -->
                 <li @click="checkGesture">手势密码：<i class="icon more"></i><span></span></li>
@@ -72,7 +72,7 @@ export default {
       const gesture = this.user.gesture;
       if (gesture) {
         window["checkgesture"] = this.checkGestureSuccess;
-        this.$native.run("checkgesture", { gesture: gesture },'checkgesture');
+        this.$native.run("checkgesture", { gesture: gesture }, "checkgesture");
       } else {
         window["setgesture"] = this.setgestureSuccess;
         this.$native.run("setgesture", "", "setgesture");
@@ -114,10 +114,15 @@ export default {
       console.log("版本更新");
     },
     selectUserTip() {
-      this.$toastFull(SelectUserVue);
+      this.$toastFull(SelectUserVue, true, { id: this.user.crowdFlag });
     },
-    selectUser() {
-      console.log("选择人群");
+    selectUser(item) {
+      console.log("选择人群", item);
+      let user = this.user;
+      user.crowdFlag = item.id;
+      this.$native.run("updateuser", user, "");
+      this.$cache.setUser(user);
+      let m = this.$cache.getUser();
     },
     changeOrg(value) {
       // alert(value);

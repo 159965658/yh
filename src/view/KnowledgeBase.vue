@@ -2,22 +2,22 @@
     <div style="height: 100%;"> 
     		<div class="knowledage-top-nav">
     			<ul>
-    				<li class="active">调理方案</li>
-    				<li>节气养生</li>
-    				<li>医师建议</li>
-    				<li>温馨提示</li>
+    				<li :class="{active:type == 1}" @click="search(1)">调理方案</li>
+    				<li :class="{active:type == 2}" @click="search(2)">节气养生</li>
+    				<li :class="{active:type == 3}" @click="search(3)">医师建议</li>
+    				<li :class="{active:type == 4}" @click="search(4)">温馨提示</li>
     			</ul>
     		</div>
     		<div class="right-cont-w">
 	    		<div class="center-content ">
 	    			<div class="total">
 	    				<ul class="clearfix">
-	    					<li class="fl"><p>当前共有数据：<span>10</span></p> <i class="icon icon-paixu icon-del" @click="delClick"></i>
+	    					<li class="fl"><p>当前共有数据：<span>{{count}}</span></p> <i class="icon icon-paixu icon-del" @click="delClick"></i>
                 <i class="icon icon-paixu icon-add" @click="addClick"></i></li>
 	    					<li class="fl">
 	    						<div class="top-nav-search">
-			                    <input type="texe" placeholder="输入关键字">
-			                    <i class="sousuo"></i>
+			                    <input type="texe" placeholder="输入关键字" v-model="filterName">
+			                    <i class="sousuo" @click="searchName"></i>
 			                </div>
 			                <router-link to="/newfile" class="shatubiao"></router-link>
 	    					</li>
@@ -55,20 +55,54 @@ export default {
   },
   data() {
     return {
-      opotionList: ["按钮-1", "按钮-2", "按钮-3", "按钮-4"],
+      opotionList: [
+        { id: -1, name: "请选择" },
+        { id: 1, name: "已共享" },
+        { id: 0, name: "不共享" }
+      ],
       knowledgeList: [],
-      type: 1
+      type: 1,
+      filterName: "",
+      name: "",
+      staut: -1,
+      count: 0
     };
   },
   computed: {
     list() {
-      return this.knowledgeList.filter(p => p.type == this.type);
+      // get() {
+      let list = [];
+      list = list.concat(this.knowledgeList.filter(p => p.type == this.type));
+      if (this.name) {
+        list = list.filter(p => p.text.indexOf(this.name) > -1);
+      }
+      if (this.staut > -1) {
+        list = list.filter(p => p.isShared == this.staut);
+      }
+      this.count = list.length;
+      return list;
+      // },
+      // set(name) {
+      //   // return this.knowledgeList.filter(p => p.type == this.type);
+      // }
     }
   },
   mounted() {
     this.getKnowledge();
   },
   methods: {
+    search(type) {
+      this.type = type;
+      this.filterName = "";
+      this.name = "";
+      $vm.$emit("selectChange", -1);
+    },
+    searchName() {
+      // this.knowledgeList.filter(
+      //   p => p.type == this.type && p.content.indexOf(this.filterName) > -1
+      // );
+      this.name = this.filterName;
+    },
     getKnowledge() {
       window["getknowledge"] = this.getKnowledgeSuccess;
       const user = this.$cache.getUser();
@@ -79,24 +113,20 @@ export default {
       );
     },
     getKnowledgeSuccess(data) {
-      //document.write(data);
-      //sessionStorage.setItem("L", data);
       try {
-        //alert(sessionStorage.getItem("L"));
-        // data = data.replace(/\n/g, "\\n").replace(/\r/g, "\\r");
         const res = JSON.parse(data).knowledgeList;
-        // this.$cache.setBase(res);
-        // alert(res[0]);
+        let reg = /<\/?.+?\/?>/g;
+        res.forEach(item => {
+          item.text = item.content.replace(reg, "");
+        });
         this.knowledgeList = res;
-        // this.setList();
-        // console.log(this.knowledgeList);
       } catch (error) {
         alert(error);
       }
     },
     setList() {},
     opotion(opotion) {
-      alert(opotion);
+      this.staut = opotion.id;
     },
     addClick() {
       this.setCache();
@@ -107,6 +137,7 @@ export default {
       // console.log(list);
     },
     delClick() {
+      this.setCache();
       this.$router.push("/delword");
     }
   }

@@ -16,7 +16,7 @@ export default {
       }
     },
     defaultHover: {
-      type: Number,
+      // type: Number,
       default: 0
     },
     isHover: {

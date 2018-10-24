@@ -4,4 +4,5 @@ import timeStamp from './timeStamp';
 import sex from './sex';
 import birth from './birth';
 import cardType from './cardType';
-export { formatDate, timeStamp, sex, birth, cardType }
+import flag from './flag';
+export { formatDate, timeStamp, sex, birth, cardType, flag }

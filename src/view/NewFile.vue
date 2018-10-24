@@ -94,7 +94,7 @@ export default {
       },
       error: false,
       birth: "",
-      startDate: new Date("1970-01-01"),
+      startDate: new Date("1971-01-01"),
       endDate: new Date(),
       idCardArr: [
         {

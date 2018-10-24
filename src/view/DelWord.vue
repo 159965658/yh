@@ -5,14 +5,16 @@
         <div class="total clearfix">
             <p>当前共有数据：<span>1</span></p>
             <ol class="to-btns clearfix">
-                <li class="bor-h"><i class="icon icon-shanchu"></i>删除<span style="margin-left:5px;">2</span></li>
-                <li class="bor-h"><i class="radio-btn active" ></i>全选</li>
+                <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除<span style="margin-left:5px;">{{count}}</span></li>
+                <li class="bor-h"  @click="allSelect"><i class="radio-btn " :class="{active:all}"></i>全选</li>
             </ol>
         </div>
         <div class="right-list">
             <ul>
-                <li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。<i class="radio-btn list-icon active" ></i></li>
-                <li>健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。饮食宜有节制，四季营养合理搭配。<i class="radio-btn list-icon " ></i></li> 
+                <li v-for="(item,i) in baseList" :key="i" @click="activeHover(item)">
+                    <span v-html="item.content"></span>
+                    <i class="radio-btn list-icon" :class="{active:item.hover}"></i>
+                </li>
             </ul>
         </div>
     </div>
@@ -20,7 +22,78 @@
 </template>
 
 <script>
-export default {};
+import FullTipsVue from "../components/FullTips.vue";
+export default {
+  data() {
+    return {
+      baseList: [],
+      all: false,
+      count: 0
+    };
+  },
+  computed: {},
+  mounted() {
+    this.getCache();
+  },
+  methods: {
+    getCache() {
+      let list = this.$cache.getBase();
+      list.forEach(item => {
+        item.hover = false;
+      });
+      this.baseList = list;
+    },
+    allSelect() {
+      this.all = !this.all;
+      this.baseList.forEach(item => {
+        console.log(item);
+        item.hover = this.all;
+      });
+    },
+    activeHover(item) {
+      console.log(item);
+      let count = 0;
+      item.hover = !item.hover;
+      this.baseList.forEach(item => {
+        if (item.hover) {
+          count++;
+        }
+      });
+      if (count == this.baseList.length) {
+        this.all = true;
+      } else {
+        this.all = false;
+      }
+      this.count = count;
+    },
+    delSubmit() {
+      $vm.$on("submit", this.submit);
+      this.$toastFull(FullTipsVue, true, {
+        title: "提示",
+        text: "确认要删除吗？",
+        canText: "取消",
+        subText: "确认"
+      });
+    },
+    submit() {
+      window["updateknowledge"] = this.updateSuccess;
+      this.baseList.forEach(item => {
+        if (item.hover) {
+          item.isDelete = 1;
+          this.$native.run("updateknowledge", { item }, "updateknowledge");
+        }
+      });
+      $appBack();
+      console.log("删除");
+    },
+    updateSuccess() {
+      console.log("删除成功");
+    }
+  },
+  beforeDestroy() {
+    $vm.$off("submit", this.submit);
+  }
+};
 </script>
 
 <style lang="less" scoped>
@@ -29,11 +102,13 @@ export default {};
   padding-right: 60px;
   margin: 0 auto;
 }
+
 .list-icon {
   position: absolute;
   right: 20px;
   top: 10px;
 }
+
 .total {
   padding-top: 32px !important;
   margin-bottom: 36px !important;
@@ -109,6 +184,7 @@ ol.to-btns li i {
   background: url(../assets/222.png) no-repeat;
   background-size: 100%;
 }
+
 .right-list {
   height: calc(100% - 140px);
   overflow-y: auto;
@@ -123,6 +199,7 @@ ol.to-btns li i {
       margin-right: 60px;
       text-align: center;
       position: relative;
+
       b {
         position: absolute;
         color: #ffffff;

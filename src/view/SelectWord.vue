@@ -1,48 +1,67 @@
 <template>
-    <div style="height: 100%;">
-           	 <app-header :ltitle='"后退"' :ctitle='"选择词条"'></app-header>
-      	 
-    		<div class="select-content">
-    			<div class="scroll-y">
-	    			<div class="left fl">
-	    				<div class="top-nav-search">
-	                    <input type="texe" placeholder="输入关键字">
-	                    <i class="sousuo"></i>
-	                </div>
-	                <ul>
-	                		<li class="shadow" v-for="(item,i) in baseList" :key="i">
-	                			<i class="icon icon-add" @click="addWord(item)"></i>
-	                			<p v-html="item.content"></p>
-	                			<!-- <i class="icon arrow"></i> -->
-	                		</li> 
-	                </ul>
-	    			</div>
-    			</div>
-    			<div class="right">
-    			 <div id="editor" class="editor" width="100%;height:600px" type="text/plain"></div>
+<div style="height: 100%;">
+    <app-header :ltitle='"后退"' :ctitle='"选择词条"'></app-header>
 
-    				 <div class="button-jh fang"> 
-	    				<button class="button jh" @click="save">保存</button>
-	    			</div>
-    			</div>
-    		</div>
-    
-</div> 
+    <div class="select-content">
+        <div class="scroll-y">
+            <div class="left fl">
+                <div class="top-nav-search">
+                    <input type="texe" placeholder="输入关键字" v-model="name">
+                    <i class="sousuo" @click="search"></i>
+                </div>
+                <ul>
+                    <li class="shadow" v-for="(item,i) in list" :key="i">
+                        <i class="icon icon-add" @click="addWord(item)"></i>
+                        <p v-html="item.content"></p>
+                        <!-- <i class="icon arrow"></i> -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <div id="editor" class="editor" width="100%;height:600px" type="text/plain"></div>
+            <div class="status">
+                <label for="">共享状态：</label>
+                <app-select v-on:opotion="opotion" :opotionList='opotionList'></app-select>
+            </div>
+            <div class="button-jh fang">
+                <button class="button jh" @click="save">保存</button>
+            </div>
+        </div>
+    </div>
+
+</div>
 </template>
 
 <script>
 export default {
   data() {
     return {
+      opotionList: [
+        {
+          id: -1,
+          name: "请选择"
+        },
+        {
+          id: 1,
+          name: "已共享"
+        },
+        {
+          id: 0,
+          name: "不共享"
+        }
+      ],
       baseList: [],
       addBase: {
         userCode: "", //创建用户编号
         type: 1, // 条目类型 1：调理方案，2：节气养生，3：医师建议，4：温馨提示
         content: "", // 条目内容的html字串
-        isShared: 0 //是否共享 0：不共享，1：共享
+        isShared: -1 //是否共享 0：不共享，1：共享
       },
       user: {},
-      cache: false
+      cache: false,
+      name: "",
+      fname: ""
     };
   },
   mounted() {
@@ -64,6 +83,10 @@ export default {
   },
   computed: {
     list() {
+      console.log(this.baseList);
+      if (this.fname) {
+        return this.baseList.filter(p => p.text.indexOf(this.fname) > -1);
+      }
       return this.baseList;
     }
   },
@@ -74,8 +97,17 @@ export default {
     save() {
       try {
         let addBase = this.addBase;
-        addBase.userCode = this.user.userCode;
         addBase.content = this.ue.getContent();
+        if (!addBase.content.trim()) {
+          this.$toast("请填写词条内容");
+          return;
+        }
+        if (addBase.isShared == -1) {
+          this.$toast("请选择共享状态");
+          return;
+        }
+        addBase.userCode = this.user.userCode;
+
         // alert(addBase.content);
         window["addknowledge"] = this.addKnowledge;
         this.$native.run("addknowledge", addBase, "addknowledge");
@@ -91,12 +123,31 @@ export default {
       }
       this.$toast("保存成功");
       $appBack();
+    },
+    opotion(opotion) {
+      this.addBase.isShared = opotion.id;
+    },
+    search() {
+      console.log(this.baseList);
+      this.fname = this.name;
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+.status {
+  margin: 0 auto;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  > .select {
+    display: inline-block;
+  }
+}
+
 .button-jh.fang {
   // margin-left: 235px;
   // position: fixed;
@@ -106,13 +157,16 @@ export default {
 
   margin: 0 auto;
   margin-top: 50px;
+
   > button {
     text-align: center;
   }
 }
+
 .select-content {
   height: calc(100% - 180px);
 }
+
 .scroll-y {
   height: 100%;
   overflow-y: auto;
@@ -124,28 +178,34 @@ export default {
   margin: 0;
   width: 100%;
   margin-bottom: 40px;
+
   input {
     width: 80%;
   }
 }
+
 .select-content {
   width: 100%;
   margin: 0 auto;
   margin-top: 35px;
   display: flex;
   justify-content: space-around;
+
   .left {
     width: 925px;
+
     ul {
       li {
         position: relative;
         padding: 95px 45px;
         margin-bottom: 30px;
+
         .icon-add {
           position: absolute;
           top: 20px;
           right: 30px;
         }
+
         p {
           color: #282828;
           font-size: 42px;
@@ -162,10 +222,12 @@ export default {
     background-size: 100%;
     float: right;
   }
+
   .icon-add {
     background-image: url(../assets/add2.png);
     height: 60px;
   }
+
   .icon.arrow {
     width: 32px;
     height: 21px;
