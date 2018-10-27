@@ -22,16 +22,16 @@
 </template>
 
 <script>
-export default {
- 
-};
+export default {};
 </script>
 
 <style lang="less" scoped>
 .card {
   // width: 1718px;
   // margin: 0 auto;
-   margin-top: 100px;
+  margin-top: 100px;
+  margin-left: 250px;
+  margin-right: 250px;
   display: flex;
   justify-content: space-around;
   .left,

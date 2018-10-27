@@ -12,7 +12,8 @@
 	    		<div class="center-content ">
 	    			<div class="total">
 	    				<ul class="clearfix">
-	    					<li class="fl"><p>当前共有数据：<span>{{count}}</span></p> <i class="icon icon-paixu icon-del" @click="delClick"></i>
+	    					<li class="fl"><p>当前共有数据：<span>{{count}}</span></p> 
+                <i class="icon icon-paixu icon-indexedit" @click="delClick"></i>
                 <i class="icon icon-paixu icon-add" @click="addClick"></i></li>
 	    					<li class="fl">
 	    						<div class="top-nav-search">
@@ -145,6 +146,10 @@ export default {
 </script>
 
 <style lang='less' scoped>
+.icon-indexedit{
+  right: 180px;
+  top: 55px;
+}
 .right-cont-w {
   float: left;
   width: calc(100% - 208px);

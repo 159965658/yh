@@ -55,7 +55,8 @@ export default {
       deviceInfo: {},
       user: {},
       device: {},
-      version: "1.0.0"
+      version: "1.0.0",
+      versionUrl: ""
     };
   },
   mounted() {
@@ -104,14 +105,34 @@ export default {
       this.version = data;
     },
     update() {
-      this.$toastFull(FullTips, true, {
-        title: "版本更新",
-        text: "您使用的是最新版本",
-        subText: "确认"
-      });
+      window["update"] = this.updateSuccess;
+      this.$native.run("update", {}, "update");
+    },
+    updateSuccess(data) {
+      this.$native.loadHide();
+      const res = JSON.parse(data);
+      console.log(res);
+      if (res.newestVersionNo) {
+        //有新的版本
+        this.versionUrl = res.versionUrl;
+        this.$toastFull(FullTips, true, {
+          title: "版本更新",
+          text: res.message,
+          subText: "更新"
+        });
+      } else {
+        //没有新版
+        this.$toastFull(FullTips, true, {
+          title: "版本更新",
+          text: "已经是最新版本",
+          subText: "确认"
+        });
+      }
     },
     childSubmit() {
       console.log("版本更新");
+      // window["downloadypdate"] = this.down;
+      this.$native.run("downloadypdate", { versionUrl: this.versionUrl });
     },
     selectUserTip() {
       this.$toastFull(SelectUserVue, true, { id: this.user.crowdFlag });

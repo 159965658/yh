@@ -5,4 +5,6 @@ import sex from './sex';
 import birth from './birth';
 import cardType from './cardType';
 import flag from './flag';
-export { formatDate, timeStamp, sex, birth, cardType, flag }
+
+import nation from './nation';
+export { formatDate, timeStamp, sex, birth, cardType, flag, nation }

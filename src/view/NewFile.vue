@@ -26,7 +26,12 @@
                             <li><i class="icon radio"><b></b></i>女</li>
                         </ol> -->
                     </li>
-                    <li><i class="must">*</i><label for="">民族:</label> <input type="text" v-model="addUser.nation" placeholder="汉"></li>
+                    <li style="z-index:10">
+                      <i class="must">*</i><label for="">民族:</label> 
+                      <label for="" style="width:85%">
+                        <app-select  class="nation"  :opotionList='nationArr' :id="10" @opotion='nationClick'></app-select>
+                      </label> <!-- <input type="text" v-model="addUser.nation" placeholder="汉"> -->
+                    </li>
                     <li>
                         <i class="must">*</i><label for="">出生:</label>
                         <span>{{addUser.birth}}</span>
@@ -81,7 +86,7 @@ export default {
       addUser: {
         customerCode: "",
         userCode: "",
-        cId: 0,
+        //cId: 0,
         cCardType: 101, // "101：身份证，105：其他",
         uCardNum: "",
         cName: "",
@@ -94,7 +99,7 @@ export default {
       },
       error: false,
       birth: "",
-      startDate: new Date("1971-01-01"),
+      startDate: new Date("1900-01-01"),
       endDate: new Date(),
       idCardArr: [
         {
@@ -105,11 +110,21 @@ export default {
           id: 105,
           name: "其他"
         }
-      ]
+      ],
+      nationArr: []
     };
   },
   mounted() {
     this.addUser.userCode = this.$cache.getUser().userCode;
+    //加载民族文件
+
+    // this.$http.get("static/dict/nation.json").then(res => {
+    this.nationArr = this.$cache.get(this.$cacheEnum.nation);
+    setTimeout(() => {
+      $vm.$emit("selectChange", 10);
+      // }, 1);
+      //  console.log("json数据为:", res.body); //此处的res对象包含了json的文件信息和数据，我们需要的json数据存在于body属性中
+    });
   },
   methods: {
     ocr() {
@@ -196,6 +211,9 @@ export default {
     idClick(item) {
       this.addUser.cCardType = item.id;
       console.log(item);
+    },
+    nationClick(item) {
+      this.addUser.nation = item.id;
     }
   }
 };
@@ -389,7 +407,11 @@ i.icon {
   font-size: 36px;
   border: none;
 }
-
+.nation {
+  width: 100% !important;
+  float: left;
+  margin-top: 25px;
+}
 .newc {
   width: 90%;
 

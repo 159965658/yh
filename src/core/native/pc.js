@@ -163,6 +163,9 @@ export default {
                 ]
             }
         }
+        else if (data == 'update') {
+            data = { "state": "0", "message": "当前最新版本号：1.2", "newestVersionNo": "1.2", "versionUrl": "20181008/downImg.html" }
+        }
         window[success](JSON.stringify(data));
         //Android.run(fun, JSON.stringify(params), success, error);
         //Android.run("activition", JSON.stringify({ code: "12sdada122" }), 'success', '$error');

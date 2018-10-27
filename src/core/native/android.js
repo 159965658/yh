@@ -14,7 +14,7 @@ export default {
         }
     },
     loadShow() {
-        Android.run('loadshow');
+        Android.run('loadshow', '', '', '');
     },
     loadHide() {
         // Android.run('loadHide');

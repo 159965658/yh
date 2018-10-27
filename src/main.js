@@ -9,6 +9,9 @@ import router from './router'
 //   hack: viewportHack
 // })
 // import 'amfe-flexible' 
+import VueResource from 'vue-resource'
+Vue.use(VueResource)
+
 import Toast from '@/core/toast'
 import { cache, cacheEnum } from '@/core/cache'
 Vue.use(Toast);

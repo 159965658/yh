@@ -19,7 +19,13 @@ export default {
       // }
     };
     ra();
-   
+    //初始化
+    // if (!this.$cache.get(this.$cacheEnum["nation"]))
+    //   this.$http.get("../static/dict/nation.json").then(res => {
+    //     // this.nationArr = res.body;
+    //     this.$cache.set("nationCache", res.body);
+    //     //  console.log("json数据为:", res.body); //此处的res对象包含了json的文件信息和数据，我们需要的json数据存在于body属性中
+    //   });
     // console.log(this.$native);
     // this.$native.run();
     // window["testFun"] = this.testFun;

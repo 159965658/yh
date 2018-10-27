@@ -330,6 +330,8 @@ export default {
             show: false //不显示刻度线
           },
           axisLabel: {
+            interval:0,
+            rotate:40,
             textStyle: {
               color: "#878787" //坐标值的具体的颜色
             }

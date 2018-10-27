@@ -11,7 +11,7 @@
                         <ul v-if="!edit">
                             <li><label for="">姓名：</label><span>{{cardModel.cName}}</span></li>
                             <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
-                            <li><label for="">民族：</label><span>{{cardModel.nation}}</span></li>
+                            <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li>
                             <li><label for="">出生：</label><span>{{cardModel.birth}}</span></li>
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
                             <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
@@ -22,8 +22,13 @@
                             <li class="sex xingbie"><i class="must">*</i><label for="">性别：</label>
                                 <app-sex :defaultHover='cardModelCopy.sex' @radioClick='sexClick'></app-sex>
                             </li>
-                            <li><i class="must">*</i><label for="">民族：</label><input type="text" v-model="cardModelCopy.nation"> </li>
-                            <li><i class="must">*</i><label for="">出生：</label> <span @click="openPicker">{{cardModelCopy.birth}}</span>
+                            <li style="position:relative;z-index:10">
+                              <i class="must">*</i><label for="">民族：</label>
+                                <app-select  class="nation"  :opotionList='nationArr' :id="cardModelCopy.nation" @opotion='nationClick'></app-select>
+                              <!-- <input type="text" v-model="cardModelCopy.nation">  -->
+                            </li>
+                            <li><i class="must">*</i><label for="">出生：</label>
+                                <span @click="openPicker">{{cardModelCopy.birth}}</span>
                                 <mt-datetime-picker @confirm="handleConfirm" :startDate='startDate' :endDate='endDate'  ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
                                 </mt-datetime-picker> <!-- @confirm="handleConfirm" -->
                             </li>
@@ -44,7 +49,9 @@
                     <ol>
                         <li v-for="(item,index) in histList" :key="index"> 
                             <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
-                            <p>{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
+                            <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
+                            <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
+                            
                             <i class="icon radio active"></i>
                         </li>
                     </ol>
@@ -97,11 +104,15 @@ export default {
           id: 105,
           name: "其他"
         }
-      ]
+      ],
+      nationArr: [],
+      modifyNation: ""
     };
   },
   mounted() {
     this.cardModel = this.$cache.get(this.$cacheEnum["cardModel"]);
+    this.nationArr = this.$cache.get(this.$cacheEnum["nation"]); //获取民族
+    console.log(this.nationArr);
     this.user = this.$cache.getUser();
     this.getHistory(this.cardModel.customerCode);
     this.getInventoryInfo();
@@ -186,7 +197,7 @@ export default {
       }
       if (model.nation != oldModel.nation) {
         //修改民族
-        this.modifyHisSub("民族", model.nation);
+        this.modifyHisSub("民族", this.modifyNation);
       }
       if (model.sex != oldModel.sex) {
         //修改性别
@@ -267,6 +278,10 @@ export default {
     getHistoryList(data) {
       const res = JSON.parse(data).customerEditHistoryList;
       this.histList = res;
+    },
+    nationClick(item) {
+      this.cardModelCopy.nation = item.id;
+      this.modifyNation = item.name;
     }
   },
   beforeDestroy() {
@@ -497,5 +512,13 @@ export default {
       }
     }
   }
+}
+
+.nation {
+  position: absolute !important;
+  width: 70% !important;
+  bottom: 20px;
+  // float: right !important;
+  // margin-top: 25px;
 }
 </style>

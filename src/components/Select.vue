@@ -8,7 +8,7 @@
   
   <div class="my_select" v-show='selectBool'>
    <ul class="select_box">
-     <li class="opotion" @click='updateOpotion(opotion)' :key="index" v-for='(opotion,index) in data'>{{opotion.name}}</li>
+     <li class="opotion" @click='updateOpotion(opotion)' :key="index" v-for='(opotion,index) in opotionList'>{{opotion.name}}</li>
    </ul>
 </div>
 </div>
@@ -36,6 +36,7 @@ export default {
     },
     chageEmit(id) {
       let model = this.opotionList.find(p => p.id == id);
+      if (!model) return;
       console.log(model);
       this.msg = model.name;
       //不发送事件通知
@@ -49,10 +50,10 @@ export default {
       this.data = this.opotionList;
       // console.log(this.data.find(p => p.id == this.id),this.id);
       if (this.id) {
-        const model = this.data.find(p => p.id == this.id);
+        const model = this.opotionList.find(p => p.id == this.id);
         if (model) this.msg = model.name;
       } else {
-        this.msg = this.data[0].name;
+        this.msg = this.opotionList[0].name;
       }
     }
   },
@@ -65,9 +66,14 @@ export default {
 <style lang="less" scoped>
 .select {
   width: 190px;
-  display: inline-blockl;
+  display: inline-block;
   position: relative;
   z-index: 3;
+  float: left;
+  .select_box {
+    max-height: 600px;
+    overflow-y: scroll;
+  }
   .select_click_box {
     width: 100%;
     height: 70px;

@@ -5,8 +5,8 @@
         <div class="total clearfix">
             <p>当前共有数据：<span>{{cardList.length}}</span></p>
             <ol class="to-btns clearfix">
-                <li><i class="icon icon-shangchuan"></i>上传 <span>{{selectedCount}}</span></li>
-                <li><i class="icon icon-daochu"></i>导出</li>
+                <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{selectedCount}}</span></li>
+                <li @click="exportDataToast"><i class="icon icon-daochu"></i>导出</li>
                 <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除</li>
                 <li class="bor-h" @click="allSelect"><i class="radio-btn " :class="{active:isAll}"></i>全选</li>
             </ol>
@@ -27,6 +27,8 @@
 <script>
 import card from "@/components/card";
 import FullTipsVue from "../components/FullTips.vue";
+
+import { Indicator } from "mint-ui";
 export default {
   components: {
     card
@@ -37,7 +39,8 @@ export default {
       cardList: [],
       cardListCopy: [],
       isAll: false,
-      selectedCount: 0
+      selectedCount: 0,
+      updataCount: 0
     };
   },
   mounted() {
@@ -83,13 +86,18 @@ export default {
       }
     },
     delSubmit() {
-      $vm.$on("submit", this.updata);
-      this.$toastFull(FullTipsVue, true, {
-        title: "提示",
-        text: "确认要删除客户信息吗？",
-        canText: "取消",
-        subText: "确认"
-      });
+      if (this.selectedCount > 0) {
+        $vm.$off("submit");
+        $vm.$on("submit", this.updata);
+        this.$toastFull(FullTipsVue, true, {
+          title: "提示",
+          text: "确认要删除客户信息吗？",
+          canText: "取消",
+          subText: "确认"
+        });
+      } else {
+        this.$toast("请您选中数据");
+      }
     },
     updata() {
       window["updatecustomer"] = this.updateSuccess;
@@ -101,10 +109,107 @@ export default {
       });
       $appBack();
     },
-    updateSuccess() {}
+    updateSuccess() {},
+    updateData() {
+      if (this.selectedCount == 0) {
+        this.$toast("请您先选中数据");
+        return;
+      }
+      $vm.$off("submit");
+      $vm.$on("submit", this.updateDataSub);
+      this.$toastFull(FullTipsVue, true, {
+        title: "提示",
+        text: `您选中了${this.selectedCount}条数据，确认要上传吗？`,
+        canText: "取消",
+        subText: "确认"
+      });
+    },
+    updateDataSub() {
+      window["uploadcustomer"] = this.updateDataSuccess;
+      window["errorUp"] = this.errorUp;
+      try {
+        // this.$native.loadShow();
+        Indicator.open({
+          text: "正在上传数据...",
+          spinnerType: "fading-circle"
+        });
+        this.cardList.forEach(item => {
+          if (item.seletedCard) {
+            // item.isDelete = 1;
+            this.$native.run(
+              "uploadcustomer",
+              item,
+              "uploadcustomer",
+              "errorUp"
+            );
+          }
+        });
+      } catch (error) {
+        alert(error);
+      }
+    },
+    errorUp(error) {
+      Indicator.close();
+      this.$toast(error);
+    },
+    updateDataSuccess() {
+      // try {
+      //  this.$native.loadHide();
+      this.updataCount++;
+      if (this.updataCount >= this.selectedCount) {
+        console.log("关闭");
+        setTimeout(() => {
+          Indicator.close();
+          this.$toast("操作成功");
+          $appBack();
+        }, 100);
+        this.updataCount = 0;
+      }
+      // } catch (error) {
+      //   this.$native.loadHide();
+      //   alert(error);
+      // }
+    },
+    exportDataToast() {
+      if (this.selectedCount == 0) {
+        this.$toast("请您先选中数据");
+        return;
+      }
+      $vm.$off("submit");
+      $vm.$on("submit", this.exportData);
+      this.$toastFull(FullTipsVue, true, {
+        title: "提示",
+        text: `您选中了${this.selectedCount}条数据，确认要导出吗？`,
+        canText: "取消",
+        subText: "确认"
+      });
+    },
+    exportData() {
+      try {
+        Indicator.open({
+          text: "正在导出数据...",
+          spinnerType: "fading-circle"
+        });
+        window["exportcustomer"] = this.updateDataSuccess;
+
+        window["errorUp"] = this.errorUp;
+        //  this.$native.loadShow();
+        this.cardList.forEach(item => {
+          if (item.seletedCard) {
+            // item.isDelete = 1;
+            this.$native.run("exportcustomer", item, "exportcustomer", "errorUp");
+          }
+        });
+      } catch (error) {
+        alert(error);
+        Indicator.close();
+      }
+    }
   },
   beforeDestroy() {
     $vm.$off("submit", this.updata);
+    $vm.$off("submit", this.updateDataSub);
+    Indicator.close();
   }
 };
 </script>

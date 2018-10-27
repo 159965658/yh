@@ -5,6 +5,8 @@
         <div class="total clearfix">
             <p>当前共有数据：<span>1</span></p>
             <ol class="to-btns clearfix">
+               <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{count}}</span></li>
+              
                 <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除<span style="margin-left:5px;">{{count}}</span></li>
                 <li class="bor-h"  @click="allSelect"><i class="radio-btn " :class="{active:all}"></i>全选</li>
             </ol>
@@ -22,13 +24,15 @@
 </template>
 
 <script>
+import { Indicator } from "mint-ui";
 import FullTipsVue from "../components/FullTips.vue";
 export default {
   data() {
     return {
       baseList: [],
       all: false,
-      count: 0
+      count: 0,
+      updataCount: 0
     };
   },
   computed: {},
@@ -67,6 +71,11 @@ export default {
       this.count = count;
     },
     delSubmit() {
+      if (this.count == 0) {
+        this.$toast("请您先选中数据");
+        return;
+      }
+      $vm.$off("submit");
       $vm.$on("submit", this.submit);
       this.$toastFull(FullTipsVue, true, {
         title: "提示",
@@ -88,10 +97,72 @@ export default {
     },
     updateSuccess() {
       console.log("删除成功");
+    },
+    updateData() {
+      if (this.count == 0) {
+        this.$toast("请您先选中数据");
+        return;
+      }
+      $vm.$off("submit");
+      $vm.$on("submit", this.updateDataSub);
+      this.$toastFull(FullTipsVue, true, {
+        title: "提示",
+        text: `您选中了${this.count}条数据，确认要上传吗？`,
+        canText: "取消",
+        subText: "确认"
+      });
+    },
+    updateDataSub() {
+      window["uploadknowledge"] = this.updateDataSuccess;
+      window["errorUp"] = this.errorUp;
+      try {
+        // this.$native.loadShow();
+        Indicator.open({
+          text: "正在上传数据...",
+          spinnerType: "fading-circle"
+        });
+        this.baseList.forEach(item => {
+          if (item.hover) {
+            // item.isDelete = 1;
+            this.$native.run(
+              "uploadknowledge",
+              item,
+              "uploadknowledge",
+              "errorUp"
+            );
+          }
+        });
+      } catch (error) {
+        Indicator.close();
+        alert(error);
+      }
+    },
+    errorUp(error) {
+      Indicator.close();
+      this.$toast(error);
+    },
+    updateDataSuccess() {
+      // try {
+      //  this.$native.loadHide();
+      this.updataCount++;
+      if (this.updataCount >= this.count) {
+        console.log("关闭");
+        setTimeout(() => {
+          Indicator.close();
+          this.$toast("操作成功");
+          $appBack();
+        }, 100);
+        this.updataCount = 0;
+      }
+      // } catch (error) {
+      //   this.$native.loadHide();
+      //   alert(error);
+      // }
     }
   },
   beforeDestroy() {
     $vm.$off("submit", this.submit);
+    Indicator.close();
   }
 };
 </script>
