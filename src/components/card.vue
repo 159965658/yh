@@ -8,8 +8,8 @@
         </ol>
         <p class="nums">{{item.uCardNum}}</p>
         <ol class="btns clearfix">
-            <li v-if="item.isupload">已上传</li>
-            <li v-if="item.IsExport">已导出</li>
+            <li v-if="item.isUpload">已上传</li>
+            <li v-if="item.isExport">已导出</li>
         </ol>
     </div>
     <!-- <router-link to="/identification" tag="button">开始辨识</router-link> -->
@@ -46,6 +46,9 @@ export default {
       this.$router.push("/seefile");
     },
     nextiden(item) {
+      // if (item.haveReport == 1 || item.haveGwreport == 1) {
+      //   this.$toastFull('')
+      // }
       this.$cache.set(this.$cacheEnum["cardModel"], item);
       this.$router.push("/identification");
     }
@@ -65,9 +68,9 @@ export default {
 }
 .message {
   display: flex;
-  justify-content:start;
-  align-items: center; 
-  >li{
+  justify-content: start;
+  align-items: center;
+  > li {
     flex: 1 auto;
   }
 }

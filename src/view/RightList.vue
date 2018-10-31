@@ -3,7 +3,7 @@
     <div class="top-nav">
         <div class="top-nav-search">
             <input type="texe" placeholder="患者姓名／身份证号" v-model="searchText">
-            <i class="icon"></i>
+            <i class="icon" @click="ocr"></i>
             <i class="sousuo" @click="searchList"></i>
         </div>
         <router-link to="/newfile" class="shatubiao"></router-link>
@@ -146,6 +146,7 @@ export default {
     //获取数据
     this.cacheUser = this.$cache.getUser();
     this.getCustomer();
+    this.count = this.sList.length;
     // console.log(this);
   },
   methods: {
@@ -275,6 +276,31 @@ export default {
       // document.write(data);
       this.nameList = JSON.parse(data).customerInfoList;
       this.searchList();
+    },
+    ocr() {
+      window["ocr"] = this.ocrSuccess;
+      window["ocrError"] = this.ocrError;
+      this.$native.run("ocr", "", "ocr", "ocrError");
+    },
+    ocrError() {
+      // this.error = true;
+      this.$toast("扫描失败");
+    },
+    ocrSuccess(data) {
+      const res = JSON.parse(data);
+      // this.addUser.cName = res.Name.value;
+
+      //清空搜索条件
+      this.setPar();
+      this.searchText = res.Name.value;
+      this.searchList();
+    },
+    setPar() {
+      this.searchText = "";
+      this.search.createUser = "";
+      this.search.orgName = "";
+      this.search.startText = "";
+      this.search.endText = "";
     }
   },
   beforeDestroy() {

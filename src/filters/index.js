@@ -7,4 +7,8 @@ import cardType from './cardType';
 import flag from './flag';
 
 import nation from './nation';
-export { formatDate, timeStamp, sex, birth, cardType, flag, nation }
+
+import marriage from './marriage';
+
+import lunarDate from './lunarDate';
+export { formatDate, timeStamp, sex, birth, cardType, flag, nation, marriage, lunarDate }

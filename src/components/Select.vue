@@ -71,7 +71,7 @@ export default {
   z-index: 3;
   float: left;
   .select_box {
-    max-height: 600px;
+    max-height: 400px;
     overflow-y: scroll;
   }
   .select_click_box {

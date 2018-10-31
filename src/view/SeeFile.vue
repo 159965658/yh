@@ -13,6 +13,7 @@
                             <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
                             <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li>
                             <li><label for="">出生：</label><span>{{cardModel.birth}}</span></li>
+                              <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
                             <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
                         </ul>
@@ -31,6 +32,11 @@
                                 <span @click="openPicker">{{cardModelCopy.birth}}</span>
                                 <mt-datetime-picker @confirm="handleConfirm" :startDate='startDate' :endDate='endDate'  ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
                                 </mt-datetime-picker> <!-- @confirm="handleConfirm" -->
+                            </li>
+                             <li style="position:relative;z-index:10">
+                              <i class="must">*</i><label for="">婚姻状况：</label>
+                                <app-select  class="nation"  :opotionList='marriageArr' :id="cardModelCopy.marriage" @opotion='marriageClick'></app-select>
+                              <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
                             <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
                       <app-select class="idCard" style="" :opotionList='idCardArr' :id='cardModelCopy.cCardType' @opotion='idClick'></app-select>
@@ -82,6 +88,8 @@
 
 <script>
 import { sex } from "@/filters/index.js";
+import { marriageFilter } from "@/filters/marriage.js";
+import { marriage } from "../../static/dict/marriage.js";
 export default {
   data() {
     return {
@@ -95,6 +103,7 @@ export default {
       report: {},
       startDate: new Date("1971-01-01"),
       endDate: new Date(),
+      marriageArr: marriage,
       idCardArr: [
         {
           id: 101,
@@ -208,6 +217,10 @@ export default {
         //出生日期
         this.modifyHisSub("出生日期", model.birth);
       }
+      if (model.marriage != oldModel.marriage) {
+        const id = this.marriageArr.find(p => p.id == model.marriage);
+        this.modifyHisSub("婚姻状况", id.name);
+      }
       if (model.cCardType != oldModel.cCardType) {
         //证件类型
         const id = this.idCardArr.find(p => p.id == model.cCardType);
@@ -282,6 +295,9 @@ export default {
     nationClick(item) {
       this.cardModelCopy.nation = item.id;
       this.modifyNation = item.name;
+    },
+    marriageClick(item) {
+      this.cardModelCopy.marriage = item.id;
     }
   },
   beforeDestroy() {

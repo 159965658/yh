@@ -27,28 +27,31 @@
                         </ol> -->
                     </li>
                     <li style="z-index:10">
-                      <i class="must">*</i><label for="">民族:</label> 
-                      <label for="" style="width:85%">
+                        <i class="must">*</i><label for="">民族:</label>
+                        <label for="" style="width:85%">
                         <app-select  class="nation"  :opotionList='nationArr' :id="10" @opotion='nationClick'></app-select>
                       </label> <!-- <input type="text" v-model="addUser.nation" placeholder="汉"> -->
                     </li>
                     <li>
                         <i class="must">*</i><label for="">出生:</label>
                         <span>{{addUser.birth}}</span>
-                        <mt-datetime-picker ref="picker" :startDate='startDate' :endDate='endDate' type="date" v-model="birth" year-format="{value} 年"
-  month-format="{value} 月"
-  date-format="{value} 日" @confirm="handleConfirm" >
+                        <mt-datetime-picker ref="picker" :startDate='startDate' :endDate='endDate' type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" @confirm="handleConfirm">
                         </mt-datetime-picker> <i class="icon rili" @click="openPicker"></i>
                     </li>
-                    <!-- <li><i class="must">*</i><label for="">出生:</label>1987-01-01 <i class="icon rili"></i></li> -->
-
-                    <li><i class="must">*</i><label for="">
+                    <li style="z-index:9"><i class="must">*</i><label for="">
                       <app-select class="idCard" :opotionList='idCardArr' @opotion='idClick'></app-select>
                     </label>
                         <input type="text" v-model="addUser.uCardNum" placeholder=""/>
                         <!-- <app-sex @radioClick='idClick' :radioArr="idCardArr" :defaultHover='addUser.cCardType'></app-sex> -->
                         <!-- <i class="icon arrow"></i> -->
                     </li>
+                    <li><i class="must">*</i>
+                        <label for="">婚姻状况:</label>
+                        <label for="" style="width:85%">
+                           <app-select  class="nation hun"  :opotionList='marriageArr' :id="1" @opotion='marriageClick'></app-select>
+                        </label>
+                    </li>
+
                     <li><i class="must">*</i><label for="">地址:</label><input type="text" v-model="addUser.contactAddress" placeholder="联系地址"></li>
                     <li><i class="must">*</i><label for="">联系方式:</label><input type="text" v-model="addUser.mobileTel" placeholder="联系方式"/></li>
                 </ul>
@@ -79,7 +82,8 @@
 <script>
 //报存提示
 import NewTipsVue from "./NewTips.vue";
-
+//导入婚姻
+import { marriage } from "../../static/dict/marriage.js";
 export default {
   data() {
     return {
@@ -95,12 +99,14 @@ export default {
         sex: 0, //"性别 0：男，1：女",
         fixedTel: " ",
         mobileTel: "",
-        contactAddress: ""
+        contactAddress: "",
+        marriage: 1
       },
       error: false,
       birth: "",
       startDate: new Date("1900-01-01"),
       endDate: new Date(),
+      marriageArr: marriage,
       idCardArr: [
         {
           id: "101",
@@ -117,7 +123,7 @@ export default {
   mounted() {
     this.addUser.userCode = this.$cache.getUser().userCode;
     //加载民族文件
-
+    // this.marriageArr = marriage;
     // this.$http.get("static/dict/nation.json").then(res => {
     this.nationArr = this.$cache.get(this.$cacheEnum.nation);
     setTimeout(() => {
@@ -140,6 +146,17 @@ export default {
       console.log(res);
       this.addUser.cName = res.Name.value;
       this.addUser.sex = res.Sex.value == "男" ? 0 : 1;
+      //民族
+      const folk = res.Folk.value;
+      let folkModel = this.nationArr.find(p => p.name.indexOf(folk) > -1);
+      if (folkModel) {
+        this.addUser.nation = folkModel.id;
+      } else {
+        folkModel = this.nationArr.find(p => p.name.indexOf("汉") > -1);
+        this.addUser.nation = folkModel.id;
+      }
+      $vm.$emit("selectChange", folkModel.id);
+      // this.addUser.nation = res.Folk.value;
       $vm.$emit("sexChange", this.addUser.sex);
       this.addUser.nation = res.Folk.value;
       let b = res.Birt.value.replace("年", "-");
@@ -214,6 +231,9 @@ export default {
     },
     nationClick(item) {
       this.addUser.nation = item.id;
+    },
+    marriageClick(item) {
+      this.addUser.marriage = item.id;
     }
   }
 };
@@ -407,6 +427,7 @@ i.icon {
   font-size: 36px;
   border: none;
 }
+
 .nation {
   width: 100% !important;
   float: left;

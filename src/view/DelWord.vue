@@ -50,8 +50,12 @@ export default {
     allSelect() {
       this.all = !this.all;
       this.baseList.forEach(item => {
-        console.log(item);
         item.hover = this.all;
+        if (this.all) {
+          this.count++;
+        } else {
+          this.count--;
+        }
       });
     },
     activeHover(item) {

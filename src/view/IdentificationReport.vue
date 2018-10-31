@@ -9,10 +9,10 @@
                     <li><label for="">姓名</label><span>{{card.cName}}</span></li>
                     <li><label for="">性别</label><span>{{card.sex | sex}}</span></li>
                     <li><label for="">出生年月</label><span>{{card.birth}}</span></li>
-                    <li><label for="">测评日期</label><span>{{report.testDate | timeStamp('yyyy-MM-dd')}}</span></li>
+                    <li><label for="">测评日期</label><span>{{report.testDate}}</span></li>
                     <li><label for="">季节</label><span></span></li>
                     <li><label for="">节气</label><span></span></li>
-                    <li><label for="">农历日期</label><span></span></li>
+                    <li><label for="">农历日期</label><span>{{"2018-10-31" | lunarDate}}</span></li>
                 </ul>
                 <div class="bor-b">
                     <h3><i></i>体质类型</h3>
@@ -229,6 +229,22 @@ export default {
       report.blockContent = this.ue1.getContent();
       report.ysjyContent = this.ue2.getContent();
       report.promptContent = this.ue3.getContent();
+      if (!report.jieqiContent) {
+        this.$toast("请您填写节气养生");
+        return;
+      }
+      if (!report.blockContent) {
+        this.$toast("请您填写调养方案");
+        return;
+      }
+      if (!report.ysjyContent) {
+        this.$toast("请您填写医师建议");
+        return;
+      }
+      if (!report.promptContent) {
+        this.$toast("请您填写温馨提示");
+        return;
+      }
       window["updateinventoryinfo"] = this.updateSaveSuccess;
       this.$native.run("updateinventoryinfo", report, "updateinventoryinfo");
       console.log(this.ue.getContent());
@@ -330,8 +346,8 @@ export default {
             show: false //不显示刻度线
           },
           axisLabel: {
-            interval:0,
-            rotate:40,
+            interval: 0,
+            rotate: 40,
             textStyle: {
               color: "#878787" //坐标值的具体的颜色
             }
@@ -340,13 +356,13 @@ export default {
             show: false //去掉分割线
           },
           data: [
-            "和平质",
+            "平和质",
             "气虚质",
             "阳虚质",
             "阴虚质",
             "痰湿质",
             "湿热质",
-            "血痰质",
+            "血瘀质",
             "气郁质",
             "特禀质"
           ]
