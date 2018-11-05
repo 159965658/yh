@@ -50,6 +50,7 @@ export default {
     },
     success() {
       // alert("success Verification");
+      this.$native.loadHide();
       this.$router.push("/createuser");
     }
   }

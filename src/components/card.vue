@@ -10,6 +10,7 @@
         <ol class="btns clearfix">
             <li v-if="item.isUpload">已上传</li>
             <li v-if="item.isExport">已导出</li>
+            <!-- <li v-if="item.isExport">已导出</li> -->
         </ol>
     </div>
     <!-- <router-link to="/identification" tag="button">开始辨识</router-link> -->

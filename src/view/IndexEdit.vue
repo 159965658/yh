@@ -12,13 +12,14 @@
             </ol>
         </div>
         <div class="card_area">
-            <ul class="card clearfix">
+            <ul class="card clearfix" v-if="cardList.length">
                 <!--默认卡片样式-->
-                <card  v-for="(item,index) in cardList" @selectedClick= 'childSelect' :edit='true' :key="index" :item="item" :selected='item.seletedCard'>
-                    
+                <card v-for="(item,index) in cardList" @selectedClick='childSelect' :edit='true' :key="index" :item="item" :selected='item.seletedCard'>
+
                 </card>
-                
+
             </ul>
+            <data-null v-else></data-null>
         </div>
     </div>
 </div>
@@ -27,11 +28,13 @@
 <script>
 import card from "@/components/card";
 import FullTipsVue from "../components/FullTips.vue";
+import dataNull from "../components/DataNull.vue";
 
 import { Indicator } from "mint-ui";
 export default {
   components: {
-    card
+    card,
+    dataNull
   },
   data() {
     return {
@@ -59,10 +62,12 @@ export default {
     },
     changeSetList(list = [], selected = false) {
       if (list.length == 0) list = this.cardList;
+      this.selectedCount = 0;
       list.forEach(element => {
         console.log(element);
+        if (selected) this.selectedCount++;
         element.seletedCard = selected;
-        this.setCount(element.seletedCard);
+        // this.setCount(selected);
       });
       return list;
     },
@@ -70,13 +75,12 @@ export default {
       this.setCount(item.seletedCard);
     },
     setCount(is = false) {
+      console.log(is);
       if (is) {
         //选中数量
         this.selectedCount = this.selectedCount + 1;
       } else {
-        this.selectedCount = this.selectedCount
-          ? this.selectedCount - 1
-          : this.selectedCount;
+        if (this.selectedCount > 0) this.selectedCount--;
       }
       //选中全选
       if (this.cardList.length && this.selectedCount >= this.cardList.length)
@@ -197,7 +201,12 @@ export default {
         this.cardList.forEach(item => {
           if (item.seletedCard) {
             // item.isDelete = 1;
-            this.$native.run("exportcustomer", item, "exportcustomer", "errorUp");
+            this.$native.run(
+              "exportcustomer",
+              item,
+              "exportcustomer",
+              "errorUp"
+            );
           }
         });
       } catch (error) {
@@ -216,7 +225,7 @@ export default {
 
 <style lang="less" scoped>
 .center-content {
-  width: 1740px;
+  width: 2640px;
   margin: 0 auto;
 }
 

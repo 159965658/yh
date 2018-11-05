@@ -25,6 +25,11 @@ export default {
     };
   },
   props: ["opotionList", "id"],
+  watch: {
+    id() {
+      this.msg = this.opotionList.find(p => p.id == this.id).name;
+    }
+  },
   methods: {
     updateMySelect() {
       this.selectBool = !this.selectBool;
@@ -35,6 +40,7 @@ export default {
       this.$emit("opotion", index);
     },
     chageEmit(id) {
+      console.log(id);
       let model = this.opotionList.find(p => p.id == id);
       if (!model) return;
       console.log(model);

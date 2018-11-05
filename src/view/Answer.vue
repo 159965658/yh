@@ -153,6 +153,7 @@ export default {
   methods: {
     selAnswer(item, i, e) {
       this.answerHover = i + 1;
+      this.next();
     },
     hisAnswer(prev = false) {
       let i = this.index;
@@ -313,7 +314,8 @@ export default {
   padding-bottom: 110px;
 
   h2 {
-    text-align: center;
+    // text-align: center;
+    margin-left: 40px;
     font-size: 48px;
     color: #282828;
     padding-top: 115px;
@@ -329,6 +331,7 @@ export default {
       border-radius: 100px;
       border: 1px solid #dcdcdc;
       margin: 0 auto;
+      margin-left: 80px;
       padding: 30px 45px;
       color: #656565;
       font-size: 40px;

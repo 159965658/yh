@@ -19,18 +19,37 @@ export default {
       // }
     };
     ra();
-    //初始化
-    // if (!this.$cache.get(this.$cacheEnum["nation"]))
-    //   this.$http.get("../static/dict/nation.json").then(res => {
-    //     // this.nationArr = res.body;
-    //     this.$cache.set("nationCache", res.body);
-    //     //  console.log("json数据为:", res.body); //此处的res对象包含了json的文件信息和数据，我们需要的json数据存在于body属性中
-    //   });
-    // console.log(this.$native);
-    // this.$native.run();
-    // window["testFun"] = this.testFun;
+    //是不是首次激活
+    if (identity != "pc") this.getDeviceInfo();
   },
-  methods: {}
+  methods: {
+    getDeviceInfo(active = true) {
+      const device = this.$cache.get(this.$cacheEnum["device"]);
+      if (device) {
+        if (active) this.infoSuccess(JSON.stringify(device));
+        return;
+      }
+      window["infoSuccess"] = this.infoSuccess;
+      this.$native.run("getDeviceInfo", {}, "infoSuccess");
+    },
+    infoSuccess(data) {
+      data = JSON.parse(data);
+      console.log(data);
+      //   if (this.fun) {
+      if (!data.activeCode && !data.enterpriseIdentification) {
+        //首次激活 进入激活页面
+        this.$router.push("/activation");
+        return;
+      }
+      //不是首次激活 进入 切换用户
+      // if()
+      this.$router.push("/switch");
+      //  this.fun = false;
+      //  } else {
+      this.$cache.set(this.$cacheEnum["device"], data);
+      // }
+    }
+  }
 };
 </script>
 
@@ -42,6 +61,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+
+  background: #fff;
+
   /* margin-top: 60px; */
 }
 </style>

@@ -29,7 +29,9 @@ export default {
       title: "创建新用户",
       text: "创建新账户时需要验证当前设备激活码，是否继续下一步？",
       subText: "继续",
-      canText: "取消"
+      canText: "取消",
+      submitEmit: "submit"
+      // callBack: this.close
     };
   },
   methods: {
@@ -44,7 +46,8 @@ export default {
       if (this.type == 1 && this.title == "创建新用户")
         $vm.$router.push("/verification");
       else {
-        $vm.$emit("submit");
+        $vm.$emit(this.submitEmit);
+        // this.callBack();
       }
     }
   }

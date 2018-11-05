@@ -1,7 +1,10 @@
 
 
 const cache = {}
-const cacheEnum = { "nation": "nationCache", 'user': "userSession", 'list': 'userList', 'cardModel': 'cardModel', device: "deviceInfo", report: 'report', base: "baseModel" };
+const cacheEnum = {
+    "nation": "nationCache", 'user': "userSession", 'list': 'userList', 'cardModel': 'cardModel', device: "deviceInfo", report: 'report',
+    base: "baseModel", baseEdit: "baseEditCache"
+};
 const nation = [
     {
         "id": "10",
@@ -230,35 +233,35 @@ const nation = [
 ];
 
 
-    (function () {
+(function () {
 
-        cache.get = (key) => {
-            const c = window.sessionStorage.getItem(key);
-            if (c) {
-                return JSON.parse(c);
-            }
-            return null;
+    cache.get = (key) => {
+        const c = window.sessionStorage.getItem(key);
+        if (c) {
+            return JSON.parse(c);
         }
-        cache.set = (key, object) => {
-            window.sessionStorage.setItem(key, JSON.stringify(object));
-        }
-        cache.remove = (key) => {
-            window.sessionStorage.removeItem(key);
-        }
-        cache.getUser = () => {
-            return cache.get(cacheEnum['user']);
-        }
-        cache.setUser = (obj) => {
-            cache.set(cacheEnum['user'], obj)
-        }
-        cache.getBase = () => {
-            return cache.get(cacheEnum['base']);
-        }
-        cache.setBase = (obj) => {
-            cache.set(cacheEnum['base'], obj)
-        }
+        return null;
+    }
+    cache.set = (key, object) => {
+        window.sessionStorage.setItem(key, JSON.stringify(object));
+    }
+    cache.remove = (key) => {
+        window.sessionStorage.removeItem(key);
+    }
+    cache.getUser = () => {
+        return cache.get(cacheEnum['user']);
+    }
+    cache.setUser = (obj) => {
+        cache.set(cacheEnum['user'], obj)
+    }
+    cache.getBase = () => {
+        return cache.get(cacheEnum['base']);
+    }
+    cache.setBase = (obj) => {
+        cache.set(cacheEnum['base'], obj)
+    }
 
-    }())
+}())
 if (!cache.get(cacheEnum["nation"])) {
     cache.set(cacheEnum.nation, nation);
 }

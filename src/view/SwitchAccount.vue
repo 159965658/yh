@@ -37,6 +37,9 @@ export default {
     setUser(data) {
       let res = JSON.parse(data);
       this.user = res.userInfoList;
+      if (this.user.length == 0) {
+        this.$router.push("/login");
+      }
     },
     login(item) {
       this.$router.push("/login?name=" + item.loginName);

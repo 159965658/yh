@@ -267,12 +267,12 @@ button {
 //单选 图标
 .icon.radio {
     width: 30px;
-    height: 30px; 
+    height: 30px;
     background: url(../assets/111.png) no-repeat;
     background-size: 100%;
 }
 
-.icon.radio.active { 
+.icon.radio.active {
     background: url(../assets/222.png) no-repeat;
     background-size: 100%;
 }
@@ -698,50 +698,47 @@ button {
         }
         li.index {
             i {
-                background: url(../assets/left-nav-index.png);
-                background-size: 60px 60px;
+                background-image: url(../assets/left-nav-index.png);
+                background-size: 57px 68px;
                 background-repeat: no-repeat;
                 background-position: 4px 0;
             }
         }
         li.index.active {
             i {
-                background: url(../assets/left-nav-index-active.png);
-                background-size: 57px 68px;
-                background-repeat: no-repeat;
-                background-position: 5px 0;
+                background-image: url(../assets/left-nav-index-active.png); // background-size: 68px 57px;
+                // background-repeat: no-repeat;
+                // background-position: 4px 0;
             }
         }
         li.zhishiku {
             i {
-                background: url(../assets/left-nav-zhishiku.png);
-                background-size: 68px 57px;
+                background-image: url(../assets/left-nav-zhishiku.png);
+                background-size: 57px 68px;
                 background-repeat: no-repeat;
                 background-position: 0px 0;
             }
         }
         li.zhishiku.active {
             i {
-                background: url(../assets/left-nav-zhishiku-active.png);
-                background-size: 68px 57px;
-                background-repeat: no-repeat;
-                background-position: 0px 0;
+                background-image: url(../assets/left-nav-zhishiku-active.png); // background-size: 68px 57px;
+                // background-repeat: no-repeat;
+                // background-position: 0px 0;
             }
         }
         li.wode {
             i {
-                background: url(../assets/left-nav-wode.png);
-                background-size: 68px 68px;
+                background-image: url(../assets/left-nav-wode.png);
+                background-size: 57px 68px;
                 background-repeat: no-repeat;
                 background-position: 0px 0;
             }
         }
         li.wode.active {
             i {
-                background: url(../assets/left-nav-wode-active.png);
-                background-size: 57px 68px;
-                background-repeat: no-repeat;
-                background-position: 5px 0;
+                background-image: url(../assets/left-nav-wode-active.png); // background-size: 57px 68px;
+                // background-repeat: no-repeat;
+                // background-position: 5px 0;
             }
         }
     }
@@ -750,11 +747,10 @@ button {
         height: 152px;
         background: url(../assets/index-logo.png);
         background-size: 100%;
-        margin: 0 auto;
-        position: absolute;
-        bottom: 35px;
-        left: 50%;
-        margin-left: -61px;
+        margin: 0 auto; // position: absolute;
+        // bottom: 35px;
+        // left: 50%;
+        // margin-left: -61px;
     }
 }
 
@@ -769,8 +765,7 @@ button {
     height: 100%;
     >.dialog-body {
         width: 860px;
-        text-align: center;
-        // height: 458px;
+        text-align: center; // height: 458px;
         background-color: #fff;
         border-radius: 10px;
         color: #282828;
@@ -779,7 +774,7 @@ button {
         >.dialog-btn {
             height: 84px;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-evenly;
             >button {
                 width: 380px;
             }
@@ -862,7 +857,6 @@ button {
 
 .must {
     color: red;
-   
 }
 
 .top-nav-search {

@@ -174,7 +174,8 @@ export default {
       report: {},
       query: {},
       title: "体质辨识报告",
-      type: 1
+      type: 1,
+      baseList: []
     };
   },
   mounted() {
@@ -195,16 +196,27 @@ export default {
     if (this.query.type == 1) {
       this.title = "编辑体质辨识报告";
     }
+    this.getKnowledge(2);
   },
   methods: {
-    getKnowledge() {
-      window["getknowledge"] = this.getKnowledgeSuccess;
+    getKnowledge(funType = 1) {
+      if (funType == 1) window["getknowledge"] = this.getKnowledgeSuccess;
+      else if (funType == 2) window["getknowledge"] = this.getKnowledgeCache;
+      window["getError"] = this.getError;
       const user = this.$cache.getUser();
       this.$native.run(
         "getknowledge",
         { userCode: user.userCode },
-        "getknowledge"
+        "getknowledge",
+        "getError"
       );
+    },
+    getError(data){
+      
+    },
+    getKnowledgeCache(data) {
+      const res = JSON.parse(data).knowledgeList;
+      this.baseList = res;
     },
     getKnowledgeSuccess(data) {
       try {
@@ -245,15 +257,54 @@ export default {
         this.$toast("请您填写温馨提示");
         return;
       }
+      //没有词条新增
+      for (let i = 0; i < 4; i++) {
+        switch (i) {
+          case 0:
+            this.newBase(report.blockContent, 1); //调养方案
+            break;
+          case 1:
+            this.newBase(report.jieqiContent, 2); //节气养生
+            break;
+          case 2:
+            this.newBase(report.ysjyContent, 3); //医师建议
+            break;
+          case 3:
+            this.newBase(report.promptContent, 4); //温馨提示
+            break;
+        }
+      }
+      // this.newBase(report.jieqiContent, 2); //节气养生
+      // this.newBase(report.blockContent, 1); //调养方案
+      // this.newBase(report.ysjyContent, 3); //医师建议
+      // this.newBase(report.promptContent, 4); //温馨提示
       window["updateinventoryinfo"] = this.updateSaveSuccess;
       this.$native.run("updateinventoryinfo", report, "updateinventoryinfo");
-      console.log(this.ue.getContent());
     },
+    newBase(content, type) {
+      const user = this.$cache.getUser();
+      const baseList = this.baseList;
+      let addBase = {
+        userCode: user.userCode, //创建用户编号
+        type: type, // 条目类型 1：调理方案，2：节气养生，3：医师建议，4：温馨提示
+        content: "", // 条目内容的html字串
+        isShared: 0 //是否共享 0：不共享，1：共享
+      };
+      const model = baseList.find(p => p.content == content && p.type == type);
+      // alert(JSON.stringify(model));
+      if (!model) {
+        addBase.content = content;
+        window["addknowledge"] = this.addKnowledge;
+        this.$native.run("addknowledge", addBase, "addknowledge");
+      }
+    },
+    addKnowledge() {},
     updateSaveSuccess() {
       this.$cache.remove("word1");
       this.$cache.remove("word2");
       this.$cache.remove("word3");
       this.$cache.remove("word4");
+      this.$toast("体质报告创建成功");
       this.$router.push("/index");
     },
     ueInit() {
@@ -263,19 +314,23 @@ export default {
       UE.delEditor("editor3");
       this.ue = UE.getEditor("editor", {
         BaseUrl: "",
-        UEDITOR_HOME_URL: "static/js/UE/"
+        UEDITOR_HOME_URL: "static/js/UE/",
+        initialFrameHeight: 300 //设置富文本的高度为300px
       });
       this.ue1 = UE.getEditor("editor1", {
         BaseUrl: "",
-        UEDITOR_HOME_URL: "static/js/UE/"
+        UEDITOR_HOME_URL: "static/js/UE/",
+        initialFrameHeight: 300 //设置富文本的高度为300px
       });
       this.ue2 = UE.getEditor("editor2", {
         BaseUrl: "",
-        UEDITOR_HOME_URL: "static/js/UE/"
+        UEDITOR_HOME_URL: "static/js/UE/",
+        initialFrameHeight: 300 //设置富文本的高度为300px
       });
       this.ue3 = UE.getEditor("editor3", {
         BaseUrl: "",
-        UEDITOR_HOME_URL: "static/js/UE/"
+        UEDITOR_HOME_URL: "static/js/UE/",
+        initialFrameHeight: 300 //设置富文本的高度为300px
       });
       let th = this;
       setTimeout(() => {

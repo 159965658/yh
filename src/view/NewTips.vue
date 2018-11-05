@@ -4,12 +4,12 @@
         <slot name="body">
             <p>提示</p>
             <p class="dialog-c">
-                请选择您要执行的操作
+                {{text}}
             </p>
         </slot>
-        <div class="dialog-btn" style="">
-            <button class="btn-default btn-next" @click="close">首页</button>
-            <button class="btn-default btn-next" @click="nextHref">进入体质识别报告</button>
+        <div class="dialog-btn" :class="{cen:type == 0}">
+            <button class="btn-default btn-next" v-if="type == 1" @click="close">{{ltitle}}</button>
+            <button class="btn-default btn-next"  @click="nextHref">{{stitle}}</button>
         </div>
     </div>
 </div>
@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  props: ["text", "ltitle", "type", "stitle"],
   methods: {
     close() {
       this.$closeFull();
@@ -34,5 +35,11 @@ export default {
 <style lang='less' scoped>
 .dialog-btn {
   padding-top: 80px;
+  > button {
+    margin-left: 20px;
+  }
+}
+.cen {
+  justify-content: center !important;
 }
 </style>

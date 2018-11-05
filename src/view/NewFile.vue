@@ -45,7 +45,7 @@
                         <!-- <app-sex @radioClick='idClick' :radioArr="idCardArr" :defaultHover='addUser.cCardType'></app-sex> -->
                         <!-- <i class="icon arrow"></i> -->
                     </li>
-                    <li><i class="must">*</i>
+                    <li style="z-index:9"><i class="must">*</i>
                         <label for="">婚姻状况:</label>
                         <label for="" style="width:85%">
                            <app-select  class="nation hun"  :opotionList='marriageArr' :id="1" @opotion='marriageClick'></app-select>
@@ -53,7 +53,17 @@
                     </li>
 
                     <li><i class="must">*</i><label for="">地址:</label><input type="text" v-model="addUser.contactAddress" placeholder="联系地址"></li>
-                    <li><i class="must">*</i><label for="">联系方式:</label><input type="text" v-model="addUser.mobileTel" placeholder="联系方式"/></li>
+                    <li style="z-index:8"><i class="must">*</i><label for="">居住地:</label>
+                        <label for="">
+                          <app-select  class="nation hun"  :opotionList='province' :id="0" @opotion='provinceClick'></app-select> 
+                      </label>
+                        <label for="" class="city"> 
+                         
+                        <app-select  class="nation hun"  :opotionList='cityC' :id='cityId' @opotion='cityClick'></app-select> 
+                      </label>
+                    </li>
+
+                    <li><i class="must">*</i><label for="">联系方式:</label><input type="number" v-model="addUser.mobileTel" placeholder="联系方式"/></li>
                 </ul>
                 <div class="button-submit">
                     <button href="javascript:void(0)" class="button submit btn-save" @click="save">保存</button>
@@ -84,6 +94,11 @@
 import NewTipsVue from "./NewTips.vue";
 //导入婚姻
 import { marriage } from "../../static/dict/marriage.js";
+//导入省
+import { province } from "../../static/dict/province.js";
+
+//导入市
+import { city } from "../../static/dict/city.js";
 export default {
   data() {
     return {
@@ -95,13 +110,19 @@ export default {
         uCardNum: "",
         cName: "",
         birth: "",
-        nation: "",
+        nation: 10,
         sex: 0, //"性别 0：男，1：女",
         fixedTel: " ",
         mobileTel: "",
         contactAddress: "",
-        marriage: 1
+        marriage: 1,
+        custOrgProvince: 0,
+        custOrgCity: 0
       },
+      province: province,
+      city: city,
+      cityC: [{ name: "请选择", id: 0 }],
+      cityId: 0,
       error: false,
       birth: "",
       startDate: new Date("1900-01-01"),
@@ -177,10 +198,10 @@ export default {
         this.$toast("请填写姓名");
         return;
       }
-      if (!user.nation) {
-        this.$toast("请填写民族");
-        return;
-      }
+      // if (user.nation) {
+      //   this.$toast("请填写民族");
+      //   return;
+      // }
       if (!user.birth) {
         this.$toast("请填写出生日期");
         return;
@@ -196,7 +217,14 @@ export default {
         this.$toast("请填写地址");
         return;
       }
-
+      if (user.custOrgProvince == 0) {
+        this.$toast("请您选择省");
+        return;
+      }
+      if (user.custOrgCity == 0) {
+        this.$toast("请您选择城市");
+        return;
+      }
       var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
       if (!user.mobileTel || !myreg.test(user.mobileTel)) {
         this.$toast("请填写正确联系方式");
@@ -204,15 +232,41 @@ export default {
       }
       try {
         window["addcustomerSucess"] = this.addcustomer;
-        this.$native.run("addcustomer", user, "addcustomerSucess");
+        window["addcustomerError"] = this.addcustomerError;
+        this.$native.run(
+          "addcustomer",
+          user,
+          "addcustomerSucess",
+          "addcustomerError"
+        );
       } catch (error) {
         alert(error);
       }
     },
-    addcustomer(data) {
+    addcustomerError(data) {
+      // document.write(data);
+      try {
+        const res = JSON.parse(data);
+        //this.addcustomer(data, "该档案已存在，是否直接进入辨识报告？");
+        this.$cache.set(this.$cacheEnum["cardModel"], res);
+        this.$toastFull(NewTipsVue, true, {
+          text: "该档案已存在，是否直接进入辨识报告？",
+          ltitle: "首页",
+          stitle: "进入体质识别报告",
+          type: 1
+        });
+      } catch (error) {
+        this.$toast(data);
+      }
+    },
+    addcustomer(data, text = "请选择你要执行的操作") {
       // alert(data);
       this.$cache.set(this.$cacheEnum["cardModel"], JSON.parse(data));
-      this.$toastFull(NewTipsVue);
+      this.$toastFull(NewTipsVue, true, {
+        text: text,
+        stitle: "保存并进入辨识",
+        type: 0
+      });
     },
     datepickerOpenedFunction() {
       console.log("open");
@@ -234,12 +288,26 @@ export default {
     },
     marriageClick(item) {
       this.addUser.marriage = item.id;
+    },
+    provinceClick(item) {
+      let city = [];
+      this.cityC = city.concat(this.city.filter(p => p.pCode == item.id));
+      this.cityId = this.cityC[0].id;
+      this.addUser.city = this.cityId;
+      this.addUser.province = item.id;
+    },
+    cityClick(item) {
+      this.addUser.city = item.id;
     }
   }
 };
 </script>
 
 <style lang="less" scoped>
+.city {
+  width: 400px !important;
+  padding-left: 100px;
+}
 .center-content {
   box-shadow: -1px 1px 30px #cacaca;
   width: 1370px;
@@ -433,6 +501,7 @@ i.icon {
   float: left;
   margin-top: 25px;
 }
+
 .newc {
   width: 90%;
 

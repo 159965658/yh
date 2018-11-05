@@ -1,45 +1,42 @@
 <template>
-	<div>
-    	  <app-header :ctitle='"创建账号"'></app-header>
-	    <div class="blue-bg">
-	    		<h3>设备激活成功 ！您可以创建一个属于自已的帐户</h3>
-	        	<div class="inputs clearfix">
-	        		<ul>
-	        			<li>
-	        				<label>账号：</label>
-	        				<input type="text" placeholder="手机号或者姓名全拼" v-model="addUser.loginName">
-	        			</li>
-	        			<li>
-	        				<label>设置密码：</label>
-	        				<input type="password" placeholder="请输入6-20位字符" v-model="addUser.password">
-	        				<i class="icon icon-zhengyan"></i>
-	        			</li>
-	        			<li>
-	        				<label>确认密码：</label>
-	        				<input type="password" placeholder="请输入6-20位字符" v-model="addUser.spassword">
-	        				<i class="icon icon-biyan"></i>
-	        			</li>
-	        			<li>
-	        				<label>机构编码：</label>
-	        				<input type="text" placeholder="机构编码" v-model="addUser.institutionCode">
-	        			</li>
-	        			<li>
-	        				<label>机构名称：</label>
-	        				<input type="text" placeholder="机构名称" v-model="addUser.institutionName">
-	        			</li>
-	        			<li>
-	        				<label>网络版用户名：</label>
-	        				<input type="text" placeholder="网络版用户名" v-model="addUser.webNickName">
-	        			</li>
-	        		</ul>
-	    			<div class="button-submit"> 
-	    				<button   class="button submit" @click="addUserSubmit">完 成</button>
-	    			</div>
-	        		
-	        	</div>
+<div>
+    <app-header :ctitle='"创建账号"'></app-header>
+    <div class="blue-bg">
+        <h3>设备激活成功 ！您可以创建一个属于自已的帐户</h3>
+        <div class="inputs clearfix">
+            <ul>
+                <li>
+                    <label>账号：</label>
+                    <input type="text" placeholder="手机号或者姓名全拼" v-model="addUser.loginName">		        		</li>
+                <li>
+                    <label>设置密码：</label>
+                    <input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="addUser.password">
+                    <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
+                </li>
+                <li>
+                    <label>确认密码：</label>
+                    <input :type="flag1 ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="addUser.spassword">
+                  <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
+                </li>
+                <li>
+                    <label>机构编码：</label>
+                    <input type="text" placeholder="机构编码" v-model="addUser.institutionCode">		        		</li>
+                <li>
+                    <label>机构名称：</label>
+                    <input type="text" placeholder="机构名称" v-model="addUser.institutionName">		        		</li>
+                <li>
+                    <label>网络版用户名：</label>
+                    <input type="text" placeholder="网络版用户名" v-model="addUser.webNickName">		        		</li>
+            </ul>
+            <div class="button-submit">
+                <button   class="button submit" @click="addUserSubmit">完 成</button>
+            </div>
+
         </div>
     </div>
+</div>
 </template>
+
 <script>
 export default {
   data() {
@@ -54,7 +51,9 @@ export default {
         institutionName: "",
         webNickName: "",
         crowdFlag: "0"
-      }
+      },
+      flag1: true,
+      flag: true
     };
   },
   methods: {
@@ -79,14 +78,17 @@ export default {
     success() {
       // alert()
       this.$router.push("/login");
+      this.$toast("创建账号成功");
     }
   }
 };
 </script>
+
 <style lang="less" scoped>
 .blue-bg {
   // height: 1279px;
   padding-bottom: 60px;
+
   h3 {
     font-size: 36px;
     color: #ffffff;
@@ -95,13 +97,16 @@ export default {
     padding-bottom: 76px;
   }
 }
+
 .inputs {
   // height: 1020px;
   padding-bottom: 60px;
 }
+
 .inputs ul li {
   margin-bottom: 44px;
 }
+
 .button-submit {
   margin-top: 96px;
 }

@@ -13,9 +13,10 @@
                             <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
                             <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li>
                             <li><label for="">出生：</label><span>{{cardModel.birth}}</span></li>
-                              <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
+                            <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
                             <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
+                             <li><label for="">居住地：</label><span>{{cardModel.province}}   {{cardModel.city}}   </span></li>
                         </ul>
                         <ul v-if="edit">
                             <li><i class="must">*</i><label for="">姓名：</label>
@@ -24,25 +25,32 @@
                                 <app-sex :defaultHover='cardModelCopy.sex' @radioClick='sexClick'></app-sex>
                             </li>
                             <li style="position:relative;z-index:10">
-                              <i class="must">*</i><label for="">民族：</label>
-                                <app-select  class="nation"  :opotionList='nationArr' :id="cardModelCopy.nation" @opotion='nationClick'></app-select>
-                              <!-- <input type="text" v-model="cardModelCopy.nation">  -->
+                                <i class="must">*</i><label for="">民族：</label>
+                                <app-select class="nation" :opotionList='nationArr' :id="cardModelCopy.nation" @opotion='nationClick'></app-select>
+                                <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
                             <li><i class="must">*</i><label for="">出生：</label>
                                 <span @click="openPicker">{{cardModelCopy.birth}}</span>
-                                <mt-datetime-picker @confirm="handleConfirm" :startDate='startDate' :endDate='endDate'  ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
+                                <mt-datetime-picker @confirm="handleConfirm" :startDate='startDate' :endDate='endDate' ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
                                 </mt-datetime-picker> <!-- @confirm="handleConfirm" -->
                             </li>
-                             <li style="position:relative;z-index:10">
-                              <i class="must">*</i><label for="">婚姻状况：</label>
-                                <app-select  class="nation"  :opotionList='marriageArr' :id="cardModelCopy.marriage" @opotion='marriageClick'></app-select>
-                              <!-- <input type="text" v-model="cardModelCopy.nation">  -->
+                            <li style="position:relative;z-index:9">
+                                <i class="must">*</i><label for="">婚姻状况：</label>
+                                <app-select class="nation" :opotionList='marriageArr' :id="cardModelCopy.marriage" @opotion='marriageClick'></app-select>
+                                <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
                             <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
                       <app-select class="idCard" style="" :opotionList='idCardArr' :id='cardModelCopy.cCardType' @opotion='idClick'></app-select>
                     </label>
-                     <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum"></li>
+                                <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum"></li>
                             <li><i class="must">*</i><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
+                            <li style="z-index:8"><i class="must">*</i><label for="">居住地:</label>
+
+                                <app-select class="nation hun" :opotionList='province' :id="cardModelCopy.province"></app-select>
+
+                                <app-select class="nation hun" :opotionList='city' :id='cardModelCopy.city'></app-select>
+
+                            </li>
                         </ul>
                     </div>
                     <div style="height: 25px;"></div>
@@ -53,11 +61,11 @@
                 <h2>修改记录</h2>
                 <div class="border">
                     <ol>
-                        <li v-for="(item,index) in histList" :key="index"> 
+                        <li v-for="(item,index) in histList" :key="index">
                             <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
                             <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
                             <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
-                            
+
                             <i class="icon radio active"></i>
                         </li>
                     </ol>
@@ -68,10 +76,10 @@
             <h3>体质辨识报告信息</h3>
             <div class="shadow">
                 <div class="hei50"></div>
-                <ul>
+                <ul v-if="report.length">
                     <li v-for="(item,i) in report" :key="i" @click='iden(item)'>
                         <b class="biaoti">体质辨识报告    {{user.webNickName}}</b>
-                        <b class="time">{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
+                        <b class="time">{{item.user}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}-{{item.mainPhysical}}</b>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
                         <i class="jiao"></i>
                     </li>
@@ -80,6 +88,7 @@
                         <b class="time">2018-05-02</b>
                     </li> -->
                 </ul>
+                <data-null v-else></data-null>
             </div>
         </div>
     </div>
@@ -90,7 +99,17 @@
 import { sex } from "@/filters/index.js";
 import { marriageFilter } from "@/filters/marriage.js";
 import { marriage } from "../../static/dict/marriage.js";
+import dataNull from "../components/DataNull";
+
+//导入省
+import { province } from "../../static/dict/province.js";
+
+//导入市
+import { city } from "../../static/dict/city.js";
 export default {
+  components: {
+    dataNull
+  },
   data() {
     return {
       cardModel: {},
@@ -115,11 +134,14 @@ export default {
         }
       ],
       nationArr: [],
-      modifyNation: ""
+      modifyNation: "",
+      province: province,
+      city: city
     };
   },
   mounted() {
     this.cardModel = this.$cache.get(this.$cacheEnum["cardModel"]);
+    // document.write(JSON.stringify(this.cardModel));
     this.nationArr = this.$cache.get(this.$cacheEnum["nation"]); //获取民族
     console.log(this.nationArr);
     this.user = this.$cache.getUser();
@@ -136,14 +158,15 @@ export default {
       // alert(this.cardModel.customerCode);
       this.$native.run(
         "getinventoryinfo",
-        { customerCode: this.cardModel.customerCode },
+        {
+          customerCode: this.cardModel.customerCode
+        },
         "getinventoryinfo"
       );
     },
     getInventorySuccess(data) {
       // document.write(data);
       const res = JSON.parse(data).customerInventoryInfoList;
-      console.log(res);
       this.report = res;
     },
     sexClick(item) {
@@ -284,7 +307,9 @@ export default {
       window["getHistory"] = this.getHistoryList;
       this.$native.run(
         "getcustomeredithistory",
-        { customerCode: code },
+        {
+          customerCode: code
+        },
         "getHistory"
       );
     },
@@ -314,6 +339,7 @@ export default {
   left: 100px;
   top: 40px;
 }
+
 .idCard {
   padding-top: 20px;
   position: absolute !important;

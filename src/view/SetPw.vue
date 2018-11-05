@@ -7,13 +7,13 @@
 	        		<ul>
 	        			<li>
 	        				<label>设置密码：</label>
-	        				<input type="password" placeholder="请输入6-20位字符" v-model="pwd">
-	        				<i class="icon icon-zhengyan"></i>
+	        				<input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="pwd">
+	        				<i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
 	        			</li>
 	        			<li class="m-t-60">
 	        				<label>确认密码：</label>
-	        				<input type="password" placeholder="请输入6-20位字符" v-model="sPwd">
-	        				<i class="icon icon-biyan"></i>
+	        				<input :type="flag1 ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="sPwd">
+	        					<i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
@@ -30,7 +30,9 @@ export default {
     return {
       pwd: "",
       sPwd: "",
-      user: {}
+      user: {},
+      flag: true,
+      flag1: true
     };
   },
   mounted() {

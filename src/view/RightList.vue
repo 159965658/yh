@@ -17,7 +17,7 @@
             <i class="icon icon-indexedit" @click="indexEdit"></i>
         </div>
         <div class="card_area">
-            <ul class="card clearfix">
+            <ul class="card clearfix" v-if="count > 0">
 
                 <!--默认卡片样式-->
                 <card v-for="(item,index) in sList" :item='item' :key="index" :edit='false'>
@@ -25,6 +25,11 @@
                 </card>
 
             </ul>
+            <data-null v-else></data-null>
+            <!-- <div class="data-null" v-else>
+              <img src="../assets/indexnull2.png" alt="" srcset="">
+              <p>暂无数据</p>
+            </div> -->
         </div>
     </div>
     <div v-show="filterVis">
@@ -37,11 +42,11 @@
                     <li class="clearfix time" style="position:relative">
 
                         <label for="" >时间</label>
-                        <input type="text" @click="openPicker(1)" v-model="search.startText">
+                        <input type="text" @click="openPicker(1)" disalbed readonly v-model="search.startText">
                         <mt-datetime-picker ref="pickerFilter" v-model="defaultDate" :startDate='startDate1' :endDate='endDate1' type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" @confirm="handleConfirm">
                         </mt-datetime-picker>
                         <p></p>
-                        <input type="text" @click="openPicker(2)" v-model="search.endText"/>
+                        <input type="text" @click="openPicker(2)" disalbed readonly v-model="search.endText"/>
 
                 </li>
                     <li class="clearfix" style="position:relative">
@@ -71,11 +76,13 @@
 
 <script>
 //筛选
+import dataNull from "@/components/DataNull";
 import PopupFilter from "@/components/PopupFilter";
 import card from "@/components/card";
 export default {
   components: {
-    card
+    card,
+    dataNull
   },
   data() {
     return {
@@ -118,58 +125,67 @@ export default {
       nameList: []
     };
   },
-  computed: {
-    list() {
-      let newList = this.userList;
-      if (this.text) {
-        newList = newList.filter(
-          p => p.cName.indexOf(this.text) > -1 || p.uCardNum == this.text
-        );
-      }
-      if (this.startDate) {
-        newList = newList.filter(
-          p => p.createdOnUTC > this.startDate && p.createdOnUTC < this.endDate
-        );
-      }
-      // if (this.createUser) {
-      //   newList = newList.filter(p => p.creator == this.createUser);
-      // }
-      console.log(newList, this.userList);
-      this.count = newList.length;
-      return newList;
-    }
-  },
+  // computed: {
+  //   list() {
+  //     let newList = this.userList;
+  //     if (this.text) {
+  //       newList = newList.filter(
+  //         p => p.cName.indexOf(this.text) > -1 || p.uCardNum == this.text
+  //       );
+  //     }
+  //     if (this.startDate) {
+  //       newList = newList.filter(
+  //         p => p.createdOnUTC > this.startDate && p.createdOnUTC < this.endDate
+  //       );
+  //     }
+  //     // if (this.createUser) {
+  //     //   newList = newList.filter(p => p.creator == this.createUser);
+  //     // }
+  //     console.log(newList, this.userList);
+  //     this.count = newList.length;
+  //     return newList;
+  //   }
+  // },
   mounted() {
-    // setTimeout(() => {
-    //   $vm.$on("search", this.searchFilter);
-    // }, 1);
     //获取数据
     this.cacheUser = this.$cache.getUser();
     this.getCustomer();
-    this.count = this.sList.length;
-    // console.log(this);
+    setTimeout(() => {
+      $vm.$on("removeIndex", this.removePar);
+    }, 1);
   },
   methods: {
     getCustomer() {
       //获取用户信息
       window["getCustomerSuccess"] = this.getCustomerSuccess;
+      window["getCustomerError"] = this.getCustomerError;
       this.$native.run(
         "getcustomer",
         {
           userCode: this.cacheUser.userCode
         },
-        "getCustomerSuccess"
+        "getCustomerSuccess",
+        "getCustomerError"
       );
     },
+    getCustomerError() {},
     getCustomerSuccess(data) {
       // alert(data);
       let res = JSON.parse(data).customerInfoList;
       this.userList = res;
       this.sList = this.userList;
+      this.count = this.sList.length;
       console.log(this.userList);
     },
     filterShow() {
       this.$toastFull();
+      //绑定全局
+      let ts = this;
+      $(".popup_bg").one("click", function() {
+        ts.$closeFull();
+        ts.appBackCall();
+        return;
+      });
       this.filterVis = !this.filterVis;
       window["appBackCall"] = this.appBackCall;
     },
@@ -301,12 +317,17 @@ export default {
       this.search.orgName = "";
       this.search.startText = "";
       this.search.endText = "";
+    },
+    removePar() {
+      this.setPar();
+      this.searchList();
     }
   },
   beforeDestroy() {
     window["appBackCall"] = function() {
       return true;
     };
+    $vm.$off("removeIndex", this.removePar);
   }
 };
 </script>

@@ -3,7 +3,7 @@
     <app-header :ltitle='"后退"' :ctitle='"删除词条"'></app-header>
     <div class="center-content ">
         <div class="total clearfix">
-            <p>当前共有数据：<span>1</span></p>
+            <p>当前共有数据：<span>{{baseList.length}}</span></p>
             <ol class="to-btns clearfix">
                <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{count}}</span></li>
               
@@ -12,12 +12,13 @@
             </ol>
         </div>
         <div class="right-list">
-            <ul>
+            <ul v-if="baseList.length">
                 <li v-for="(item,i) in baseList" :key="i" @click="activeHover(item)">
                     <span v-html="item.content"></span>
                     <i class="radio-btn list-icon" :class="{active:item.hover}"></i>
                 </li>
             </ul>
+            <data-null v-else></data-null>
         </div>
     </div>
 </div>
@@ -26,7 +27,11 @@
 <script>
 import { Indicator } from "mint-ui";
 import FullTipsVue from "../components/FullTips.vue";
+import dataNull from "../components/DataNull";
 export default {
+  components: {
+    dataNull
+  },
   data() {
     return {
       baseList: [],
@@ -49,12 +54,11 @@ export default {
     },
     allSelect() {
       this.all = !this.all;
+      this.count = 0;
       this.baseList.forEach(item => {
         item.hover = this.all;
         if (this.all) {
           this.count++;
-        } else {
-          this.count--;
         }
       });
     },

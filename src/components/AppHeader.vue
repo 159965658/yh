@@ -32,7 +32,7 @@ export default {
     };
   },
   mounted() {
-    this.getDeviceInfo(false);
+    // this.getDeviceInfo(false);
   },
   methods: {
     rClick() {

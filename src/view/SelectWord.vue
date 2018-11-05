@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100%;">
-    <app-header :ltitle='"后退"' :ctitle='"选择词条"'></app-header>
+    <app-header :ltitle='"后退"' :ctitle='title'></app-header>
 
     <div class="select-content">
         <div class="scroll-y">
@@ -9,13 +9,14 @@
                     <input type="texe" placeholder="输入关键字" v-model="name">
                     <i class="sousuo" @click="search"></i>
                 </div>
-                <ul>
+                <ul v-if="list.length>0">
                     <li class="shadow" v-for="(item,i) in list" :key="i">
                         <i class="icon icon-add" @click="addWord(item)"></i>
                         <p v-html="item.content"></p>
                         <!-- <i class="icon arrow"></i> -->
                     </li>
                 </ul>
+                <data-null v-else></data-null>
             </div>
         </div>
         <div class="right">
@@ -34,21 +35,21 @@
 </template>
 
 <script>
+import dataNull from "@/components/DataNull";
 export default {
+  components: {
+    dataNull
+  },
   data() {
     return {
       opotionList: [
         {
-          id: -1,
-          name: "请选择"
+          id: 0,
+          name: "私有"
         },
         {
           id: 1,
-          name: "已共享"
-        },
-        {
-          id: 0,
-          name: "不共享"
+          name: "共享"
         }
       ],
       baseList: [],
@@ -56,17 +57,20 @@ export default {
         userCode: "", //创建用户编号
         type: 1, // 条目类型 1：调理方案，2：节气养生，3：医师建议，4：温馨提示
         content: "", // 条目内容的html字串
-        isShared: -1 //是否共享 0：不共享，1：共享
+        isShared: 0 //是否共享 0：不共享，1：共享
       },
       user: {},
       cache: false,
       name: "",
-      fname: ""
+      fname: "",
+      editModel: null,
+      title: "选择词条"
     };
   },
   mounted() {
     this.addBase.type = this.$route.query.type;
     this.cache = this.$route.query.cache;
+    this.editModel = this.$cache.get(this.$cacheEnum.baseEdit);
     setTimeout(() => {
       UE.delEditor("editor");
       UE.registerUI = function() {};
@@ -75,8 +79,14 @@ export default {
         BaseUrl: "",
         UEDITOR_HOME_URL: "static/js/UE/",
         // initialFrameWidth: 800, //设置富文本的宽度为600px
-        initialFrameHeight: 200 //设置富文本的高度为200px
+        initialFrameHeight: 200 //设置富文本的高度为300px
       });
+      if (this.editModel) {
+        this.title = "编辑词条";
+        setTimeout(() => {
+          this.ue.setContent(this.editModel.content);
+        }, 100);
+      }
     }, 1);
     this.baseList = this.$cache.getBase(); //获取知识库列表
     this.user = this.$cache.getUser(); //获取用户信息
@@ -92,7 +102,7 @@ export default {
   },
   methods: {
     addWord(item) {
-      this.ue.setContent(item.content);
+      this.ue.setContent(this.ue.getContent() + item.content);
     },
     save() {
       try {
@@ -106,6 +116,11 @@ export default {
           this.$toast("请选择共享状态");
           return;
         }
+        if (this.editModel) {
+          // alert("编辑词条");
+          this.editSave();
+          return;
+        }
         addBase.userCode = this.user.userCode;
 
         // alert(addBase.content);
@@ -114,6 +129,18 @@ export default {
       } catch (error) {
         alert(error);
       }
+    },
+    editSave() {
+      let item = this.editModel;
+      item.content = this.ue.getContent();
+      item.isShared = this.addBase.isShared;
+      window["updateknowledge"] = this.updateSuccess;
+      this.$native.run("updateknowledge", item, "updateknowledge");
+      this.$cache.remove(this.$cacheEnum.baseEdit);
+    },
+    updateSuccess() {
+      this.$toast("修改成功");
+      $appBack();
     },
     addKnowledge() {
       if (this.cache) {
@@ -131,6 +158,9 @@ export default {
       console.log(this.baseList);
       this.fname = this.name;
     }
+  },
+  beforeDestroy() {
+    this.$cache.remove(this.$cacheEnum.baseEdit);
   }
 };
 </script>
@@ -238,7 +268,7 @@ export default {
   }
 
   .right {
-    width: 800px;
+    width: 1000px;
     background: #fff;
     height: 100%;
     // textarea {

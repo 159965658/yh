@@ -12,10 +12,7 @@ const marriage = [{
 }, {
     id: 3,
     name: '丧偶'
-}, {
-    id: 4,
-    name: '其他'
-},]
+}]
 
 export {
     marriage

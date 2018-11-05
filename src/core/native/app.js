@@ -11,8 +11,10 @@ platform.iPod = ua.indexOf("iPod") > -1;
 platform.winPhone = ua.indexOf("IE") > -1;
 platform.PC = pf == 'MacIntel' || pf == 'Win32';
 console.log(ua, platform);
+window.identity = ''
 if (platform.PC || !platform.android) {
     native = pc;
+    identity = 'pc';
     // export { native }
 }
 
@@ -20,7 +22,8 @@ if (platform.PC || !platform.android) {
 (function (window) {
     window['$error'] = function (data) { //处理失败请求 
         $vm.$native.loadHide();
-        window.$vm.$toast(data);
+        if (data)
+            window.$vm.$toast(data);
         // document.write(data);
     }
     window['ra'] = function () {

@@ -37,11 +37,12 @@
 	    				</ul>
 	    			</div>
 	    			<div class="right-list">
-	    				<ul>
-	    					<li  v-for="(item,i) in list" :key="i">
+	    				<ul v-if="list.length">
+	    					<li  v-for="(item,i) in list" :key="i" @click="edit(item)">
                   <span v-html="item.content"></span><b v-if="item.isShared == 1">已共享</b></li>
 	    			
 	    				</ul>
+              <data-null v-else></data-null>
 	    			</div>
 	    		</div>
     		</div>
@@ -50,9 +51,11 @@
 
 <script>
 import Select from "../components/Select";
+import dataNull from "../components/DataNull";
 export default {
   components: {
-    Select
+    Select,
+    dataNull
   },
   data() {
     return {
@@ -69,6 +72,11 @@ export default {
       count: 0
     };
   },
+  // watch: {
+  //   $route(to, form) {
+
+  //   }
+  // },
   computed: {
     list() {
       // get() {
@@ -90,13 +98,24 @@ export default {
   },
   mounted() {
     this.getKnowledge();
+    this.search(this.$route.query.type || 1);
   },
   methods: {
+    edit(item) {
+      this.$cache.set(
+        this.$cacheEnum.baseEdit,
+        this.knowledgeList.find(p => p.content == item.content)
+      );
+      this.addClick(item.content);
+    },
     search(type) {
       this.type = type;
       this.filterName = "";
       this.name = "";
-      $vm.$emit("selectChange", -1);
+      this.$router.push("/index/Knowledgebase?type=" + this.type);
+      setTimeout(() => {
+        $vm.$emit("selectChange", -1);
+      }, 2);
     },
     searchName() {
       // this.knowledgeList.filter(
@@ -129,12 +148,19 @@ export default {
     opotion(opotion) {
       this.staut = opotion.id;
     },
-    addClick() {
-      this.setCache();
+    addClick(id) {
+      this.setCache(id);
       this.$router.push("/selectword?type=" + this.type);
     },
-    setCache() {
-      this.$cache.setBase(this.knowledgeList.filter(p => p.type == this.type));
+    setCache(id) {
+      if (id)
+        this.$cache.setBase(
+          this.knowledgeList.filter(p => p.type == this.type && p.content != id)
+        );
+      else
+        this.$cache.setBase(
+          this.knowledgeList.filter(p => p.type == this.type)
+        );
       // console.log(list);
     },
     delClick() {
@@ -146,7 +172,7 @@ export default {
 </script>
 
 <style lang='less' scoped>
-.icon-indexedit{
+.icon-indexedit {
   right: 180px;
   top: 55px;
 }

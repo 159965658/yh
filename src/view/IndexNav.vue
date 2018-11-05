@@ -1,12 +1,12 @@
 <template>
     
         <div class="left-nav">
-        	<dl class="head-img">
+        	<dl class="head-img" @click="outlogin">
         		<dt><img src="../assets/index-wangyisheng.png"></dt>
-        		<dd>{{cacheUser.webNickName}}</dd>
+        		<dd style="color:#000">{{cacheUser.webNickName}}</dd>
         	</dl>
         	<ul>
-                <router-link tag="li"  to="/index/list" active-class="active" class="index"><i class="icon"></i>首页</router-link>
+                <router-link tag="li" @click.native='removePar' to="/index/list" active-class="active" class="index"><i class="icon"></i>首页</router-link>
                 <!-- <li class="active index"><i class="icon"></i>首页</li> -->
                   <router-link tag="li"  to="/index/Knowledgebase" active-class="active" class="zhishiku"><i class="icon"></i>知识库</router-link>
               
@@ -19,6 +19,7 @@
         </div>
 </template>
 <script>
+import OutTipsVue from "./OutTips.vue";
 export default {
   data() {
     return {
@@ -28,9 +29,37 @@ export default {
   mounted() {
     //获取数据
     this.cacheUser = this.$cache.getUser();
+  },
+  methods: {
+    removePar() {
+      //清空首页搜索条件
+      $vm.$emit("removeIndex");
+    },
+    outlogin() {
+      this.$toastFull(OutTipsVue);
+      // $vm.$on("submitEmit", this.outUser);
+      //退出登录
+      // this.$cache.remove(this.$cacheEnum.user);
+      // this.$router.replace("/");
+    }
+  },
+  beforeDestroy() {
+    $vm.$off("submitEmit", this.outUser);
   }
 };
 </script>
 <style lang="less" scoped>
+.left-nav {
+  ul {
+    height: 1340px;
+  }
+  position: relative;
+  .left-nav-logo {
+    // position: absolute;
+    // bottom: 35px;
+    // left: 50%;
+    // margin-left: -61px;
+  }
+}
 </style>
 
