@@ -293,11 +293,11 @@ export default {
       let city = [];
       this.cityC = city.concat(this.city.filter(p => p.pCode == item.id));
       this.cityId = this.cityC[0].id;
-      this.addUser.city = this.cityId;
-      this.addUser.province = item.id;
+      this.addUser.custOrgCity = this.cityId;
+      this.addUser.custOrgProvince = item.id;
     },
     cityClick(item) {
-      this.addUser.city = item.id;
+      this.addUser.custOrgCity = item.id;
     }
   }
 };

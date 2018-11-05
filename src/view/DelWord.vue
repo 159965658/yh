@@ -8,7 +8,7 @@
                <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{count}}</span></li>
               
                 <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除<span style="margin-left:5px;">{{count}}</span></li>
-                <li class="bor-h"  @click="allSelect"><i class="radio-btn " :class="{active:all}"></i>全选</li>
+                <!-- <li class="bor-h"  @click="allSelect"><i class="radio-btn " :class="{active:all}"></i>全选</li> -->
             </ol>
         </div>
         <div class="right-list">

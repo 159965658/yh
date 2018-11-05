@@ -16,7 +16,7 @@
                             <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
                             <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
-                             <li><label for="">居住地：</label><span>{{cardModel.province}}   {{cardModel.city}}   </span></li>
+                             <li><label for="">居住地：</label><span>{{cardModel.custOrgProvince | province}}   {{cardModel.custOrgCity | city}}   </span></li>
                         </ul>
                         <ul v-if="edit">
                             <li><i class="must">*</i><label for="">姓名：</label>
@@ -44,12 +44,16 @@
                     </label>
                                 <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum"></li>
                             <li><i class="must">*</i><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
-                            <li style="z-index:8"><i class="must">*</i><label for="">居住地:</label>
-
-                                <app-select class="nation hun" :opotionList='province' :id="cardModelCopy.province"></app-select>
-
-                                <app-select class="nation hun" :opotionList='city' :id='cardModelCopy.city'></app-select>
-
+                            <li style="position: relative;z-index:8"><i class="must">*</i><label for="">居住地:</label>
+                      <label for="" style="
+    display: inline-block;position:relative;
+">
+                                <app-select class=" province hun" :opotionList='province' @opotion="provinceClick" :id="cardModelCopy.custOrgProvince"></app-select>
+</label>    <label for="" style="
+    display: inline-block;position:relative;
+">
+                                <app-select class=" city hun" :opotionList='cityC' @opotion="cityClick" :id='cardModelCopy.custOrgCity'></app-select>
+</label>
                             </li>
                         </ul>
                     </div>
@@ -136,14 +140,16 @@ export default {
       nationArr: [],
       modifyNation: "",
       province: province,
-      city: city
+      city: city,
+      cityC: []
     };
   },
   mounted() {
     this.cardModel = this.$cache.get(this.$cacheEnum["cardModel"]);
-    // document.write(JSON.stringify(this.cardModel));
+    this.cityC = this.cityC.concat(
+      this.city.filter(p => p.pCode == this.cardModel.custOrgProvince)
+    );
     this.nationArr = this.$cache.get(this.$cacheEnum["nation"]); //获取民族
-    console.log(this.nationArr);
     this.user = this.$cache.getUser();
     this.getHistory(this.cardModel.customerCode);
     this.getInventoryInfo();
@@ -212,6 +218,14 @@ export default {
         this.$toast("请填写您的地址");
         return false;
       }
+      if (!model.custOrgProvince) {
+        this.$toast("请选中您的省");
+        return false;
+      }
+      if (!model.custOrgCity) {
+        this.$toast("请选中您的市");
+        return false;
+      }
       // updatecustomer
       try {
         window["updatecustomer"] = this.updateCustomer;
@@ -257,7 +271,19 @@ export default {
         //证件地址
         this.modifyHisSub("地址", model.contactAddress);
       }
-
+      if (model.custOrgProvince != oldModel.custOrgProvince) {
+        //省
+        const id = this.province.find(p => p.id == model.custOrgProvince);
+        const city = this.city.find(p => p.id == model.custOrgCity);
+        this.modifyHisSub("居住地", id.name + "" + city.name);
+        return true;
+      }
+      if (model.custOrgCity != oldModel.custOrgCity) {
+        //省没有发生变化市发生了变化
+        const id = this.province.find(p => p.id == model.custOrgProvince);
+        const city = this.city.find(p => p.id == model.custOrgCity);
+        this.modifyHisSub("居住地", id.name + "" + city.name);
+      }
       return true;
     },
     modifyHisSub(t, c) {
@@ -323,6 +349,17 @@ export default {
     },
     marriageClick(item) {
       this.cardModelCopy.marriage = item.id;
+    },
+    provinceClick(item) {
+      console.log(item);
+      let city = [];
+      this.cityC = city.concat(this.city.filter(p => p.pCode == item.id));
+      this.cardModelCopy.custOrgCity = this.cityC[0].id;
+      // this.cardModelCopy.custOrgCity = this.cityId;
+      this.cardModelCopy.custOrgProvince = item.id;
+    },
+    cityClick(item) {
+      this.cardModelCopy.custOrgCity = item.id;
     }
   },
   beforeDestroy() {
@@ -339,7 +376,17 @@ export default {
   left: 100px;
   top: 40px;
 }
-
+.province {
+  position: absolute !important;
+  left: 0px;
+  bottom: -20px;
+}
+.city {
+  position: absolute !important;
+  left: 200px;
+  width: 300px !important;
+  bottom: -20px;
+}
 .idCard {
   padding-top: 20px;
   position: absolute !important;

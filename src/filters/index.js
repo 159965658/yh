@@ -11,4 +11,7 @@ import nation from './nation';
 import marriage from './marriage';
 
 import lunarDate from './lunarDate';
-export { formatDate, timeStamp, sex, birth, cardType, flag, nation, marriage, lunarDate }
+
+import city from './city';
+import province from './province';
+export { formatDate, timeStamp, sex, birth, cardType, flag, nation, marriage, lunarDate, city, province }
