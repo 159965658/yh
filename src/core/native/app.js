@@ -50,6 +50,11 @@ if (platform.PC || !platform.android) {
                 150 * (document.documentElement.clientWidth / 2048) + "px";
         }
     }
+    window['filterInput'] = function (val, ch = false) {
+        if (ch)
+            return val.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5\ ]/g, '')
+        return val.replace(/[^\a-\z\A-\Z0-9\ ]/g, '')
+    }
 
     // 时间格式化
     Date.prototype.format = function (format) {

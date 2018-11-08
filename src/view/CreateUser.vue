@@ -7,26 +7,28 @@
             <ul>
                 <li>
                     <label>账号：</label>
-                    <input type="text" placeholder="手机号或者姓名全拼" v-model="addUser.loginName">		        		</li>
+                    <input type="text" placeholder="手机号或者姓名全拼" maxlength="20" v-model="loginName">		        		</li>
                 <li>
                     <label>设置密码：</label>
-                    <input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="addUser.password">
+                    <input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.password">
                     <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
                 </li>
                 <li>
                     <label>确认密码：</label>
-                    <input :type="flag1 ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="addUser.spassword">
+                    <input :type="flag1 ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.spassword">
                   <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
                 </li>
-                <li>
+                <!-- <li>
                     <label>机构编码：</label>
-                    <input type="text" placeholder="机构编码" v-model="addUser.institutionCode">		        		</li>
-                <li>
+                    <input type="text" placeholder="机构编码" v-model="institutionCode" maxlength="20" >	-->	        		</li>
+                <li> 
                     <label>机构名称：</label>
-                    <input type="text" placeholder="机构名称" v-model="addUser.institutionName">		        		</li>
+                    <!-- <input type="text" placeholder="机构名称" v-model="institutionName" maxlength="20" >		  -->
+                  <app-select class="org" :opotionList='orgArr' @opotion="orgClick"></app-select>
+                           		</li>
                 <li>
                     <label>网络版用户名：</label>
-                    <input type="text" placeholder="网络版用户名" v-model="addUser.webNickName">		        		</li>
+                    <input type="text" placeholder="网络版用户名" maxlength="20" v-model="webNickName">		        		</li>
             </ul>
             <div class="button-submit">
                 <button   class="button submit" @click="addUserSubmit">完 成</button>
@@ -52,13 +54,87 @@ export default {
         webNickName: "",
         crowdFlag: "0"
       },
+      loginName: "",
+      webNickName: "",
+      institutionCode: "",
+      institutionName: "",
       flag1: true,
-      flag: true
+      flag: true,
+      orgArr: [{ id: -1, name: "请选择" }]
     };
   },
+  watch: {
+    loginName(val) {
+      this.$nextTick(() => {
+        this.loginName = filterInput(val);
+      });
+    },
+    webNickName(val) {
+      this.$nextTick(() => {
+        this.webNickName = filterInput(val, true);
+      });
+    },
+    institutionCode(val) {
+      this.$nextTick(() => {
+        this.institutionCode = filterInput(val);
+      });
+    },
+    institutionName(val) {
+      this.$nextTick(() => {
+        this.institutionName = filterInput(val, true);
+      });
+    }
+  },
+  mounted() {
+    this.init();
+  },
   methods: {
+    init() {
+      this.getorgdata();
+    },
+    orgClick(item) {
+      this.addUser.institutionCode = item.id;
+      this.addUser.institutionName = item.name;
+      console.log(item);
+    },
+    getorgdata() {
+      try {
+        window["getorgdata"] = this.getorgdataSuccess;
+        this.$native.run("getorgdata", {}, "getorgdata");
+      } catch (error) {
+        alert(error);
+      }
+    },
+    getorgdataSuccess(data) {
+      //  document.write(data);
+      const arr = JSON.parse(data).orgData;
+      arr.forEach(item => {
+        this.orgArr.push({ id: item.orgId, name: item.orgName });
+      });
+    },
+    doctorcheck() {
+      //验证医生
+      window["doctorcheck"] = this.doctorcheckSuccess;
+      window["errorCheck"] = this.errorCheck;
+      let params = this.addUser;
+      this.$native.run("doctorcheck", params, "doctorcheck", "errorCheck");
+    },
+    errorCheck(data) {
+      this.$native.loadHide();
+      this.$toast("医师验证失败" + data);
+    },
+    doctorcheckSuccess() {
+      this.$native.loadHide();
+      let params = this.addUser;
+      window["addUserSuccess"] = this.success;
+      this.$native.run("addUser", params, "addUserSuccess");
+    },
     addUserSubmit() {
       let params = this.addUser;
+      params.loginName = this.loginName;
+      params.webNickName = this.webNickName;
+      // params.institutionCode = this.institutionCode;
+      // params.institutionName = this.institutionName;
       console.log(params.password.length);
       if (!params.loginName) {
         this.$toast("请填写您的账号");
@@ -72,8 +148,16 @@ export default {
         this.$toast("两次密码输入不一致");
         return;
       }
-      window["addUserSuccess"] = this.success;
-      this.$native.run("addUser", params, "addUserSuccess");
+      // alert(params.institutionCode);
+      if (!params.institutionCode || params.institutionCode == -1) {
+        this.$toast("请选择机构");
+        return;
+      }
+      if (!params.webNickName) {
+        this.$toast("请填写您的网络用户名");
+        return;
+      }
+      this.doctorcheck();
     },
     success() {
       // alert()
@@ -109,5 +193,32 @@ export default {
 
 .button-submit {
   margin-top: 96px;
+}
+</style>
+<style lang="less">
+.org {
+  width: 100% !important;
+  // height: 100%;
+  margin-top: 20px;
+  position: absolute !important;
+  left: 0px !important;
+  > .select_click_box {
+    border: none !important;
+    text-align: center;
+    background-color: transparent !important;
+    p {
+      text-align: center;
+      padding: 0px !important;
+      width: 100% !important;
+      color: #1880c3 !important;
+    }
+  }
+  > .my_select {
+    .opotion {
+      height: 50px !important;
+      text-align: center;
+      color: #1880c3 !important;
+    }
+  }
 }
 </style>

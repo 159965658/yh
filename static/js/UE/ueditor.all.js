@@ -8053,7 +8053,7 @@
             autoClearEmptyNode: true,
             fullscreen: false,
             readonly: false,
-            zIndex: 999,
+            zIndex: 1,
             imagePopup: true,
             enterTag: 'p',
             customDomain: false,

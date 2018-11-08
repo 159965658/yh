@@ -16,11 +16,12 @@
                             <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
                             <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
-                             <li><label for="">居住地：</label><span>{{cardModel.custOrgProvince | province}}   {{cardModel.custOrgCity | city}}   </span></li>
+                            <li><label for="">居住地：</label><span>{{cardModel.custOrgProvince | province}}   {{cardModel.custOrgCity | city}}   </span></li>
+                            <li><label for="">联系方式：</label><span>{{cardModel.mobileTel}}</span></li>
                         </ul>
                         <ul v-if="edit">
                             <li><i class="must">*</i><label for="">姓名：</label>
-                                <input type="text" v-model="cardModelCopy.cName"> </li>
+                                <input type="text" v-model="cardModelCopy.cName" maxlength="10"> </li>
                             <li class="sex xingbie"><i class="must">*</i><label for="">性别：</label>
                                 <app-sex :defaultHover='cardModelCopy.sex' @radioClick='sexClick'></app-sex>
                             </li>
@@ -42,19 +43,20 @@
                             <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
                       <app-select class="idCard" style="" :opotionList='idCardArr' :id='cardModelCopy.cCardType' @opotion='idClick'></app-select>
                     </label>
-                                <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum"></li>
+                                <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum" maxlength="18"></li>
                             <li><i class="must">*</i><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
                             <li style="position: relative;z-index:8"><i class="must">*</i><label for="">居住地:</label>
-                      <label for="" style="
+                                <label for="" style="
     display: inline-block;position:relative;
 ">
                                 <app-select class=" province hun" :opotionList='province' @opotion="provinceClick" :id="cardModelCopy.custOrgProvince"></app-select>
-</label>    <label for="" style="
+</label> <label for="" style="
     display: inline-block;position:relative;
 ">
                                 <app-select class=" city hun" :opotionList='cityC' @opotion="cityClick" :id='cardModelCopy.custOrgCity'></app-select>
 </label>
                             </li>
+                              <li><i class="must">*</i><label for="">联系方式：</label><input type="number" v-model="cardModelCopy.mobileTel"></li>
                         </ul>
                     </div>
                     <div style="height: 25px;"></div>
@@ -82,8 +84,8 @@
                 <div class="hei50"></div>
                 <ul v-if="report.length">
                     <li v-for="(item,i) in report" :key="i" @click='iden(item)'>
-                        <b class="biaoti">体质辨识报告    {{user.webNickName}}</b>
-                        <b class="time">{{item.user}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}-{{item.mainPhysical}}</b>
+                        <b class="biaoti">体质辨识报告   </b>
+                        <b class="time">{{user.webNickName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}-{{item.mainPhysical}}</b>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
                         <i class="jiao"></i>
                     </li>
@@ -226,6 +228,11 @@ export default {
         this.$toast("请选中您的市");
         return false;
       }
+      var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
+      if (!model.mobileTel || !myreg.test(model.mobileTel)) {
+        this.$toast("请填写正确联系方式");
+        return;
+      }
       // updatecustomer
       try {
         window["updatecustomer"] = this.updateCustomer;
@@ -284,6 +291,10 @@ export default {
         const city = this.city.find(p => p.id == model.custOrgCity);
         this.modifyHisSub("居住地", id.name + "" + city.name);
       }
+      if (model.mobileTel != oldModel.mobileTel) {
+        //证件地址
+        this.modifyHisSub("手机号", model.mobileTel);
+      }
       return true;
     },
     modifyHisSub(t, c) {
@@ -306,7 +317,10 @@ export default {
       const model = this.cardModelCopy,
         oldModel = this.cardModel;
       this.modifyHis(model, oldModel);
-      this.$router.push("/index");
+      this.cardModel = JSON.parse(JSON.stringify(this.cardModelCopy));
+
+      this.getHistory(this.cardModel.customerCode);
+      // this.$router.push("/index");
       // this.editClick();
     },
     appBack() {
@@ -376,17 +390,20 @@ export default {
   left: 100px;
   top: 40px;
 }
+
 .province {
   position: absolute !important;
   left: 0px;
   bottom: -20px;
 }
+
 .city {
   position: absolute !important;
   left: 200px;
   width: 300px !important;
   bottom: -20px;
 }
+
 .idCard {
   padding-top: 20px;
   position: absolute !important;
@@ -455,8 +472,8 @@ export default {
         font-size: 32px;
         color: #282828;
         margin: 0 30px;
-        padding-bottom: 32px;
-        padding-top: 32px;
+        padding-bottom: 20px;
+        padding-top: 20px;
 
         label {
           color: #989898;

@@ -6,18 +6,19 @@
             <div class="shadow">
                 <h2>中医体质辨识报告</h2>
                 <ul class="title">
-                    <li><label for="">姓名</label><span>{{card.cName}}</span></li>
+                    <li><label for="">姓名</label><span class="flowell">{{card.cName}}</span></li>
                     <li><label for="">性别</label><span>{{card.sex | sex}}</span></li>
                     <li><label for="">出生年月</label><span>{{card.birth}}</span></li>
                     <li><label for="">测评日期</label><span>{{report.testDate}}</span></li>
-                    <li><label for="">季节</label><span></span></li>
-                    <li><label for="">节气</label><span></span></li>
-                    <li><label for="">农历日期</label><span>{{"2018-10-31" | lunarDate}}</span></li>
+                    <li><label for="">季节</label><span>{{report.testDate | season}}</span></li>
+                    <li><label for="">节气</label><span>{{report.testDate | throttle}}</span></li>
+                    <li><label for="">农历日期</label><span>{{report.testDate | lunarDate}}</span></li>
                 </ul>
                 <div class="bor-b">
                     <h3><i></i>体质类型</h3>
-                    <h6 class="clearfix">
-                        根据测评，您的体质类型为平和质,体质得分情况如下：
+                    <h6>
+                        根据测评，您的体质类型为<span style="" v-html="tizhi"></span>
+                        体质得分情况如下：
                         <!-- <div class="echart">		    		<ol class="clearfix">		    		<li><i class="icon mian"></i>柱状图</li>		    		<li><i class="icon line"></i>折线图</li>		    		</ol>		    		</div> -->
                     </h6>
                     <div class="echarts-img" id="myChart">
@@ -26,15 +27,17 @@
                     </div>
                     <p class="pingjia">先天禀赋良好，后天调养得当，身体健壮，平素患病较少。</p>
                     <ol class="clearfix">
-                        <li><label for="">体质类型</label>{{report.mainPhysical}}</li>
+                        <li><label for="">体质类型</label>{{report.mainPhysical | rtrim}}</li>
                         <li><label for="">理想分数</label>≥80</li>
-                        <li><label for="">体质类型</label>{{report.mainPhysicalScore}} <i class="icon down"></i></li>
+                        <li><label for="">体质得分</label>{{report.mainPhysicalScore}} <i class="icon up"></i></li>
                     </ol>
                 </div>
                 <div class="">
                     <h3><i></i>体质解析</h3>
-                    <p class="nr">平和质</p>
-                    <p class="nr">常见表现：面色、肤色润泽，头发稠密有光泽，目光有神，鼻色明润，嗅觉通利，味觉正常，唇色红润，精力充沛，不易疲劳，耐受寒热，睡眠安和，胃纳良好，二便正常。</p>
+                    <div v-for="(item,i) in report.mainPhysical.split(',')" :key="i" v-if="item">
+                    <!-- <p class="nr" >{{item}}</p> -->
+                    <p class="nr" v-html="tizhij(item)">常见表现：面色、肤色润泽，头发稠密有光泽，目光有神，鼻色明润，嗅觉通利，味觉正常，唇色红润，精力充沛，不易疲劳，耐受寒热，睡眠安和，胃纳良好，二便正常。</p>
+                </div>
                 </div>
             </div>
 
@@ -112,14 +115,17 @@
                 </div>
                 <div class="bor-b tip">
                     <h3><i></i>温馨提示</h3>
-                    <div class="html-fu" v-html="report.promptContent">
+
+                    <div class="html-fu"   v-html="report.promptContent">
+                    </div>
+                    <!-- <div class="html-fu" v-else v-html="report.promptContent">
                         <p class="nr">1.若您已患某种疾病，请您遵医嘱接受治疗和调护。</p>
                         <p class="nr">2.若已患糖尿病、高脂血症、痛风、肥胖等疾病，应遵照相应的膳食规定。如：糖尿病少食高糖类食物；</p>
                         <p class="nr">3.高脂血症及肥胖应少食高胆固醇、高糖、高脂肪食物；</p>
                         <p class="nr">4.痛风禁食海鲜类等嘌呤含量较高的食物。</p>
                         <p class="nr">5.根据体质的易患疾病，请您提高警惕，防患于未然，定期进行相关检查；</p>
                         <p class="nr">6.若有其他疑问，欢迎致“KY3H 全国客服电话”（86）4008118899 或 访问www.ky3h.com 进行咨询</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="shadow" v-if="query.type == 1">
@@ -145,7 +151,7 @@
                         <div id="editor2" class="editor" type="text/plain"></div>
                     </div>
                 </div>
-                 <div class="bor-b">
+                <div class="bor-b">
                     <h3><i></i>温馨提示</h3>
                     <div class="html-fu">
                         <i class="icon icon-add" @click="next(4)"></i>
@@ -165,6 +171,14 @@
 
 <script>
 import { Indicator } from "mint-ui";
+import { throttle } from "@/filters/index";
+import { jieqi } from "../../static/dict/jieqi.js";
+
+import { tizhi } from "../../static/dict/tizhi.js";
+
+import { tiaoyang } from "../../static/dict/tiaoyang.js";
+import FullTipsVue from "../components/FullTips.vue";
+
 export default {
   data() {
     return {
@@ -175,8 +189,15 @@ export default {
       query: {},
       title: "体质辨识报告",
       type: 1,
-      baseList: []
+      baseList: [],
+      tizhi: ""
     };
+  },
+  computed: {},
+  filters: {
+    rtrim(value) {
+      return value.substring(0, value.length - 1);
+    }
   },
   mounted() {
     Indicator.open({
@@ -185,7 +206,7 @@ export default {
     });
     this.card = this.$cache.get(this.$cacheEnum["cardModel"]);
     this.report = this.$cache.get(this.$cacheEnum["report"]);
-
+    // document.write(JSON.stringify(this.report));
     this.query = this.$route.query;
     let th = this;
     setTimeout(() => {
@@ -197,8 +218,46 @@ export default {
       this.title = "编辑体质辨识报告";
     }
     this.getKnowledge(2);
+    this.tizhi = this.sicalFilter();
+    // document.write(JSON.stringify(this.report));
   },
   methods: {
+    tizhij(value) {
+      console.log(tizhi, value);
+      return tizhi.find(p => p.id == value).name;
+    },
+    sicalFilter: function() {
+      let report = this.report,
+        value = report.mainPhysical;
+      //如果只有一个选项
+      if (report.reportType == 33) {
+        //公卫版
+        return value + "。";
+      } else if (report.reportType == 60) {
+        //去掉最后一个逗号
+        //value = value.ToString().RTrim(",");
+        //专业版
+        const arr = value.split(",");
+        arr.pop();
+        if (arr.length == 1) {
+          //查看是否是平和体质
+          if (arr[0] == "平和质") {
+            return "<span class='bl'>平和质。</span>";
+          } else {
+            return `<span class='bl'>${
+              arr[0]
+            }</span>,属<span class='bl'>偏颇体质</span>`;
+          }
+        } else {
+          //value = value.substring(0, value.length - 1);
+          if (report.mainPhysicalScore >= 40) {
+            return `<span class='bl'>兼夹体质</span>。主要体质类型为<span class='bl'>${value}</span>,属<span class='bl'>偏颇体质</span>`;
+          } else {
+            return `基本是<span class='bl'>平和质</span>,有<span class='bl'>${value}</span>倾向,属<span class='bl'>兼夹体质</span>`;
+          }
+        }
+      }
+    },
     getKnowledge(funType = 1) {
       if (funType == 1) window["getknowledge"] = this.getKnowledgeSuccess;
       else if (funType == 2) window["getknowledge"] = this.getKnowledgeCache;
@@ -206,14 +265,14 @@ export default {
       const user = this.$cache.getUser();
       this.$native.run(
         "getknowledge",
-        { userCode: user.userCode },
+        {
+          userCode: user.userCode
+        },
         "getknowledge",
         "getError"
       );
     },
-    getError(data){
-      
-    },
+    getError(data) {},
     getKnowledgeCache(data) {
       const res = JSON.parse(data).knowledgeList;
       this.baseList = res;
@@ -222,10 +281,18 @@ export default {
       try {
         const res = JSON.parse(data).knowledgeList;
         this.$cache.setBase(res.filter(p => p.type == this.type));
-        this.$cache.set("word2", { content: this.ue.getContent() }); //节气养生
-        this.$cache.set("word1", { content: this.ue1.getContent() }); //调养方案
-        this.$cache.set("word3", { content: this.ue2.getContent() }); //医师建议、
-        this.$cache.set("word4", { content: this.ue3.getContent() }); //温馨提示
+        this.$cache.set("word2", {
+          content: this.ue.getContent()
+        }); //节气养生
+        this.$cache.set("word1", {
+          content: this.ue1.getContent()
+        }); //调养方案
+        this.$cache.set("word3", {
+          content: this.ue2.getContent()
+        }); //医师建议、
+        this.$cache.set("word4", {
+          content: this.ue3.getContent()
+        }); //温馨提示
         this.$router.push("/selectword?type=" + this.type + "&cache=" + true);
       } catch (error) {
         alert(error);
@@ -335,14 +402,78 @@ export default {
       let th = this;
       setTimeout(() => {
         const word = this.$cache.get("word2");
-        if (word) th.ue.setContent(word.content); //节气养生
+        if (word) th.ue.setContent(word.content);
+        //节气养生
+        else {
+          const date = new Date(),
+            dateStr = `${date.getFullYear()}-${date.getMonth() +
+              1}-${date.getDate()}`;
+          let jiqiKey = throttle(dateStr);
+          if (jiqiKey) {
+            const mode = jieqi.find(p => p.id == jiqiKey);
+            th.ue.setContent(mode.name);
+          }
+          // console.log(throttle(dateStr), mode);
+        }
         const word1 = this.$cache.get("word1");
-        if (word1) th.ue1.setContent(word1.content); //调养方案
+        if (word1) th.ue1.setContent(word1.content);
+        //调养方案
+        else {
+          let arr = [],
+            re = th.report.mainPhysical;
+          if (re == "平和质") {
+            re = "平和质,";
+          }
+          if (re.indexOf(",") > -1) {
+            arr = re.split(",");
+            let co = "";
+            arr.forEach(item => {
+              const mode = tiaoyang.find(p => p.id == item);
+              if (mode) {
+                co += mode.name;
+              }
+            });
+            th.ue1.setContent(co);
+          }
+        }
         const word2 = this.$cache.get("word3");
-        if (word2) th.ue2.setContent(word2.content); //医师建议、
+        if (word2) th.ue2.setContent(word2.content);
+        //医师建议、
+        else {
+          th.ue2.setContent(`<p style="text-align: left;">
+    <span style="text-align: center;"><br/></span>
+</p>
+<p style="text-align: left;">
+    <span style="text-align: center;"><br/></span>
+</p>
+<p style="text-align: left;">
+    <span style="text-align: center;"><br/></span>
+</p>
+<p style="text-align: left;">
+    <span style="text-align: center;"><br/></span>
+</p>
+<p style="text-align: left;">
+    <span style="text-align: center;"><br/></span>
+</p>
+<p style="text-align: left;">
+    <span style="text-align: center;"><br/></span>
+</p>
+<p style="text-align: right;">
+    <span style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;医生签名</span><br/>
+</p>`);
+        }
         const word3 = this.$cache.get("word4");
-        if (word3) th.ue3.setContent(word3.content); //温馨提示
-      }, 1000);
+        if (word3) th.ue3.setContent(word3.content);
+        //温馨提示
+        else {
+          th.ue3.setContent(`如您已患某种疾病，请您遵医嘱接受治疗和调护<br>
+若已患糖尿病、高脂血症、痛风、肥胖等疾病，应遵照相应的膳食规。如:<br>
+糖尿病少高糖类食物；<br>
+高脂血症及肥胖应少食高胆固醇、高糖、高脂肪食物；<br>
+痛风禁食海鲜类嘌呤含量较高的食物；<br>
+根据体质的易患疾病，请您提高警惕，防患于未然，定期进行相关检查；若有其它疑问，欢迎致 “KY3H全国客服电话” （86）4008118899或访问www.eky3h.com进行咨询，为了便于您更有效地管理自己的健康状况，我们在KY3H健康网（www.eky3h.com）为您提供了更加丰富的健康管理工具及体质调理产品，欢迎您登陆。`);
+        }
+      }, 1500);
     },
 
     drawLine() {
@@ -359,7 +490,54 @@ export default {
         report.tebingScore
       ];
       // 基于准备好的dom，初始化echarts实例
+      let lineF = {
+        itemStyle: {
+          color: "rgba(59,199,221,0.9)",
+          normal: {
+            borderWidth: 1,
+            lineStyle: {
+              type: "dash",
+              color: "rgba(59,199,221,0.9)",
+              width: 2
+            },
+            label: {
+              formatter: function(value) {
+                //  console.log(value.);
+                if (value.value == 15) {
+                  return "基础分";
+                }
+                if (value.value == 30) {
+                  return "横向分";
+                }
+                if (value.value == 40) {
+                  return "确定分";
+                }
+                return "1";
+              },
+              textStyle: {
+                fontSize: 10
+              }
+            }
+          }
+        },
+        silent: true,
+        data: [
+          {
+            yAxis: 15
+          },
+          {
+            yAxis: 30
+          },
+          {
+            yAxis: 40
+          }
+        ]
+      };
+
       let myChart = this.$echarts.init(document.getElementById("myChart"));
+      if (this.report.reportType == 33) {
+        lineF = {};
+      }
       myChart.resize();
       // 绘制图表
       myChart.setOption({
@@ -393,7 +571,7 @@ export default {
             lineStyle: {
               type: "solid",
               color: "#d8d8d8", //轴线的颜色
-              width: "1" //坐标线的宽度
+              width: "2" //坐标线的宽度
             }
           },
           axisTick: {
@@ -424,12 +602,12 @@ export default {
         },
         backgroundColor: "#fff", //图得背景色
         yAxis: {
-          name: "", //轴的名字，默认位置在y轴上方显示
+          name: " ", //轴的名字，默认位置在y轴上方显示
           max: 100, //最大刻度
           min: 0,
           type: "value",
           scale: true,
-          boundaryGap: [0.2, 0.2],
+          boundaryGap: false,
           axisLine: {
             //线
             show: false
@@ -450,6 +628,34 @@ export default {
             }
           }
         },
+        // visualMap: {
+        //   top: -5,
+        //   right: 10,
+        //   pieces: [
+        //     {
+        //       gt: 0,
+        //       lte: 15,
+        //       color: "#096"
+        //     },
+        //     {
+        //       gt: 15,
+        //       lte: 30,
+        //       color: "#ffde33"
+        //     },
+        //     {
+        //       gt: 30,
+        //       lte: 40,
+        //       color: "#ff9933"
+        //     }, {
+        //       gt: 40,
+        //       lte: 40,
+        //       color: "#83bff6"
+        //     }
+        //   ],
+        //   outOfRange: {
+        //     color: "#37A2DA"
+        //   }
+        // },
         series: [
           {
             name: "柱状图",
@@ -503,6 +709,44 @@ export default {
             },
             barWidth: 15 //设置柱子宽度，单位为px
           },
+          // {
+          //   name: "折线图1",
+          //   type: "line",
+          //   data: [15],
+          //   itemStyle: {
+          //     color: "rgba(59,199,221,0.9)",
+          //     normal: {
+          //       borderWidth: 1,
+          //       lineStyle: {
+          //         type: "dash",
+          //         color: "rgba(59,199,221,0.9)",
+          //         width: 2
+          //       },
+          //       label: {
+          //         formatter: function(value) {
+          //           alert("1");
+          //         },
+          //         textStyle: {
+          //           fontSize: 16
+          //         }
+          //       }
+          //     }
+          //   },
+          //   markLine: {
+          //     silent: true,
+          //     data: [
+          //       {
+          //         yAxis: 15
+          //       },
+          //       {
+          //         yAxis: 30
+          //       },
+          //       {
+          //         yAxis: 40
+          //       }
+          //     ]
+          //   }
+          // },
           {
             name: "折线图",
             type: "line",
@@ -510,10 +754,29 @@ export default {
             data: dataChart,
             itemStyle: {
               color: "rgba(59,199,221,0.9)"
-            }
+            },
+            markLine: lineF
           }
         ]
       });
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    // 导航离开该组件的对应路由时调用
+    // 可以访问组件实例 `this`
+    if (this.query.type == 1) {
+      this.$toastFull(FullTipsVue, true, {
+        text: "确定要退出编辑体质辨识报告吗？",
+        title: "提示",
+        subText: "确定",
+        fl: 1,
+        s: function() {
+          next();
+        }
+      });
+      next(false);
+    } else {
+      next();
     }
   },
   beforeDestroy() {
@@ -528,6 +791,7 @@ export default {
   margin: 0 auto;
   padding-top: 40px;
 }
+
 .icon-add {
   position: absolute;
   background-repeat: no-repeat;
@@ -600,7 +864,7 @@ export default {
 }
 
 .report {
-  width: 1645px;
+  width: 2500px;
   margin: 0 auto;
   margin-top: 60px;
 
@@ -613,7 +877,7 @@ export default {
   }
 
   ul.title {
-    width: 1400px;
+    width: 100%;
     margin: 0 auto;
     padding-bottom: 15px;
     border-bottom: 1px solid #dcdcdc;
@@ -652,7 +916,7 @@ export default {
       border-radius: 10px;
       float: left;
       margin-right: 15px;
-      margin-top: 10px;
+      margin-top: 5px;
     }
 
     span {
@@ -717,7 +981,7 @@ export default {
   }
 
   .echarts-img {
-    width: 1400px;
+    width: 100%;
     height: 1000px;
     margin-top: 75px;
     // img {
@@ -753,7 +1017,7 @@ export default {
         background-size: 100%;
         position: absolute;
         right: -20px;
-        top: 10px;
+        top: 5px;
       }
 
       label {

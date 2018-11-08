@@ -30,7 +30,9 @@ export default {
       text: "创建新账户时需要验证当前设备激活码，是否继续下一步？",
       subText: "继续",
       canText: "取消",
-      submitEmit: "submit"
+      submitEmit: "submit",
+      fl:0,
+      s:''
       // callBack: this.close
     };
   },
@@ -45,6 +47,11 @@ export default {
       this.close();
       if (this.type == 1 && this.title == "创建新用户")
         $vm.$router.push("/verification");
+      else if(this.fl == 1){
+        console.log(1);
+        this.s();
+        location.href = '/#/index'
+      }
       else {
         $vm.$emit(this.submitEmit);
         // this.callBack();
@@ -63,7 +70,7 @@ export default {
   align-items: center;
   justify-content: center;
   height: 100%;
-
+  // z-index: 1000;
   > .dialog-body {
     width: 860px;
     text-align: center;

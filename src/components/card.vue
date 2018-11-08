@@ -2,15 +2,15 @@
 <li class="default">
     <div class="bg">
         <ol class="message">
-            <li class="name">{{item.cName}}</li>
+            <li class="name flowell">{{item.cName}}</li>
             <li class="sex">{{item.sex | sex}}</li>
             <li class="age">{{item.birth | birth}}岁</li>
         </ol>
         <p class="nums">{{item.uCardNum}}</p>
-        <ol class="btns clearfix">
-            <li v-if="item.isUpload">已上传</li>
-            <li v-if="item.isExport">已导出</li>
-            <!-- <li v-if="item.isExport">已导出</li> -->
+        <ol class="btns">
+            <li v-if="item.isUpload == 1">已上传</li>
+            <li v-if="item.isExport == 1">已导出</li>
+            <li v-if="item.haveGwreport == 1 ||  item.haveReport == 1">已辨识</li>
         </ol>
     </div>
     <!-- <router-link to="/identification" tag="button">开始辨识</router-link> -->
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import FullTipsVue from "./FullTips.vue";
 export default {
   props: ["item", "edit", "selected"],
   methods: {
@@ -51,8 +52,32 @@ export default {
       //   this.$toastFull('')
       // }
       this.$cache.set(this.$cacheEnum["cardModel"], item);
-      this.$router.push("/identification");
+      if (item.haveGwreport == 1 || item.haveReport == 1) {
+        $vm.$off("submitTiZhi", this.submitTiZhi);
+        $vm.$on("submitTiZhi", this.submitTiZhi);
+        this.$toastFull(FullTipsVue, true, {
+          title: "体质辨识",
+          text: "今年已做过体质辨识，是否再体质辨识一次？",
+          subText: "确定",
+          canText: "取消",
+          submitEmit: "submitTiZhi"
+        });
+        return;
+      }
+      this.submitTiZhi();
+    },
+    submitTiZhi() {
+      const user = this.$cache.getUser();
+      // this.$cache.set(this.$cacheEnum["cardModel"], item);
+      if (user.crowdFlag == 0) {
+        this.$router.push("/identification");
+        return;
+      }
+      this.$router.push("/answer?type=" + user.crowdFlag);
     }
+  },
+  beforeDestroy() {
+    $vm.$off("submitTiZhi", this.submitTiZhi);
   }
 };
 </script>
@@ -145,6 +170,16 @@ ol.to-btns li i {
 .radio-btn.active {
   background: url(../assets/222.png) no-repeat;
   background-size: 100%;
+}
+.btns {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  > li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 </style>
 

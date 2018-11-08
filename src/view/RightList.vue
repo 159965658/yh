@@ -120,7 +120,7 @@ export default {
       startDate1: new Date("2008-01-01"),
       endDate1: new Date(),
       openIndex: 1,
-      defaultDate: new Date("2008-01-01"),
+      defaultDate: new Date(),
       upStatus: -1,
       nameList: []
     };
@@ -157,6 +157,7 @@ export default {
   methods: {
     getCustomer() {
       //获取用户信息
+      // alert(this.cacheUser.userCode);
       window["getCustomerSuccess"] = this.getCustomerSuccess;
       window["getCustomerError"] = this.getCustomerError;
       this.$native.run(

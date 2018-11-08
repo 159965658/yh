@@ -2,7 +2,7 @@
 <div>
     <app-header :ltitle='"后退"' :ctitle='"开始辨识"'></app-header>
     <div class="card">
-        <router-link :to="{ path: 'answer', query: { type: 0 }}" class="left fl " :class="{active:user.crowdFlag == 1}" tag="div" replace>
+        <router-link :to="{ path: 'answer', query: { type: 1 }}" class="left fl " :class="{active:user.crowdFlag == 1}" tag="div" replace>
             <i class="icon"></i>
             <h2>普通人群</h2>
             <div class="left-q"></div>
@@ -12,7 +12,7 @@
             <h2>普通人群</h2>
             <div class="left-q"></div>
         </div> -->
-        <router-link   :to="{ path: 'answer', query: { type: 1 }}" class="right fr " :class="{active:user.crowdFlag == 2}" tag="div" replace>
+        <router-link   :to="{ path: 'answer', query: { type: 0 }}" class="right fr " :class="{active:user.crowdFlag == 2}" tag="div" replace>
             <i class="icon"></i>
             <h2>老年人群</h2>
             <div class="right-q"></div>

@@ -32,7 +32,8 @@ export default {
   methods: {
     getUserList() {
       window["setUser"] = this.setUser;
-      this.$native.run("getUser", {}, "setUser");
+      window["errorUser"] = this.errorUser;
+      this.$native.run("getUser", {}, "setUser",'errorUser');
     },
     setUser(data) {
       let res = JSON.parse(data);
@@ -40,6 +41,9 @@ export default {
       if (this.user.length == 0) {
         this.$router.push("/login");
       }
+    },
+    errorUser() {
+      this.$router.push("/login");
     },
     login(item) {
       this.$router.push("/login?name=" + item.loginName);

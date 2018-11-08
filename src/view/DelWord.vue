@@ -96,7 +96,7 @@ export default {
       window["updateknowledge"] = this.updateSuccess;
       this.baseList.forEach(item => {
         if (item.hover) {
-          item.isDelete = 1;
+          item.isDelete = '1';
           this.$native.run("updateknowledge", { item }, "updateknowledge");
         }
       });

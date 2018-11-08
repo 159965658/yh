@@ -17,7 +17,7 @@
                     <!-- <li class="dashed"><label for="">档案编号:</label>
                         <input type="text" placeholder="档案编号" v-model="addUser.customerCode"></li> -->
                     <li class="dashed"><i class="must">*</i><label for="">姓名:</label>
-                        <input type="text" placeholder="姓名" v-model="addUser.cName">
+                        <input type="text" placeholder="姓名" v-model="cName" maxlength="10">
                     </li>
                     <li><i class="must">*</i><label for="">性别：</label>
                         <app-sex @radioClick='sexClick' :defaultHover='addUser.sex'></app-sex>
@@ -41,19 +41,19 @@
                     <li style="z-index:9"><i class="must">*</i><label for="">
                       <app-select class="idCard" :opotionList='idCardArr' @opotion='idClick'></app-select>
                     </label>
-                        <input type="text" v-model="addUser.uCardNum" placeholder=""/>
+                        <input type="text" v-model="uCardNum" placeholder="" maxlength="18"/>
                         <!-- <app-sex @radioClick='idClick' :radioArr="idCardArr" :defaultHover='addUser.cCardType'></app-sex> -->
                         <!-- <i class="icon arrow"></i> -->
                     </li>
-                    <li style="z-index:9"><i class="must">*</i>
+                    <li style="z-index:8"><i class="must">*</i>
                         <label for="">婚姻状况:</label>
                         <label for="" style="width:85%">
                            <app-select  class="nation hun"  :opotionList='marriageArr' :id="1" @opotion='marriageClick'></app-select>
                         </label>
                     </li>
 
-                    <li><i class="must">*</i><label for="">地址:</label><input type="text" v-model="addUser.contactAddress" placeholder="联系地址"></li>
-                    <li style="z-index:8"><i class="must">*</i><label for="">居住地:</label>
+                    <li><i class="must">*</i><label for="">地址:</label><input type="text" v-model="contactAddress" placeholder="联系地址" maxlength="50"></li>
+                    <li style="z-index:7"><i class="must">*</i><label for="">居住地:</label>
                         <label for="">
                           <app-select  class="nation hun"  :opotionList='province' :id="0" @opotion='provinceClick'></app-select> 
                       </label>
@@ -119,12 +119,15 @@ export default {
         custOrgProvince: 0,
         custOrgCity: 0
       },
+      cName: "",
+      contactAddress: "",
+      uCardNum: "",
       province: province,
       city: city,
       cityC: [{ name: "请选择", id: 0 }],
       cityId: 0,
       error: false,
-      birth: "",
+      birth: new Date(),
       startDate: new Date("1900-01-01"),
       endDate: new Date(),
       marriageArr: marriage,
@@ -140,6 +143,29 @@ export default {
       ],
       nationArr: []
     };
+  },
+  watch: {
+    cName(val) {
+      this.$nextTick(() => {
+        const value = filterInput(val, true);
+        this.addUser.cName = value;
+        this.cName = value;
+      });
+    },
+    contactAddress(val) {
+      this.$nextTick(() => {
+        const value = filterInput(val, true);
+        this.addUser.contactAddress = value;
+        this.contactAddress = value;
+      });
+    },
+    uCardNum(val) {
+      this.$nextTick(() => {
+        const value = filterInput(val);
+        this.addUser.uCardNum = value;
+        this.uCardNum = value;
+      });
+    }
   },
   mounted() {
     this.addUser.userCode = this.$cache.getUser().userCode;
@@ -165,7 +191,7 @@ export default {
     ocrSuccess(data) {
       const res = JSON.parse(data);
       console.log(res);
-      this.addUser.cName = res.Name.value;
+      this.cName = res.Name.value;
       this.addUser.sex = res.Sex.value == "男" ? 0 : 1;
       //民族
       const folk = res.Folk.value;
@@ -185,8 +211,8 @@ export default {
       b = b.replace("日", "");
       this.addUser.birth = b;
       this.birth = b;
-      this.addUser.uCardNum = res.Num.value;
-      this.addUser.contactAddress = res.Addr.value;
+      this.uCardNum = res.Num.value;
+      this.contactAddress = res.Addr.value;
     },
     handleConfirm(value) {
       console.log(this.addUser.birth, value);

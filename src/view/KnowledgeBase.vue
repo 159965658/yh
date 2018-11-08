@@ -1,9 +1,9 @@
 <template>
     <div style="height: 100%;"> 
     		<div class="knowledage-top-nav">
-    			<ul>
-    				<li :class="{active:type == 1}" @click="search(1)">调理方案</li>
+    			<ul> 
     				<li :class="{active:type == 2}" @click="search(2)">节气养生</li>
+    				<li :class="{active:type == 1}" @click="search(1)">调理方案</li>
     				<li :class="{active:type == 3}" @click="search(3)">医师建议</li>
     				<li :class="{active:type == 4}" @click="search(4)">温馨提示</li>
     			</ul>
@@ -62,7 +62,7 @@ export default {
       opotionList: [
         { id: -1, name: "请选择" },
         { id: 1, name: "已共享" },
-        { id: 0, name: "不共享" }
+        { id: 2, name: "不共享" }
       ],
       knowledgeList: [],
       type: 1,
@@ -98,7 +98,7 @@ export default {
   },
   mounted() {
     this.getKnowledge();
-    this.search(this.$route.query.type || 1);
+    this.search(this.$route.query.type || 2);
   },
   methods: {
     edit(item) {
@@ -173,7 +173,7 @@ export default {
 
 <style lang='less' scoped>
 .icon-indexedit {
-  right: 180px;
+  right: 300px;
   top: 55px;
 }
 .right-cont-w {
@@ -186,7 +186,7 @@ export default {
   .icon-add {
     background-image: url(../assets/add2.png);
     height: 60px;
-    right: 75px;
+    right: 180px;
   }
   .icon-del {
     background-image: url(../assets/del.png);

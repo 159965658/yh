@@ -260,10 +260,19 @@ const nation = [
     cache.setBase = (obj) => {
         cache.set(cacheEnum['base'], obj)
     }
-
+    cache.removeAll = () => {
+        Object.keys(cacheEnum).forEach(k => {
+            if (k == 'device') {
+            } else {
+                console.log(k)
+                cache.remove(k);
+            }
+        });
+    }
 }())
 if (!cache.get(cacheEnum["nation"])) {
     cache.set(cacheEnum.nation, nation);
 }
+
 window.$cache = cache;
 export { cache, cacheEnum }

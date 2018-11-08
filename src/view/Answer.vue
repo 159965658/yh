@@ -40,6 +40,7 @@
 
 <script>
 import tipsVue from "@/components/FullTips";
+import TipsAnswerVue from './TipsAnswer.vue';
 export default {
   data() {
     return {
@@ -201,6 +202,11 @@ export default {
     },
     uploadReportSuccess(data) {
       // document.write(data);
+      let res = JSON.parse(data);
+      if (!res.mainPhysical) {
+        this.$toastFull(TipsAnswerVue);
+        return;
+      }
       this.$cache.set(this.$cacheEnum["report"], JSON.parse(data));
       this.$router.replace("/IdentificationReport?type=1");
 
@@ -233,8 +239,8 @@ export default {
       //获取测评数据
       try {
         window["getjson"] = this.getJson;
-        let fun = "gethxjson";
-        if (this.query.type == 1) fun = "getgwjson";
+        let fun = "getgwjson";
+        if (this.query.type == 1) fun = "gethxjson";
         //  alert(fun);
         this.$native.run(fun, "", "getjson");
       } catch (error) {

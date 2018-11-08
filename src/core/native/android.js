@@ -5,11 +5,12 @@ export default {
         console.log("log from js");
         console.log(fun, params, success, error)
         try {
-            if (load && (fun == 'activition' || fun == 'update' || fun == 'getdmz')) {
+            if (load && (fun == 'activition' || fun == 'update' || fun == 'getdmz' || fun == 'doctorcheck')) {
                 Android.run('loadshow', '', '', '');
             }
             Android.run(fun, JSON.stringify(params), success, error);
         } catch (error) {
+            Android.run('loadhide', '', '', '');
             alert('android' + error);
         }
     },

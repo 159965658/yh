@@ -23,7 +23,7 @@
             <div id="editor" class="editor" width="100%;height:600px" type="text/plain"></div>
             <div class="status">
                 <label for="">共享状态：</label>
-                <app-select v-on:opotion="opotion" :opotionList='opotionList'></app-select>
+                <app-select v-on:opotion="opotion" :id='defaultId' :opotionList='opotionList'></app-select>
             </div>
             <div class="button-jh fang">
                 <button class="button jh" @click="save">保存</button>
@@ -36,6 +36,7 @@
 
 <script>
 import dataNull from "@/components/DataNull";
+import FullTipsVue from "@/components/FullTips";
 export default {
   components: {
     dataNull
@@ -44,7 +45,7 @@ export default {
     return {
       opotionList: [
         {
-          id: 0,
+          id: 2,
           name: "私有"
         },
         {
@@ -52,6 +53,7 @@ export default {
           name: "共享"
         }
       ],
+      defaultId: 0,
       baseList: [],
       addBase: {
         userCode: "", //创建用户编号
@@ -85,6 +87,7 @@ export default {
         this.title = "编辑词条";
         setTimeout(() => {
           this.ue.setContent(this.editModel.content);
+          this.defaultId = this.editModel.type;
         }, 100);
       }
     }, 1);
@@ -118,7 +121,16 @@ export default {
         }
         if (this.editModel) {
           // alert("编辑词条");
-          this.editSave();
+
+          $vm.$off("submitEdit", this.editSave);
+          $vm.$on("submitEdit", this.editSave);
+          this.$toastFull(FullTipsVue, true, {
+            title: "提示",
+            text: "是否保存修改的词条？",
+            subText: "确定",
+            canText: "取消",
+            submitEmit: "submitEdit"
+          });
           return;
         }
         addBase.userCode = this.user.userCode;
@@ -161,6 +173,7 @@ export default {
   },
   beforeDestroy() {
     this.$cache.remove(this.$cacheEnum.baseEdit);
+    $vm.$off("submitEdit", this.editSave);
   }
 };
 </script>

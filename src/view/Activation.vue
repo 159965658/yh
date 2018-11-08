@@ -42,11 +42,13 @@ export default {
         };
         window["success"] = this.success;
         let th = this;
-        window["error"] = function() {
-          th.$toast("您输入的激活码有误，请查证后输入");
-        };
-        this.$native.run("activition", params, "success", "error");
+        window["errors"] = this.errorS;
+        this.$native.run("activition", params, "success", "errors");
       }
+    },
+    errorS() {
+      this.$native.loadHide();
+      th.$toast("您输入的激活码有误，请查证后输入");
     },
     success() {
       // alert("success Verification");

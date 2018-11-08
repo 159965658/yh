@@ -109,7 +109,10 @@ export default {
       this.$native.run("update", {}, "update");
     },
     updateSuccess(data) {
+      try {
+        
       this.$native.loadHide();
+      // document.write(data);
       const res = JSON.parse(data);
       console.log(res);
       if (res.newestVersionNo) {
@@ -127,6 +130,10 @@ export default {
           text: "已经是最新版本",
           subText: "确认"
         });
+      }
+      
+      } catch (error) {
+        alert(error)
       }
     },
     childSubmit() {

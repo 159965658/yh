@@ -8,11 +8,11 @@
             <ul>
                 <li>
                     <label>账号：</label>
-                    <input type="text" :placeholder=nullName v-model="name">
+                    <input type="text"  maxlength="20" :placeholder=nullName v-model="name">
         		</li>
                 <li class="m-t-60">
                     <label>密码：</label>
-                    <input type="password" :placeholder=nullPwd v-model="pwd">
+                    <input type="password"  maxlength="20" :placeholder=nullPwd v-model="pwd">
                     <div class="icon-mima" @click="gesture"></div>
                 </li>
             </ul>
@@ -45,6 +45,13 @@ export default {
       nullPwd: "请输入您的密码",
       user: {}
     };
+  },
+  watch: {
+    name(val) {
+      this.$nextTick(() => {
+        this.name = filterInput(val);
+      });
+    }
   },
   mounted() {
     // this.$toast("提示", 2000);
@@ -108,6 +115,7 @@ export default {
     },
     loginSuccess(data) {
       console.log(data);
+      this.$cache.removeAll();
       this.$cache.set(this.$cacheEnum["user"], JSON.parse(data));
       // alert(this.$cache.get(this.$cacheEnum["user"]));
       this.$router.replace("/index");
@@ -130,7 +138,11 @@ export default {
   padding-bottom: 110px;
   min-height: 1000px;
 }
-
+.name {
+  width: 85%;
+  //  padding:0 100px;
+  padding-left: 150px;
+}
 .login-logo {
   margin: 0 auto;
   background: url(../assets/login-img.png);
