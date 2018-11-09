@@ -41,8 +41,8 @@ export default {
     return {
       name: "",
       pwd: "",
-      nullName: "请输入您的账号",
-      nullPwd: "请输入您的密码",
+      nullName: "请输入您的账号。",
+      nullPwd: "请输入您的密码。",
       user: {}
     };
   },
@@ -118,6 +118,7 @@ export default {
       this.$cache.removeAll();
       this.$cache.set(this.$cacheEnum["user"], JSON.parse(data));
       // alert(this.$cache.get(this.$cacheEnum["user"]));
+      this.$toast("登录成功");
       this.$router.replace("/index");
     }
   }

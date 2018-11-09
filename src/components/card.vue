@@ -73,6 +73,7 @@ export default {
         this.$router.push("/identification");
         return;
       }
+      // alert(user.crowdFlag);
       this.$router.push("/answer?type=" + user.crowdFlag);
     }
   },

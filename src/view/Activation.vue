@@ -2,7 +2,7 @@
 <div>
     <app-header :ctitle='"设备激活"'></app-header>
     <div class="blue-bg shebei clearfix">
-        <i class="icon icon-jhsb-saoyisao"></i>
+        <i class="icon icon-jhsb-saoyisao" @click="qrCode"></i>
         <div class="inputs">
             <ul>
                 <li class="code_input">
@@ -46,14 +46,21 @@ export default {
         this.$native.run("activition", params, "success", "errors");
       }
     },
-    errorS() {
+    errorS(data) {
       this.$native.loadHide();
-      th.$toast("您输入的激活码有误，请查证后输入");
+      this.$toast(data);
     },
     success() {
       // alert("success Verification");
       this.$native.loadHide();
       this.$router.push("/createuser");
+    },
+    qrCode() {
+      window["qrcodeSuccess"] = this.qrcodeSuccess;
+      this.$native.run("qrcode", {}, "qrcodeSuccess");
+    },
+    qrcodeSuccess(data) {
+      this.code = data;
     }
   }
   //   watch: {

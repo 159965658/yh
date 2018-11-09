@@ -10,6 +10,10 @@
                     <li><label for="">性别</label><span>{{card.sex | sex}}</span></li>
                     <li><label for="">出生年月</label><span>{{card.birth}}</span></li>
                     <li><label for="">测评日期</label><span>{{report.testDate}}</span></li>
+
+                </ul>
+                <ul class="title2">
+                   <li><label for="">测评日期</label><span>{{report.testDate}}</span></li> 
                     <li><label for="">季节</label><span>{{report.testDate | season}}</span></li>
                     <li><label for="">节气</label><span>{{report.testDate | throttle}}</span></li>
                     <li><label for="">农历日期</label><span>{{report.testDate | lunarDate}}</span></li>
@@ -25,30 +29,97 @@
                         <!-- <img src="../assets/echarts.jpg" alt="" /> -->
                         <!-- <div id="myChart" ></div> -->
                     </div>
-                    <p class="pingjia">先天禀赋良好，后天调养得当，身体健壮，平素患病较少。</p>
+                    <p class="pingjia" v-if="report.reportType == 60" v-html="mainTizhi.yihuanb">先天禀赋良好，后天调养得当，身体健壮，平素患病较少。</p>
                     <ol class="clearfix">
-                        <li><label for="">体质类型</label>{{report.mainPhysical | rtrim}}</li>
-                        <li><label for="">理想分数</label>≥80</li>
-                        <li><label for="">体质得分</label>{{report.mainPhysicalScore}} <i class="icon up"></i></li>
+                        <li><label for="">体质类型</label>{{mainPhysicalStr[0]}}</li>
+                        <li><label for="">理想分数</label>{{mainFirstScope}}</li>
+                        <li><label for="">体质得分</label>{{mainFirst}} <i class="icon up"></i></li>
                     </ol>
                 </div>
+
+                <ul class="table-ul">
+                    <li>体质类型</li>
+                    <li>平和质</li>
+                    <li>气虚质</li>
+                    <li>阳虚质</li>
+                    <li>阴虚质</li>
+                    <li>痰湿质</li>
+                    <li>湿热质</li>
+                    <li>血瘀质</li>
+                    <li>气郁质</li>
+                    <li>特禀质</li>
+                </ul>
+                <ul class="table-ul" v-if="report.reportType == 60">
+                    <li>理想分数</li>
+                    <li>≥60</li>
+                    <li>≤40</li>
+                    <li>≤40</li>
+                    <li>≤40</li>
+                    <li>≤40</li>
+                    <li>≤40</li>
+                    <li>≤40</li>
+                    <li>≤40</li>
+                    <li>≤40</li>
+                </ul>
+                <ul class="table-ul" v-else>
+                    <li>理想分数</li>
+                    <li>≥17</li>
+                    <li>≤10</li>
+                    <li>≤10</li>
+                    <li>≤10</li>
+                    <li>≤10</li>
+                    <li>≤10</li>
+                    <li>≤10</li>
+                    <li>≤10</li>
+                    <li>≤10</li>
+                </ul>
+                <ul class="table-ul" v-if="report.reportType == 60">
+                    <li>目前得分</li>
+                    <li>{{report.pingheScore}} <span v-if="report.pingheScore >= 60">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.qixuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.yangxuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.yinxuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tanshiScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.shireScore}}<span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.xueyuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.qiyuScore }}<span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tebingScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
+                </ul>
+                <ul class="table-ul" v-else>
+                    <li>目前得分</li>
+                    <li>{{report.pingheScore}} <span v-if="report.pingheScore >= 17">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.qixuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.yangxuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.yinxuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tanshiScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.shireScore}}<span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.xueyuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.qiyuScore }}<span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tebingScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
+                </ul>
                 <div class="">
                     <h3><i></i>体质解析</h3>
-                    <div v-for="(item,i) in report.mainPhysical.split(',')" :key="i" v-if="item">
-                    <!-- <p class="nr" >{{item}}</p> -->
-                    <p class="nr" v-html="tizhij(item)">常见表现：面色、肤色润泽，头发稠密有光泽，目光有神，鼻色明润，嗅觉通利，味觉正常，唇色红润，精力充沛，不易疲劳，耐受寒热，睡眠安和，胃纳良好，二便正常。</p>
-                </div>
+                    <div v-for="(item,i) in mainPhysicalStr" :key="i" v-if="item">
+                        <!-- <p class="nr" >{{item}}</p> -->
+                        <p class="nr" v-html="tizhij(item)">常见表现：面色、肤色润泽，头发稠密有光泽，目光有神，鼻色明润，嗅觉通利，味觉正常，唇色红润，精力充沛，不易疲劳，耐受寒热，睡眠安和，胃纳良好，二便正常。</p>
+                    </div>
                 </div>
             </div>
 
             <div class="shadow" v-if='query.type == 0'>
                 <h2>中医体质辨识报告</h2>
-                <div class="bor-b">
+                <!-- <div class="bor-b">
                     <p class="nr">夏至是一年之中阳气最旺的节气，气候趋于炎热，人们更喜欢长时间呆在空调房中。 温度低，不通风的空调环境，不利于机体阳气的舒展，寒湿之气的驱除。 建议少吹空调，少在空调房停留，尽量多到户外活动，借助自然界的阳气培补自身的阳气，促进腠理开泄，排除湿气与寒气。 炎热烦躁之时，可试着调整呼吸，使心神安静，体会夏日的清爽宁静。</p>
                 </div>
                 <div class="bor-b">
                     <h3><i></i>原则</h3>
                     <p class="nr">健补脾、肾，平衡人体阴阳，将体质维护在一个良好的状态。</p>
+                </div> -->
+                  <div class="bor-b">
+                    <h3><i></i>节气养生</h3>
+                    <div class="html-fu" v-html="report.jieqiContent">
+
+                    </div>
                 </div>
                 <div class="bor-b">
                     <h3><i></i>调理建议</h3>
@@ -99,12 +170,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bor-b">
-                    <h3><i></i>节气养生</h3>
-                    <div class="html-fu" v-html="report.jieqiContent">
-
-                    </div>
-                </div>
+              
                 <div class="bor-b">
                     <h3><i></i>医师建议 <span>根据测评，您的体质类型为平和质,体质得分情况如下：</span></h3>
                     <div class="html-fu" v-html="report.ysjyContent ">
@@ -116,7 +182,7 @@
                 <div class="bor-b tip">
                     <h3><i></i>温馨提示</h3>
 
-                    <div class="html-fu"   v-html="report.promptContent">
+                    <div class="html-fu" v-html="report.promptContent">
                     </div>
                     <!-- <div class="html-fu" v-else v-html="report.promptContent">
                         <p class="nr">1.若您已患某种疾病，请您遵医嘱接受治疗和调护。</p>
@@ -174,9 +240,9 @@ import { Indicator } from "mint-ui";
 import { throttle } from "@/filters/index";
 import { jieqi } from "../../static/dict/jieqi.js";
 
-import { tizhi } from "../../static/dict/tizhi.js";
+import { tizhi, tizhiGong } from "../../static/dict/tizhi.js";
 
-import { tiaoyang } from "../../static/dict/tiaoyang.js";
+import { tiaoyang, tiaoyangGong } from "../../static/dict/tiaoyang.js";
 import FullTipsVue from "../components/FullTips.vue";
 
 export default {
@@ -190,7 +256,12 @@ export default {
       title: "体质辨识报告",
       type: 1,
       baseList: [],
-      tizhi: ""
+      tizhi: "",
+      saveFlag: false,
+      mainPhysicalStr: [],
+      mainFirst: 0,
+      mainTizhi: {},
+      mainFirstScope: 0 //第一体质的理想分数
     };
   },
   computed: {},
@@ -208,6 +279,15 @@ export default {
     this.report = this.$cache.get(this.$cacheEnum["report"]);
     // document.write(JSON.stringify(this.report));
     this.query = this.$route.query;
+    const maArr = this.report.mainPhysical.split(",");
+    if (this.report.reportType == 60) {
+      this.mainPhysicalStr = maArr;
+    } else {
+      this.mainPhysicalStr.push(maArr[0]);
+    }
+    //获取第一个体质得分
+    this.getFirst();
+    // console.log(this.mainPhysicalStr);
     let th = this;
     setTimeout(() => {
       this.drawLine();
@@ -222,8 +302,77 @@ export default {
     // document.write(JSON.stringify(this.report));
   },
   methods: {
+    getFirst() {
+      const first = this.mainPhysicalStr[0],
+        re = this.report;
+      let val = "";
+      let scope = "≤";
+      let scopeGong = "≤";
+      switch (first) {
+        case "平和质":
+          val = re.pingheScore;
+          scope = "≥80";
+          scopeGong = "≥17";
+          break;
+        case "气虚质":
+          val = re.qixuScore;
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
+        case "阳虚质":
+          val = re.yangxuScore;
+
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
+        case "阴虚质":
+          val = re.yinxuScore;
+
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
+        case "痰湿质":
+          val = re.tanshiScore;
+
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
+        case "湿热质":
+          val = re.shireScore;
+
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
+        case "血瘀质":
+          val = re.qiyuScore;
+
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
+        case "特禀质":
+          val = re.tebingScore;
+
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
+        default:
+          break;
+      }
+      this.mainTizhi = tiaoyang.find(p => p.id == first);
+      if (re.reportType == 60) {
+        this.mainFirstScope = scope;
+      } else {
+        this.mainFirstScope = scopeGong;
+      }
+      this.mainFirst = val;
+      return val;
+    },
     tizhij(value) {
       console.log(tizhi, value);
+      if (this.report.reportType == 33) {
+        const key = this.sicalGong();
+        return tizhiGong.find(p => p.id == key).name;
+      }
       return tizhi.find(p => p.id == value).name;
     },
     sicalFilter: function() {
@@ -232,7 +381,8 @@ export default {
       //如果只有一个选项
       if (report.reportType == 33) {
         //公卫版
-        return value + "。";
+        const arr = value.split(",");
+        return arr[0] + "。";
       } else if (report.reportType == 60) {
         //去掉最后一个逗号
         //value = value.ToString().RTrim(",");
@@ -251,10 +401,31 @@ export default {
         } else {
           //value = value.substring(0, value.length - 1);
           if (report.mainPhysicalScore >= 40) {
-            return `<span class='bl'>兼夹体质</span>。主要体质类型为<span class='bl'>${value}</span>,属<span class='bl'>偏颇体质</span>`;
+            return `<span class='bl'>兼夹体质</span>。主要体质类型为<span class='bl'>${value}</span>属<span class='bl'>偏颇体质</span>`;
           } else {
             return `基本是<span class='bl'>平和质</span>,有<span class='bl'>${value}</span>倾向,属<span class='bl'>兼夹体质</span>`;
           }
+        }
+      }
+    },
+    sicalGong() {
+      let report = this.report,
+        value = report.mainPhysical;
+      // alert(value);
+      const arr = value.split(",");
+      arr.pop();
+      if (arr.length == 1) {
+        //查看是否是平和体质
+        if (arr[0] == "平和质") {
+          return "平和体质";
+        } else {
+          return `偏颇体质`;
+        }
+      } else {
+        if (report.mainPhysicalScore >= 10) {
+          return `兼夹体质`;
+        } else {
+          return `倾向体质`;
         }
       }
     },
@@ -309,19 +480,19 @@ export default {
       report.ysjyContent = this.ue2.getContent();
       report.promptContent = this.ue3.getContent();
       if (!report.jieqiContent) {
-        this.$toast("请您填写节气养生");
+        this.$toast("节气养生内容不能为空，请输入内容。");
         return;
       }
       if (!report.blockContent) {
-        this.$toast("请您填写调养方案");
+        this.$toast("调理方案内容不能为空，请输入内容。");
         return;
       }
       if (!report.ysjyContent) {
-        this.$toast("请您填写医师建议");
+        this.$toast("医师建议内容不能为空，请输入内容。");
         return;
       }
       if (!report.promptContent) {
-        this.$toast("请您填写温馨提示");
+        this.$toast("温馨提示内容不能为空，请输入内容。");
         return;
       }
       //没有词条新增
@@ -372,6 +543,7 @@ export default {
       this.$cache.remove("word3");
       this.$cache.remove("word4");
       this.$toast("体质报告创建成功");
+      this.saveFlag = true;
       this.$router.push("/index");
     },
     ueInit() {
@@ -421,20 +593,29 @@ export default {
         else {
           let arr = [],
             re = th.report.mainPhysical;
-          if (re == "平和质") {
-            re = "平和质,";
+          let tiaoyangArr = tiaoyang;
+          if (th.report.reportType == 33) {
+            tiaoyangArr = tiaoyangGong;
           }
+          // if (re == "平和质") {
+          //   re = "平和质,";
+          // }
           if (re.indexOf(",") > -1) {
             arr = re.split(",");
             let co = "";
-            arr.forEach(item => {
-              const mode = tiaoyang.find(p => p.id == item);
-              if (mode) {
-                co += mode.name;
-              }
-            });
+            // arr.forEach(item => {
+            const modeArr = tiaoyangArr.find(p => p.id == arr[0]);
+            // if (mode) {
+            co += modeArr.name;
+            // }
+            // });
             th.ue1.setContent(co);
           }
+          //  } else if (this.report.reportType == 33) {
+          //公卫版
+          // this.sicalGong();
+          //   alert(th.report.mainPhysical)
+          // }
         }
         const word2 = this.$cache.get("word3");
         if (word2) th.ue2.setContent(word2.content);
@@ -503,9 +684,9 @@ export default {
             label: {
               formatter: function(value) {
                 //  console.log(value.);
-                if (value.value == 15) {
-                  return "基础分";
-                }
+                // if (value.value == 15) {
+                //   return "基础分";
+                // }
                 if (value.value == 30) {
                   return "横向分";
                 }
@@ -522,9 +703,9 @@ export default {
         },
         silent: true,
         data: [
-          {
-            yAxis: 15
-          },
+          // {
+          //   yAxis: 15
+          // },
           {
             yAxis: 30
           },
@@ -764,7 +945,7 @@ export default {
   beforeRouteLeave(to, from, next) {
     // 导航离开该组件的对应路由时调用
     // 可以访问组件实例 `this`
-    if (this.query.type == 1) {
+    if (this.query.type == 1 && !this.saveFlag) {
       this.$toastFull(FullTipsVue, true, {
         text: "确定要退出编辑体质辨识报告吗？",
         title: "提示",
@@ -787,6 +968,32 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.table-ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  // text-align: center;
+  > li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #00a6e7;
+    height: 80px;
+    align-items: center;
+
+    > span {
+      display: inline-block;
+      // margin-left: 9px;
+      // margin-bottom: 2px;
+    }
+  }
+}
+
+.yihuan {
+  margin-bottom: 20px;
+}
+
 .fang {
   margin: 0 auto;
   padding-top: 40px;
@@ -830,6 +1037,7 @@ export default {
     font-size: 32px;
     color: #656565;
     padding-left: 20px;
+    padding-bottom: 50px;
   }
 
   p.nr:first-child {
@@ -876,13 +1084,14 @@ export default {
     padding-bottom: 60px;
   }
 
-  ul.title {
+  ul.title,
+  .title2 {
     width: 100%;
     margin: 0 auto;
     padding-bottom: 15px;
-    border-bottom: 1px solid #dcdcdc;
+
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     flex-wrap: wrap;
 
     li {
@@ -900,6 +1109,10 @@ export default {
         color: #989898;
       }
     }
+  }
+
+  .title2 {
+    border-bottom: 1px solid #dcdcdc;
   }
 
   h3 {

@@ -52,6 +52,9 @@ export default {
         this.s();
         location.href = '/#/index'
       }
+      else if(this.f1 == 2){
+        this.s();
+      }
       else {
         $vm.$emit(this.submitEmit);
         // this.callBack();

@@ -7,7 +7,7 @@
             <ul>
                 <li>
                     <label>账号：</label>
-                    <input type="text" placeholder="手机号或者姓名全拼" maxlength="20" v-model="loginName">		        		</li>
+                    <input type="text" placeholder="请输入一个账号作为您的登录名。" maxlength="20" v-model="loginName">		        		</li>
                 <li>
                     <label>设置密码：</label>
                     <input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.password">
@@ -20,7 +20,7 @@
                 </li>
                 <!-- <li>
                     <label>机构编码：</label>
-                    <input type="text" placeholder="机构编码" v-model="institutionCode" maxlength="20" >	-->	        		</li>
+                    <input type="text" placeholder="机构编码" v-model="institutionCode" maxlength="20" >       		</li>	-->	 
                 <li> 
                     <label>机构名称：</label>
                     <!-- <input type="text" placeholder="机构名称" v-model="institutionName" maxlength="20" >		  -->
@@ -121,11 +121,13 @@ export default {
     },
     errorCheck(data) {
       this.$native.loadHide();
-      this.$toast("医师验证失败" + data);
+      this.$toast(data);
     },
-    doctorcheckSuccess() {
+    doctorcheckSuccess(data) {
+      const res = JSON.parse(data);
       this.$native.loadHide();
       let params = this.addUser;
+      params.operId = res.operId;
       window["addUserSuccess"] = this.success;
       this.$native.run("addUser", params, "addUserSuccess");
     },
@@ -135,26 +137,34 @@ export default {
       params.webNickName = this.webNickName;
       // params.institutionCode = this.institutionCode;
       // params.institutionName = this.institutionName;
-      console.log(params.password.length);
+      // console.log(params.password.length);
       if (!params.loginName) {
-        this.$toast("请填写您的账号");
+        this.$toast("账号不能为空，请输入一个账号作为您的登录名。");
+        return;
+      }
+      if (!params.password) {
+        this.$toast("设置密码不能为空，请输入设置密码");
         return;
       }
       if (params.password.length < 6 || params.password.length > 20) {
-        this.$toast("密码为6-20为字符");
+        this.$toast("设置密码不符合要求，请输入6-20位字符");
+        return;
+      }
+      if (!params.spassword) {
+        this.$toast("确认密码不能为空，请输入确认密码");
         return;
       }
       if (params.password != params.spassword) {
-        this.$toast("两次密码输入不一致");
+        this.$toast("两次输入密码不一致，请重新输入");
         return;
       }
       // alert(params.institutionCode);
       if (!params.institutionCode || params.institutionCode == -1) {
-        this.$toast("请选择机构");
+        this.$toast("请选择一个机构。");
         return;
       }
       if (!params.webNickName) {
-        this.$toast("请填写您的网络用户名");
+        this.$toast("请输入网络版用户名。");
         return;
       }
       this.doctorcheck();
@@ -169,6 +179,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
+input::-webkit-input-placeholder {
+  color: #1880c3 !important;
+  font-size: 36px;
+}
 .blue-bg {
   // height: 1279px;
   padding-bottom: 60px;
@@ -221,4 +235,5 @@ export default {
     }
   }
 }
+
 </style>

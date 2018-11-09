@@ -61,8 +61,8 @@ export default {
     return {
       opotionList: [
         { id: -1, name: "请选择" },
-        { id: 1, name: "已共享" },
-        { id: 2, name: "不共享" }
+        { id: 1, name: "不共享" },
+        { id: 2, name: "私有" }
       ],
       knowledgeList: [],
       type: 1,
@@ -142,6 +142,7 @@ export default {
         this.knowledgeList = res;
       } catch (error) {
         alert(error);
+        this.$native.log(data);
       }
     },
     setList() {},

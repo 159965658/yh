@@ -261,7 +261,7 @@ export default {
       } else this.sList = this.userList;
       if (this.searchText) {
         this.sList = this.sList.filter(
-          p => p.cName.indexOf(this.searchText) > -1 || p.uCardNum == this.text
+          p => p.cName.indexOf(this.searchText) > -1 || p.uCardNum == this.searchText
         );
       }
       if (this.startDate) {

@@ -97,7 +97,7 @@ export default {
       this.baseList.forEach(item => {
         if (item.hover) {
           item.isDelete = '1';
-          this.$native.run("updateknowledge", { item }, "updateknowledge");
+          this.$native.run("updateknowledge", item, "updateknowledge");
         }
       });
       $appBack();

@@ -221,7 +221,7 @@ export default {
     save() {
       const user = this.addUser;
       if (!user.cName) {
-        this.$toast("请填写姓名");
+        this.$toast("姓名不能为空，请输入姓名。");
         return;
       }
       // if (user.nation) {
@@ -229,18 +229,19 @@ export default {
       //   return;
       // }
       if (!user.birth) {
-        this.$toast("请填写出生日期");
+        this.$toast("出生不能未空，请选择您的出生日期");
         return;
       }
       if (!user.uCardNum) {
-        if (user.cCardType == 101) this.$toast("请填写身份证号");
+        if (user.cCardType == 101)
+          this.$toast("身份证不能未空，请输入您的身份证号码。");
         else {
-          this.$toast("请填写其他证件号");
+          this.$toast("请输入您的其他号码。");
         }
         return;
       }
       if (!user.contactAddress) {
-        this.$toast("请填写地址");
+        this.$toast("地址不能为空，请输入您的地址。");
         return;
       }
       if (user.custOrgProvince == 0) {
@@ -288,11 +289,12 @@ export default {
     addcustomer(data, text = "请选择你要执行的操作") {
       // alert(data);
       this.$cache.set(this.$cacheEnum["cardModel"], JSON.parse(data));
-      this.$toastFull(NewTipsVue, true, {
-        text: text,
-        stitle: "保存并进入辨识",
-        type: 0
-      });
+      $vm.$router.replace("/Identification");
+      // this.$toastFull(NewTipsVue, true, {
+      //   text: text,
+      //   stitle: "保存并进入辨识",
+      //   type: 0
+      // });
     },
     datepickerOpenedFunction() {
       console.log("open");

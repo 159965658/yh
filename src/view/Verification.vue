@@ -41,11 +41,13 @@ export default {
         };
         window["success"] = this.success;
         let th = this;
-        // window["error"] = function() {
-        //   th.$toast("您输入的激活码有误，请查证后输入");
-        // };
-        this.$native.run("activition", params, "success");
+        window["errors"] = this.errors;
+        this.$native.run("activition", params, "success", "errors");
       }
+    },
+    errors(data) {
+      this.$native.loadHide();
+      this.$toast(data);
     },
     success() {
       // alert("success Verification");

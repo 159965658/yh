@@ -7,12 +7,12 @@
 	        		<ul>
 	        			<li>
 	        				<label>设置密码：</label>
-	        				<input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="pwd">
+	        				<input :type="flag ? 'password' : 'text'" placeholder="请输入设置密码" v-model="pwd">
 	        				<i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
 	        			</li>
 	        			<li class="m-t-60">
 	        				<label>确认密码：</label>
-	        				<input :type="flag1 ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="sPwd">
+	        				<input :type="flag1 ? 'password' : 'text'" placeholder="请输入确认密码" v-model="sPwd">
 	        					<i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
 	        			</li>
 	        		</ul>
@@ -40,12 +40,20 @@ export default {
   },
   methods: {
     next() {
+      if (!this.pwd) {
+        this.$toast("设置密码不能为空，请输入设置密码");
+        return;
+      }
       if (this.pwd.length < 6 || this.pwd.length > 20) {
-        this.$toast("密码为6-20为字符");
+        this.$toast("设置密码不符合要求，请输入6-20位字符");
+        return;
+      }
+      if (!this.sPwd) {
+        this.$toast("确认密码不能为空，请输入确认密码");
         return;
       }
       if (this.pwd != this.sPwd) {
-        this.$toast("两次密码输入不一致");
+        this.$toast("两次输入密码不一致，请重新输入");
         return;
       }
       this.user.password = this.pwd;

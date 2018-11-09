@@ -61,7 +61,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      $vm.$on("submit", this.childSubmit);
+      // $vm.$on("submit", this.childSubmit);
       $vm.$on("selectUser", this.selectUser);
       $vm.$on("changeOrg", this.changeOrg);
     }, 1);
@@ -110,30 +110,35 @@ export default {
     },
     updateSuccess(data) {
       try {
-        
-      this.$native.loadHide();
-      // document.write(data);
-      const res = JSON.parse(data);
-      console.log(res);
-      if (res.newestVersionNo) {
-        //有新的版本
-        this.versionUrl = res.versionUrl;
-        this.$toastFull(FullTips, true, {
-          title: "版本更新",
-          text: res.message,
-          subText: "更新"
-        });
-      } else {
-        //没有新版
-        this.$toastFull(FullTips, true, {
-          title: "版本更新",
-          text: "已经是最新版本",
-          subText: "确认"
-        });
-      }
-      
+        this.$native.loadHide();
+        // document.write(data);
+        const res = JSON.parse(data);
+        console.log(res);
+        if (res.newestVersionNo) {
+          //有新的版本
+          this.versionUrl = res.versionUrl;
+          this.$toastFull(FullTips, true, {
+            title: "版本更新",
+            text: res.message,
+            subText: "更新",
+            f1: 2,
+            s: this.childSubmit
+          });
+        } else {
+          //没有新版
+          this.$toastFull(FullTips, true, {
+            title: "版本更新",
+            text: "已经是最新版本",
+            subText: "确认",
+            f1:2,
+            s:function(){
+
+            }
+          });
+        }
       } catch (error) {
-        alert(error)
+        alert(error);
+        this.$native.log(data);
       }
     },
     childSubmit() {
@@ -160,7 +165,7 @@ export default {
     }
   },
   beforeDestroy() {
-    $vm.$off("submit", this.childSubmit);
+    // $vm.$off("submit", this.childSubmit);
     $vm.$off("selectUser", this.selectUser);
     $vm.$off("changeOrg", this.changeOrg);
   }

@@ -112,7 +112,7 @@ export default {
         let addBase = this.addBase;
         addBase.content = this.ue.getContent();
         if (!addBase.content.trim()) {
-          this.$toast("请填写词条内容");
+          this.$toast("内容不能为空，请输入内容。");
           return;
         }
         if (addBase.isShared == -1) {

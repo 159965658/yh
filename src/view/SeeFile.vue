@@ -85,7 +85,7 @@
                 <ul v-if="report.length">
                     <li v-for="(item,i) in report" :key="i" @click='iden(item)'>
                         <b class="biaoti">体质辨识报告   </b>
-                        <b class="time">{{user.webNickName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}-{{item.mainPhysical}}</b>
+                        <b class="time">{{user.webNickName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}-{{item.mainPhysical.split(',')[0]}}</b>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
                         <i class="jiao"></i>
                     </li>
@@ -174,8 +174,13 @@ export default {
     },
     getInventorySuccess(data) {
       // document.write(data);
-      const res = JSON.parse(data).customerInventoryInfoList;
-      this.report = res;
+      try {
+        const res = JSON.parse(data).customerInventoryInfoList;
+        this.report = res;
+      } catch (error) {
+        alert(error);
+        this.$native.log(data);
+      }
     },
     sexClick(item) {
       //男女

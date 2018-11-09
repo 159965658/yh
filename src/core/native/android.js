@@ -14,6 +14,9 @@ export default {
             alert('android' + error);
         }
     },
+    log(str) {
+        Android.run('log', str, '', '');
+    },
     loadShow() {
         Android.run('loadshow', '', '', '');
     },

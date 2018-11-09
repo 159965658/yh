@@ -7,11 +7,11 @@
 	        		<ul>
 	        			<li>
 	        				<label>账号：</label>
-	        				<input type="text" placeholder="请输入您的账号" v-model="loginName">
+	        				<input type="text" placeholder="请输入您的账号。" v-model="loginName">
 	        			</li>
 	        			<li class="m-t-60">
 	        				<label>网络版用户名：</label>
-	        				<input type="text" placeholder="请输入网络版用户名" v-model="webNickName">
+	        				<input type="text" placeholder="请输入您的网络版用户名。" v-model="webNickName">
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
@@ -33,11 +33,11 @@ export default {
   methods: {
     next() {
       if (this.loginName == "") {
-        this.$toast("请输入您的账号");
+        this.$toast("请输入您的账号。");
         return;
       }
       if (this.webNickName == "") {
-        this.$toast("请输入您的网络版用户名");
+        this.$toast("请输入您的网络版用户名。");
         return;
       }
       window["nextSuccess"] = this.nextSuccess;

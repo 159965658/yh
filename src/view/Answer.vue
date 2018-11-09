@@ -40,7 +40,7 @@
 
 <script>
 import tipsVue from "@/components/FullTips";
-import TipsAnswerVue from './TipsAnswer.vue';
+import TipsAnswerVue from "./TipsAnswer.vue";
 export default {
   data() {
     return {
@@ -153,11 +153,13 @@ export default {
   },
   methods: {
     selAnswer(item, i, e) {
+      // this.subModel["question" + i] = this.answerHover;
       this.answerHover = i + 1;
       this.next();
     },
     hisAnswer(prev = false) {
       let i = this.index;
+      console.log(i);
       if (prev) {
         //恢复答案
         this.index--;
@@ -165,6 +167,7 @@ export default {
       } else {
         const i2 = i + 1,
           next = this.subModel["question" + i2];
+        this.subModel["question" + i] = this.answerHover; //保存这次答案
         if (next) {
           //如果下一题答过 重新赋值选中上一次的答案
           this.answerHover = next;
@@ -309,7 +312,7 @@ export default {
 }
 
 .answer {
-  width: 1750px;
+  width: 2400px;
   height: 1045px;
   background: #fff;
   margin: 0 auto;
@@ -322,7 +325,7 @@ export default {
   h2 {
     // text-align: center;
     margin-left: 40px;
-    font-size: 48px;
+    font-size: 40px;
     color: #282828;
     padding-top: 115px;
     padding-left: 60px;
