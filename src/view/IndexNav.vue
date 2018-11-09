@@ -51,14 +51,21 @@ export default {
 <style lang="less" scoped>
 .left-nav {
   ul {
-    height: 1340px;
+    // height: 1340px;
+    flex:1 auto;
   }
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   .left-nav-logo {
-    // position: absolute;
-    // bottom: 35px;
+    flex: 1;
+    background-repeat: no-repeat;
+    //  position: fixed;
+    //  bottom: 35px;
     // left: 50%;
     // margin-left: -61px;
+    // margin-top: 200px;
   }
 }
 </style>

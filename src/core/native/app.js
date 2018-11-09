@@ -29,26 +29,26 @@ if (platform.PC || !platform.android) {
     window['ra'] = function () {
         // alert(window.orientation + "," + JSON.stringify(platform));
 
-        if (window.orientation == 180 || window.orientation == 0) { //横屏
-            //ipad、iphone竖屏；Andriod横屏 
-            if (platform.iPad || platform.PC) {
-                document.documentElement.style.fontSize =
-                    150 * (document.documentElement.clientWidth / 2048) + "px";
-                return;
-            }
-            document.documentElement.style.fontSize =
-                150 * (document.documentElement.clientHeight / 2048) + "px";
-        }
-        if (window.orientation == 90 || window.orientation == -90) { //竖屏
-            //ipad、iphone横屏；Andriod竖屏
-            if (platform.iPad || platform.PC) {
-                document.documentElement.style.fontSize =
-                    150 * (document.documentElement.clientHeight / 2048) + "px";
-                return;
-            }
-            document.documentElement.style.fontSize =
-                150 * (document.documentElement.clientWidth / 2048) + "px";
-        }
+        // if (window.orientation == 180 || window.orientation == 0) { //横屏
+        //     //ipad、iphone竖屏；Andriod横屏 
+        //     if (platform.iPad || platform.PC) {
+        //         document.documentElement.style.fontSize =
+        //             150 * (document.documentElement.clientWidth / 2048) + "px";
+        //         return;
+        //     }
+        //     document.documentElement.style.fontSize =
+        //         150 * (document.documentElement.clientHeight / 2048) + "px";
+        // }
+        // if (window.orientation == 90 || window.orientation == -90) { //竖屏
+        //     //ipad、iphone横屏；Andriod竖屏
+        //     if (platform.iPad || platform.PC) {
+        //         document.documentElement.style.fontSize =
+        //             150 * (document.documentElement.clientHeight / 2048) + "px";
+        //         return;
+        //     }
+        //     document.documentElement.style.fontSize =
+        //         150 * (document.documentElement.clientWidth / 2048) + "px";
+        // }
     }
     window['filterInput'] = function (val, ch = false) {
         if (ch)
@@ -80,23 +80,43 @@ if (platform.PC || !platform.android) {
         return format;
     };
 }(window))
+
+let firstApp = null;
 window['$appBack'] = function (isforce = false) {
     const call = window['appBackCall']();
     console.log(call);
     if (!call) {
         return false;
     };
+    const r = $vm.$route,
+        closeApp = r.meta.closeApp; //是否关闭app
     const isFull = window.$vm.$isfull();
     console.log(isFull);
     if (isFull) {
         $vm.$closeFull();//关闭全屏
         return;
     }
-    else if (window.history.length <= 1) {
-        //调用原生的方法 关闭app
-        $vm.native.run('finish');
-        console.log('关闭app')
-        return false
+    else if (closeApp) {
+
+        //首次按键，提示  再按一次退出应用
+        if (!firstApp) {
+            firstApp = new Date().getTime();//记录第一次按下回退键的时间
+            $vm.$toast('再按一次退出应用');//给出提示
+            // history.go(-1)//回退到上一页面
+            setTimeout(function () {//1s中后清除
+                firstApp = null;
+            }, 1000);
+        } else {
+            // alert('关闭');
+            if (new Date().getTime() - firstApp < 1000) {//如果两次按下的时间小于1s，
+                //调用原生的方法 关闭app
+                // alert('关闭');
+                $vm.$native.run('finish', '', '');
+                console.log('关闭app')
+                return false
+            }
+        }
+
     }
     else {
         //特殊页面处理 答题页面

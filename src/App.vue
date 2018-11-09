@@ -42,7 +42,7 @@ export default {
             //   if (this.fun) {
             if (!data.activeCode && !data.enterpriseIdentification) {
                 //首次激活 进入激活页面
-                this.$router.push("/activation");
+                this.$router.replace("/activation");
                 return;
             }
             //不是首次激活 进入 切换用户

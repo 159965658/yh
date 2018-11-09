@@ -210,19 +210,31 @@ export default {
       const model = this.cardModelCopy,
         oldModel = this.cardModel;
       if (!model.cName) {
-        this.$toast("请填写您的姓名");
+        this.$toast("姓名不能为空，请输入姓名。");
         return false;
       }
-      if (!model.nation) {
-        this.$toast("请填写您的民族");
-        return false;
-      }
+      // if (!model.nation) {
+      //   this.$toast("请填写您的民族");
+      //   return false;
+      // }
       if (!model.uCardNum) {
-        this.$toast("请填写您的证件号");
-        return false;
+        if (model.cCardType == 101)
+          this.$toast("身份证不能未空，请输入您的身份证号码。");
+        else {
+          this.$toast("请输入您的其他号码。");
+        }
+        return;
+      }
+      if (model.uCardNum) {
+        if (model.cCardType == 101) {
+          if (model.uCardNum.length != 18) {
+            this.$toast("身份证输入不符合要求，请输入您的18位身份证号码。");
+            return;
+          }
+        }
       }
       if (!model.contactAddress) {
-        this.$toast("请填写您的地址");
+        this.$toast("地址不能为空，请输入您的地址。");
         return false;
       }
       if (!model.custOrgProvince) {
@@ -477,8 +489,8 @@ export default {
         font-size: 32px;
         color: #282828;
         margin: 0 30px;
-        padding-bottom: 20px;
-        padding-top: 20px;
+        padding-bottom: 40px;
+        padding-top: 40px;
 
         label {
           color: #989898;

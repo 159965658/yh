@@ -61,7 +61,7 @@ export default {
     return {
       opotionList: [
         { id: -1, name: "请选择" },
-        { id: 1, name: "不共享" },
+        { id: 1, name: "共享" },
         { id: 2, name: "私有" }
       ],
       knowledgeList: [],

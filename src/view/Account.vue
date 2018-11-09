@@ -182,7 +182,7 @@ export default {
   width: calc(100% - 208px);
 
   div.center-content {
-    width: 1326px;
+    width: 1526px;
     margin: 0 auto;
     margin-top: 64px;
   }
@@ -200,10 +200,10 @@ export default {
       padding-bottom: 15px;
 
       dt {
-        width: 196px;
+        width: 199px;
         height: 400px;
         background: url(../assets/login-img.png) no-repeat;
-        background-size: 196px 246px;
+        background-size: 199px 191px;
         float: left;
         margin-left: 156px;
         margin-right: 165px;

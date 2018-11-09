@@ -52,7 +52,9 @@ const router = new Router({
     {
       path: '/',
       name: 'Login',
-      component: Login
+      component: Login, meta: {
+        closeApp: true
+      }
     }, {
       path: '/a',
       name: 'a',
@@ -60,7 +62,9 @@ const router = new Router({
     }, {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login, meta: {
+        closeApp: true
+      }
     }, {
       path: '/delword',
       name: 'delword',

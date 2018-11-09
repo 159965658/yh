@@ -240,6 +240,14 @@ export default {
         }
         return;
       }
+      if (user.uCardNum) {
+        if (user.cCardType == 101) {
+          if (user.uCardNum.length != 18) {
+            this.$toast("身份证输入不符合要求，请输入您的18位身份证号码。");
+            return;
+          }
+        }
+      }
       if (!user.contactAddress) {
         this.$toast("地址不能为空，请输入您的地址。");
         return;
@@ -289,12 +297,12 @@ export default {
     addcustomer(data, text = "请选择你要执行的操作") {
       // alert(data);
       this.$cache.set(this.$cacheEnum["cardModel"], JSON.parse(data));
-      $vm.$router.replace("/Identification");
-      // this.$toastFull(NewTipsVue, true, {
-      //   text: text,
-      //   stitle: "保存并进入辨识",
-      //   type: 0
-      // });
+      //$vm.$router.replace("/Identification");
+      this.$toastFull(NewTipsVue, true, {
+        text: text,
+        stitle: "保存并进入辨识",
+        type: 0
+      });
     },
     datepickerOpenedFunction() {
       console.log("open");

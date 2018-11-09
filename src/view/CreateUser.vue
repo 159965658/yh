@@ -16,16 +16,21 @@
                 <li>
                     <label>确认密码：</label>
                     <input :type="flag1 ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.spassword">
-                  <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
+                    <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
                 </li>
                 <!-- <li>
                     <label>机构编码：</label>
-                    <input type="text" placeholder="机构编码" v-model="institutionCode" maxlength="20" >       		</li>	-->	 
-                <li> 
+                    <input type="text" placeholder="机构编码" v-model="institutionCode" maxlength="20" >       		</li>	-->
+                <li>
                     <label>机构名称：</label>
                     <!-- <input type="text" placeholder="机构名称" v-model="institutionName" maxlength="20" >		  -->
-                  <app-select class="org" :opotionList='orgArr' @opotion="orgClick"></app-select>
-                           		</li>
+                    <app-select class="org" :opotionList='orgArr' @opotion="orgClick"></app-select>
+                </li>
+                <li>
+                    <label>机构编码：</label>
+                    <input type="text" placeholder="机构编码" disabled v-model="addUser.institutionCode" maxlength="20" > 
+              	</li> 
+
                 <li>
                     <label>网络版用户名：</label>
                     <input type="text" placeholder="网络版用户名" maxlength="20" v-model="webNickName">		        		</li>
@@ -60,7 +65,12 @@ export default {
       institutionName: "",
       flag1: true,
       flag: true,
-      orgArr: [{ id: -1, name: "请选择" }]
+      orgArr: [
+        {
+          id: -1,
+          name: "请选择"
+        }
+      ]
     };
   },
   watch: {
@@ -93,6 +103,11 @@ export default {
       this.getorgdata();
     },
     orgClick(item) {
+      if (item.id == -1) {
+        this.addUser.institutionCode = "";
+        this.addUser.institutionName = item.name;
+        return;
+      }
       this.addUser.institutionCode = item.id;
       this.addUser.institutionName = item.name;
       console.log(item);
@@ -109,7 +124,10 @@ export default {
       //  document.write(data);
       const arr = JSON.parse(data).orgData;
       arr.forEach(item => {
-        this.orgArr.push({ id: item.orgId, name: item.orgName });
+        this.orgArr.push({
+          id: item.orgId,
+          name: item.orgName
+        });
       });
     },
     doctorcheck() {
@@ -183,6 +201,7 @@ input::-webkit-input-placeholder {
   color: #1880c3 !important;
   font-size: 36px;
 }
+
 .blue-bg {
   // height: 1279px;
   padding-bottom: 60px;
@@ -208,18 +227,19 @@ input::-webkit-input-placeholder {
 .button-submit {
   margin-top: 96px;
 }
-</style>
-<style lang="less">
+</style><style lang="less">
 .org {
   width: 100% !important;
   // height: 100%;
   margin-top: 20px;
   position: absolute !important;
   left: 0px !important;
+
   > .select_click_box {
     border: none !important;
     text-align: center;
     background-color: transparent !important;
+
     p {
       text-align: center;
       padding: 0px !important;
@@ -227,6 +247,7 @@ input::-webkit-input-placeholder {
       color: #1880c3 !important;
     }
   }
+
   > .my_select {
     .opotion {
       height: 50px !important;
@@ -235,5 +256,4 @@ input::-webkit-input-placeholder {
     }
   }
 }
-
 </style>

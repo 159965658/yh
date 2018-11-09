@@ -50,7 +50,7 @@ export default {
       else if(this.fl == 1){
         console.log(1);
         this.s();
-        location.href = '/#/index'
+        // location.href = '/#/index'
       }
       else if(this.f1 == 2){
         this.s();
