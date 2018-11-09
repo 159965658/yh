@@ -125,6 +125,12 @@ window['$appBack'] = function (isforce = false) {
             $vm.$emit('tipsBack');
             return;
         }
+        //特殊页面处理 答题页面
+        if ($vm.$route.name == 'identificationreport' && !isforce && r.query.type == 1) {
+            //警告 是否要退出
+            $vm.$emit('tipsReportBack');
+            return;
+        }
         $vm.$closeFull();
         $vm.$router.go(-1)
         // console.log($vm.$router);

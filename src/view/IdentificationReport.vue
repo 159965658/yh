@@ -300,6 +300,9 @@ export default {
     this.getKnowledge(2);
     this.tizhi = this.sicalFilter();
     // document.write(JSON.stringify(this.report));
+    setTimeout(() => {
+      $vm.$on("tipsReportBack", this.outViewFun);
+    }, 100);
   },
   methods: {
     getFirst() {
@@ -526,7 +529,7 @@ export default {
         userCode: user.userCode, //创建用户编号
         type: type, // 条目类型 1：调理方案，2：节气养生，3：医师建议，4：温馨提示
         content: "", // 条目内容的html字串
-        isShared: 2 //是否共享 0：不共享，1：共享
+        isShared: 2 //是否共享 2：不共享，1：共享
       };
       const model = baseList.find(p => p.content == content && p.type == type);
       // alert(JSON.stringify(model));
@@ -940,34 +943,55 @@ export default {
           }
         ]
       });
-    }
-  },
-  beforeRouteLeave(to, from, next) {
-    // 导航离开该组件的对应路由时调用
-    // 可以访问组件实例 `this`
-    try {
-      if (this.query.type == 1 && !this.saveFlag) {
-        this.$toastFull(FullTipsVue, true, {
-          text: "确定要退出编辑体质辨识报告吗？",
-          title: "提示",
-          subText: "确定",
-          fl: 1,
-          s: function() {
-            next();
-            return;
-          }
-        });
-        next(false);
-      } else {
-        next();
+    },
+    outViewFun() {
+      //退出页面
+      try {
+        if (this.query.type == 1 && !this.saveFlag) {
+          this.$toastFull(FullTipsVue, true, {
+            text: "确定要退出编辑体质辨识报告吗？",
+            title: "提示",
+            subText: "确定",
+            fl: 1,
+            s: function() {
+              console.log("退出页面");
+              $vm.$router.replace("/index");
+            }
+          });
+          // next(false);
+        }
+      } catch (error) {
+        alert(error);
       }
-    } catch (error) {
-      alert(error);
-      $vm.$native.run("h5:" + error, "", "");
     }
   },
+  // beforeRouteLeave(to, from, next) {
+  //   // 导航离开该组件的对应路由时调用
+  //   // 可以访问组件实例 `this`
+  //   try {
+  //     if (this.query.type == 1 && !this.saveFlag) {
+  //       this.$toastFull(FullTipsVue, true, {
+  //         text: "确定要退出编辑体质辨识报告吗？",
+  //         title: "提示",
+  //         subText: "确定",
+  //         fl: 1,
+  //         s: function() {
+  //           next();
+  //           return;
+  //         }
+  //       });
+  //       next(false);
+  //     } else {
+  //       next();
+  //     }
+  //   } catch (error) {
+  //     alert(error);
+  //     $vm.$native.run("h5:" + error, "", "");
+  //   }
+  // },
   beforeDestroy() {
     this.$cache.remove("base");
+    $vm.$off("tipsReportBack", this.outViewFun);
     Indicator.close();
   }
 };

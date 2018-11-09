@@ -40,7 +40,7 @@ Toast.install = function (Vue) {
             divAA[0].remove();
         if (!content) { return; }
         //内容
-        console.log(content);
+        console.log('******************',content);
         const constructor = Vue.extend(content)
         const instanceChild = new constructor();
         instanceChild.$mount(document.createElement('div'));
@@ -55,35 +55,9 @@ Toast.install = function (Vue) {
             console.log(key, data[key]);
             instanceChild[key] = data[key];
         });
-        if (content.__file.indexOf('NewTips') > -1)
-            return;
+        // if (content.__file.indexOf('NewTips') > -1)
+        //     return;
         Toast.isBack = true;
-    }
-      //全屏 
-      Vue.prototype.$toastFullP = (content, visible = true, data = {},s,e) => {
-        instanceFull.isShow = visible;
-        if (visible)
-            Toast.isBack = true;
-        if (!visible) return;
-        const divAA = instanceFull.$el.getElementsByTagName('div');
-        if (divAA.length)
-            divAA[0].remove();
-        if (!content) { return; }
-        //内容
-        console.log(content);
-        const constructor = Vue.extend(content)
-        const instanceChild = new constructor();
-        instanceChild.$mount(document.createElement('div'));
-        instanceFull.$el.appendChild(instanceChild.$el); 
-        Object.keys(data).forEach(function (key) {
-            console.log(key, data[key]);
-            instanceChild[key] = data[key];
-        });
-        if (content.__file.indexOf('NewTips') > -1)
-            return;
-        Toast.isBack = true;
-        var p = Promise();
-        return p;
     }
     //关闭全屏
     Vue.prototype.$closeFull = () => {

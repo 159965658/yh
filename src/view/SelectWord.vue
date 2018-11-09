@@ -55,11 +55,12 @@ export default {
       ],
       defaultId: 0,
       baseList: [],
+      allBaseList:[],
       addBase: {
         userCode: "", //创建用户编号
         type: 1, // 条目类型 1：调理方案，2：节气养生，3：医师建议，4：温馨提示
         content: "", // 条目内容的html字串
-        isShared: 0 //是否共享 0：不共享，1：共享
+        isShared: 2 //是否共享 0：不共享，1：共享
       },
       user: {},
       cache: false,
@@ -92,11 +93,11 @@ export default {
       }
     }, 1);
     this.baseList = this.$cache.getBase(); //获取知识库列表
+    this.allBaseList = this.$cache.getBase();
     this.user = this.$cache.getUser(); //获取用户信息
   },
   computed: {
     list() {
-      console.log(this.baseList);
       if (this.fname) {
         return this.baseList.filter(p => p.text.indexOf(this.fname) > -1);
       }
@@ -112,11 +113,19 @@ export default {
         let addBase = this.addBase;
         addBase.content = this.ue.getContent();
         if (!addBase.content.trim()) {
-          this.$toast("内容不能为空，请输入内容。");
+          this.$toast("词条内容不能为空，请您输入内容。");
           return;
         }
         if (addBase.isShared == -1) {
           this.$toast("请选择共享状态");
+          return;
+        }
+        const baseList = this.allBaseList;
+        const model = baseList.find(
+          p => p.content == addBase.content
+        );
+        if(model){
+          this.$toast('该词条已经存在，请您修改后在保存');
           return;
         }
         if (this.editModel) {

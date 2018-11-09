@@ -51,7 +51,7 @@
                 </li>
                     <li class="clearfix" style="position:relative">
                         <label for="">上传状态</label>
-                        <app-select class="up-status" v-on:opotion="opotion" :opotionList='opotionList'></app-select>
+                        <app-select class="up-status" v-on:opotion="opotion" :id='upStatus' :opotionList='opotionList'></app-select>
                         <!-- <input type="text" /> -->
                         <div class="arrow"></div>
 
@@ -318,6 +318,7 @@ export default {
       this.search.orgName = "";
       this.search.startText = "";
       this.search.endText = "";
+      this.upStatus = -1
     },
     removePar() {
       this.setPar();

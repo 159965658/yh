@@ -61,8 +61,8 @@ export default {
     return {
       opotionList: [
         { id: -1, name: "请选择" },
-        { id: 1, name: "共享" },
-        { id: 2, name: "私有" }
+        { id: 2, name: "私有" },
+        { id: 1, name: "共享" }
       ],
       knowledgeList: [],
       type: 1,
@@ -112,6 +112,7 @@ export default {
       this.type = type;
       this.filterName = "";
       this.name = "";
+      this.staut = -1;
       this.$router.push("/index/Knowledgebase?type=" + this.type);
       setTimeout(() => {
         $vm.$emit("selectChange", -1);
