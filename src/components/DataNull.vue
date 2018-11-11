@@ -19,7 +19,7 @@ export default {
   margin: 0 auto;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 90%;
   flex-direction: column;
 
   > img {

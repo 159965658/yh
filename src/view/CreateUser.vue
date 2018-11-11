@@ -7,9 +7,9 @@
             <ul>
                 <li>
                     <label>账号：</label>
-                    <input type="text" placeholder="请输入一个账号作为您的登录名。" maxlength="20" v-model="loginName">		        		</li>
+                    <input type="text" placeholder="请输入一个账号作为您的登录名" maxlength="10" v-model="loginName">		        		</li>
                 <li>
-                    <label>设置密码：</label>
+                    <label>密码：</label>
                     <input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.password">
                     <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
                 </li>
@@ -33,7 +33,7 @@
 
                 <li>
                     <label>网络版用户名：</label>
-                    <input type="text" placeholder="网络版用户名" maxlength="20" v-model="webNickName">		        		</li>
+                    <input type="text" placeholder="网络版用户名" maxlength="10" v-model="webNickName">		        		</li>
             </ul>
             <div class="button-submit">
                 <button   class="button submit" @click="addUserSubmit">完 成</button>

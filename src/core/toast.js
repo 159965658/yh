@@ -55,8 +55,8 @@ Toast.install = function (Vue) {
             console.log(key, data[key]);
             instanceChild[key] = data[key];
         });
-        // if (content.__file.indexOf('NewTips') > -1)
-        //     return;
+        if (content && content.__file && content.__file.indexOf('NewTips') > -1)
+            return;
         Toast.isBack = true;
     }
     //关闭全屏

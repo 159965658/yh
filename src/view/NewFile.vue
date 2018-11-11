@@ -14,8 +14,8 @@
         <div class="border">
             <div class="edit-content" v-if="!error">
                 <ul>
-                    <!-- <li class="dashed"><label for="">档案编号:</label>
-                        <input type="text" placeholder="档案编号" v-model="addUser.customerCode"></li> -->
+                    <li class="dashed"><label for="">档案编号:</label>
+                        <input type="text" placeholder="档案编号" v-model="addUser.code" maxlength="10"></li>
                     <li class="dashed"><i class="must">*</i><label for="">姓名:</label>
                         <input type="text" placeholder="姓名" v-model="cName" maxlength="10">
                     </li>
@@ -203,9 +203,7 @@ export default {
         this.addUser.nation = folkModel.id;
       }
       $vm.$emit("selectChange", folkModel.id);
-      // this.addUser.nation = res.Folk.value;
       $vm.$emit("sexChange", this.addUser.sex);
-      this.addUser.nation = res.Folk.value;
       let b = res.Birt.value.replace("年", "-");
       b = b.replace("月", "-");
       b = b.replace("日", "");
@@ -220,6 +218,10 @@ export default {
     },
     save() {
       const user = this.addUser;
+      // if (!user.customerCode) {
+      //   this.$toast("档案编号不能为空，请输入档案编号。");
+      //   return;
+      // }
       if (!user.cName) {
         this.$toast("姓名不能为空，请输入姓名。");
         return;
@@ -300,8 +302,9 @@ export default {
       //$vm.$router.replace("/Identification");
       this.$toastFull(NewTipsVue, true, {
         text: text,
-        stitle: "保存并进入辨识",
-        type: 0
+        ltitle: "首页",
+        stitle: "进入体质识别报告",
+        type: 1
       });
     },
     datepickerOpenedFunction() {

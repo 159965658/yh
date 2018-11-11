@@ -42,28 +42,30 @@ export default {
       }
     },
     getDeviceInfo(active = true) {
-      const device = this.$cache.get(this.$cacheEnum["device"]);
-      if (device) {
-        if (active) this.infoSuccess(JSON.stringify(device));
-        return;
-      }
-      window["infoSuccess"] = this.infoSuccess;
-      this.$native.run("getDeviceInfo", {}, "infoSuccess");
+       this.$toastFull(newUser);
+      //验证设备激活
+      // const device = this.$cache.get(this.$cacheEnum["device"]);
+      // if (device) {
+      //   if (active) this.infoSuccess(JSON.stringify(device));
+      //   return;
+      // }
+      // window["infoSuccess"] = this.infoSuccess;
+      // this.$native.run("getDeviceInfo", {}, "infoSuccess");
     },
     infoSuccess(data) {
-      data = JSON.parse(data);
-      if (this.fun) {
-        if (!data.activeCode && !data.enterpriseIdentification) {
-          //不是首次激活
-          this.$toastFull(newUser);
-          return;
-        }
-        //首次激活
-        this.$router.push("/createuser");
-        this.fun = false;
-      } else {
-        this.$cache.set(this.$cacheEnum["device"], data);
-      }
+      // data = JSON.parse(data);
+      // if (this.fun) {
+      //   if (!data.activeCode && !data.enterpriseIdentification) {
+      //     //不是首次激活
+      //     this.$toastFull(newUser);
+      //     return;
+      //   }
+      //   //首次激活
+      //   this.$router.push("/createuser");
+      //   this.fun = false;
+      // } else {
+      //   this.$cache.set(this.$cacheEnum["device"], data);
+      // }
     },
     back() {
       if (this.type == 2) {

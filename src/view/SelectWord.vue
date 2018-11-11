@@ -9,8 +9,8 @@
                     <input type="texe" placeholder="输入关键字" v-model="name">
                     <i class="sousuo" @click="search"></i>
                 </div>
-                <ul v-if="list.length>0">
-                    <li class="shadow" v-for="(item,i) in list" :key="i">
+                <ul v-if="searcheList.length>0">
+                    <li class="shadow" v-for="(item,i) in searcheList" :key="i">
                         <i class="icon icon-add" @click="addWord(item)"></i>
                         <p v-html="item.content"></p>
                         <!-- <i class="icon arrow"></i> -->
@@ -55,7 +55,8 @@ export default {
       ],
       defaultId: 0,
       baseList: [],
-      allBaseList:[],
+      allBaseList: [],
+      searcheList: [],
       addBase: {
         userCode: "", //创建用户编号
         type: 1, // 条目类型 1：调理方案，2：节气养生，3：医师建议，4：温馨提示
@@ -74,6 +75,7 @@ export default {
     this.addBase.type = this.$route.query.type;
     this.cache = this.$route.query.cache;
     this.editModel = this.$cache.get(this.$cacheEnum.baseEdit);
+    // alert(this.editModel.type);
     setTimeout(() => {
       UE.delEditor("editor");
       UE.registerUI = function() {};
@@ -88,21 +90,24 @@ export default {
         this.title = "编辑词条";
         setTimeout(() => {
           this.ue.setContent(this.editModel.content);
-          this.defaultId = this.editModel.type;
-        }, 100);
+          this.defaultId = this.editModel.isShared;
+          //alert(this.editModel.type);
+          $vm.$emit("selectChange", this.defaultId);
+        }, 200);
       }
     }, 1);
     this.baseList = this.$cache.getBase(); //获取知识库列表
     this.allBaseList = this.$cache.getBase();
+    this.searcheList = this.$cache.getBase();
     this.user = this.$cache.getUser(); //获取用户信息
   },
   computed: {
-    list() {
-      if (this.fname) {
-        return this.baseList.filter(p => p.text.indexOf(this.fname) > -1);
-      }
-      return this.baseList;
-    }
+    // list() {
+    //   if (this.fname) {
+    //     return this.baseList.filter(p => p.text.indexOf(this.fname) > -1);
+    //   }
+    //   return this.baseList;
+    // }
   },
   methods: {
     addWord(item) {
@@ -121,11 +126,9 @@ export default {
           return;
         }
         const baseList = this.allBaseList;
-        const model = baseList.find(
-          p => p.content == addBase.content
-        );
-        if(model){
-          this.$toast('该词条已经存在，请您修改后在保存');
+        const model = baseList.find(p => p.content == addBase.content);
+        if (model) {
+          this.$toast("该词条已经存在，请您修改后在保存");
           return;
         }
         if (this.editModel) {
@@ -178,6 +181,9 @@ export default {
     search() {
       console.log(this.baseList);
       this.fname = this.name;
+      this.searcheList = this.baseList.filter(
+        p => p.text.indexOf(this.fname) > -1
+      );
     }
   },
   beforeDestroy() {

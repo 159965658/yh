@@ -95,7 +95,7 @@ export default {
         $vm.$on("submit", this.updata);
         this.$toastFull(FullTipsVue, true, {
           title: "提示",
-          text: "确认要删除客户信息吗？",
+          text: "警告：被删除的内容无法恢复。是否继续？",
           canText: "取消",
           subText: "确认"
         });
@@ -194,21 +194,23 @@ export default {
           text: "正在导出数据...",
           spinnerType: "fading-circle"
         });
-        window["exportcustomer"] = this.updateDataSuccess;
+        setTimeout(() => {
+          window["exportcustomer"] = this.updateDataSuccess;
 
-        window["errorUp"] = this.errorUp;
-        //  this.$native.loadShow();
-        this.cardList.forEach(item => {
-          if (item.seletedCard) {
-            // item.isDelete = 1;
-            this.$native.run(
-              "exportcustomer",
-              item,
-              "exportcustomer",
-              "errorUp"
-            );
-          }
-        });
+          window["errorUp"] = this.errorUp;
+          //  this.$native.loadShow();
+          this.cardList.forEach(item => {
+            if (item.seletedCard) {
+              // item.isDelete = 1;
+              this.$native.run(
+                "exportcustomer",
+                item,
+                "exportcustomer",
+                "errorUp"
+              );
+            }
+          });
+        }, 1000);
       } catch (error) {
         alert(error);
         Indicator.close();

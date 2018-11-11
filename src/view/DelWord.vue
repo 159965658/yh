@@ -5,7 +5,7 @@
         <div class="total clearfix">
             <p>当前共有数据：<span>{{baseList.length}}</span></p>
             <ol class="to-btns clearfix">
-               <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{count}}</span></li>
+               <!-- <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{count}}</span></li> -->
               
                 <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除<span style="margin-left:5px;">{{count}}</span></li>
                 <!-- <li class="bor-h"  @click="allSelect"><i class="radio-btn " :class="{active:all}"></i>全选</li> -->
@@ -87,7 +87,7 @@ export default {
       $vm.$on("submit", this.submit);
       this.$toastFull(FullTipsVue, true, {
         title: "提示",
-        text: "确认要删除吗？",
+        text: "警告：被删除的内容无法恢复。是否继续？",
         canText: "取消",
         subText: "确认"
       });

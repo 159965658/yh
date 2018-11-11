@@ -41,8 +41,8 @@ export default {
     return {
       name: "",
       pwd: "",
-      nullName: "请输入您的账号。",
-      nullPwd: "请输入您的密码。",
+      nullName: "请输入您的账号",
+      nullPwd: "请输入您的密码",
       user: {}
     };
   },

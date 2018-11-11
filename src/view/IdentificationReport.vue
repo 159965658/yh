@@ -9,14 +9,15 @@
                     <li><label for="">姓名</label><span class="flowell">{{card.cName}}</span></li>
                     <li><label for="">性别</label><span>{{card.sex | sex}}</span></li>
                     <li><label for="">出生年月</label><span>{{card.birth}}</span></li>
-                    <li><label for="">测评日期</label><span>{{report.testDate}}</span></li>
+                    <li></li>
 
                 </ul>
                 <ul class="title2">
                    <li><label for="">测评日期</label><span>{{report.testDate}}</span></li> 
+                    <li><label for="">农历日期</label><span>{{report.testDate | lunarDate}}</span></li>
                     <li><label for="">季节</label><span>{{report.testDate | season}}</span></li>
                     <li><label for="">节气</label><span>{{report.testDate | throttle}}</span></li>
-                    <li><label for="">农历日期</label><span>{{report.testDate | lunarDate}}</span></li>
+                   
                 </ul>
                 <div class="bor-b">
                     <h3><i></i>体质类型</h3>
@@ -367,6 +368,7 @@ export default {
       } else {
         this.mainFirstScope = scopeGong;
       }
+      // alert(this.mainFirst);
       this.mainFirst = val;
       return val;
     },
@@ -374,41 +376,22 @@ export default {
       console.log(tizhi, value);
       if (this.report.reportType == 33) {
         const key = this.sicalGong();
-        return tizhiGong.find(p => p.id == key).name;
+        // alert(key);
+        let name = tizhiGong.find(p => p.id == key).name;
+        name = name.replace('{{tizhi}}',this.report.mainPhysical.substring(0,this.report.mainPhysical.length-1));
+        return name
       }
       return tizhi.find(p => p.id == value).name;
     },
     sicalFilter: function() {
       let report = this.report,
         value = report.mainPhysical;
-      //如果只有一个选项
-      if (report.reportType == 33) {
-        //公卫版
-        const arr = value.split(",");
-        return arr[0] + "。";
-      } else if (report.reportType == 60) {
-        //去掉最后一个逗号
-        //value = value.ToString().RTrim(",");
-        //专业版
-        const arr = value.split(",");
-        arr.pop();
-        if (arr.length == 1) {
-          //查看是否是平和体质
-          if (arr[0] == "平和质") {
-            return "<span class='bl'>平和质。</span>";
-          } else {
-            return `<span class='bl'>${
-              arr[0]
-            }</span>,属<span class='bl'>偏颇体质</span>`;
-          }
-        } else {
-          //value = value.substring(0, value.length - 1);
-          if (report.mainPhysicalScore >= 40) {
-            return `<span class='bl'>兼夹体质</span>。主要体质类型为<span class='bl'>${value}</span>属<span class='bl'>偏颇体质</span>`;
-          } else {
-            return `基本是<span class='bl'>平和质</span>,有<span class='bl'>${value}</span>倾向,属<span class='bl'>兼夹体质</span>`;
-          }
-        }
+      const arr = value.split(",");
+      arr.pop();
+      if(report.reportType == 33)
+      return arr[0] + "，";
+      else{ 
+        return  value;
       }
     },
     sicalGong() {
@@ -624,38 +607,17 @@ export default {
         if (word2) th.ue2.setContent(word2.content);
         //医师建议、
         else {
-          th.ue2.setContent(`<p style="text-align: left;">
-    <span style="text-align: center;"><br/></span>
-</p>
-<p style="text-align: left;">
-    <span style="text-align: center;"><br/></span>
-</p>
-<p style="text-align: left;">
-    <span style="text-align: center;"><br/></span>
-</p>
-<p style="text-align: left;">
-    <span style="text-align: center;"><br/></span>
-</p>
-<p style="text-align: left;">
-    <span style="text-align: center;"><br/></span>
-</p>
-<p style="text-align: left;">
-    <span style="text-align: center;"><br/></span>
-</p>
-<p style="text-align: right;">
-    <span style="text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;医生签名</span><br/>
-</p>`);
+          th.ue2.setContent(
+            `<p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;医生签名<br/></p>`
+          );
         }
         const word3 = this.$cache.get("word4");
         if (word3) th.ue3.setContent(word3.content);
         //温馨提示
         else {
-          th.ue3.setContent(`如您已患某种疾病，请您遵医嘱接受治疗和调护<br>
-若已患糖尿病、高脂血症、痛风、肥胖等疾病，应遵照相应的膳食规。如:<br>
-糖尿病少高糖类食物；<br>
-高脂血症及肥胖应少食高胆固醇、高糖、高脂肪食物；<br>
-痛风禁食海鲜类嘌呤含量较高的食物；<br>
-根据体质的易患疾病，请您提高警惕，防患于未然，定期进行相关检查；若有其它疑问，欢迎致 “KY3H全国客服电话” （86）4008118899或访问www.eky3h.com进行咨询，为了便于您更有效地管理自己的健康状况，我们在KY3H健康网（www.eky3h.com）为您提供了更加丰富的健康管理工具及体质调理产品，欢迎您登陆。`);
+          th.ue3.setContent(
+            `如您已患某种疾病，请您遵医嘱接受治疗和调护<br>若已患糖尿病、高脂血症、痛风、肥胖等疾病，应遵照相应的膳食规。如:<br>糖尿病少高糖类食物；<br>高脂血症及肥胖应少食高胆固醇、高糖、高脂肪食物；<br>痛风禁食海鲜类嘌呤含量较高的食物；<br>根据体质的易患疾病，请您提高警惕，防患于未然，定期进行相关检查；若有其它疑问，欢迎致“KY3H全国客服电话”（86）4008118899或访问www.eky3h.com进行咨询，为了便于您更有效地管理自己的健康状况，我们在KY3H健康网（www.eky3h.com）为您提供了更加丰富的健康管理工具及体质调理产品，欢迎您登陆。`
+          );
         }
       }, 1500);
     },
@@ -694,7 +656,7 @@ export default {
                   return "横向分";
                 }
                 if (value.value == 40) {
-                  return "确定分";
+                  return "倾向分";
                 }
                 return "1";
               },
@@ -719,8 +681,12 @@ export default {
       };
 
       let myChart = this.$echarts.init(document.getElementById("myChart"));
+      let max = 100,
+        splitNum = 10;
       if (this.report.reportType == 33) {
         lineF = {};
+        max = 25;
+        splitNum = 5;
       }
       myChart.resize();
       // 绘制图表
@@ -733,10 +699,6 @@ export default {
           //图例
           data: ["柱状图", "折线图"], //与series的name对应
           animation: true,
-          //left: "10%", //图例的位置，可以用像素，可以用百分比，也可以用center，right等
-          // top: -10, //图例的位置
-          // right: 0,
-          // z: 1000
           itemWidth: 30, //图例图标的宽
           itemHeight: 10, //图例图标的高
           textStyle: {
@@ -787,7 +749,7 @@ export default {
         backgroundColor: "#fff", //图得背景色
         yAxis: {
           name: " ", //轴的名字，默认位置在y轴上方显示
-          max: 100, //最大刻度
+          max: max, //最大刻度
           min: 0,
           type: "value",
           scale: true,
@@ -805,41 +767,13 @@ export default {
               color: "#878787" //坐标值得具体的颜色
             }
           },
-          splitNumber: 10,
+          splitNumber: splitNum,
           splitLine: {
             lineStyle: {
               color: ["#dddddd "] //分割线的颜色
             }
           }
         },
-        // visualMap: {
-        //   top: -5,
-        //   right: 10,
-        //   pieces: [
-        //     {
-        //       gt: 0,
-        //       lte: 15,
-        //       color: "#096"
-        //     },
-        //     {
-        //       gt: 15,
-        //       lte: 30,
-        //       color: "#ffde33"
-        //     },
-        //     {
-        //       gt: 30,
-        //       lte: 40,
-        //       color: "#ff9933"
-        //     }, {
-        //       gt: 40,
-        //       lte: 40,
-        //       color: "#83bff6"
-        //     }
-        //   ],
-        //   outOfRange: {
-        //     color: "#37A2DA"
-        //   }
-        // },
         series: [
           {
             name: "柱状图",
@@ -893,44 +827,6 @@ export default {
             },
             barWidth: 15 //设置柱子宽度，单位为px
           },
-          // {
-          //   name: "折线图1",
-          //   type: "line",
-          //   data: [15],
-          //   itemStyle: {
-          //     color: "rgba(59,199,221,0.9)",
-          //     normal: {
-          //       borderWidth: 1,
-          //       lineStyle: {
-          //         type: "dash",
-          //         color: "rgba(59,199,221,0.9)",
-          //         width: 2
-          //       },
-          //       label: {
-          //         formatter: function(value) {
-          //           alert("1");
-          //         },
-          //         textStyle: {
-          //           fontSize: 16
-          //         }
-          //       }
-          //     }
-          //   },
-          //   markLine: {
-          //     silent: true,
-          //     data: [
-          //       {
-          //         yAxis: 15
-          //       },
-          //       {
-          //         yAxis: 30
-          //       },
-          //       {
-          //         yAxis: 40
-          //       }
-          //     ]
-          //   }
-          // },
           {
             name: "折线图",
             type: "line",
@@ -958,37 +854,12 @@ export default {
               $vm.$router.replace("/index");
             }
           });
-          // next(false);
         }
       } catch (error) {
         alert(error);
       }
     }
   },
-  // beforeRouteLeave(to, from, next) {
-  //   // 导航离开该组件的对应路由时调用
-  //   // 可以访问组件实例 `this`
-  //   try {
-  //     if (this.query.type == 1 && !this.saveFlag) {
-  //       this.$toastFull(FullTipsVue, true, {
-  //         text: "确定要退出编辑体质辨识报告吗？",
-  //         title: "提示",
-  //         subText: "确定",
-  //         fl: 1,
-  //         s: function() {
-  //           next();
-  //           return;
-  //         }
-  //       });
-  //       next(false);
-  //     } else {
-  //       next();
-  //     }
-  //   } catch (error) {
-  //     alert(error);
-  //     $vm.$native.run("h5:" + error, "", "");
-  //   }
-  // },
   beforeDestroy() {
     this.$cache.remove("base");
     $vm.$off("tipsReportBack", this.outViewFun);

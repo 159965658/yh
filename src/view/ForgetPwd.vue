@@ -7,11 +7,11 @@
 	        		<ul>
 	        			<li>
 	        				<label>账号：</label>
-	        				<input type="text" placeholder="请输入您的账号。" v-model="loginName">
+	        				<input type="text" placeholder="请输入您的账号" v-model="loginName">
 	        			</li>
 	        			<li class="m-t-60">
 	        				<label>网络版用户名：</label>
-	        				<input type="text" placeholder="请输入您的网络版用户名。" v-model="webNickName">
+	        				<input type="text" placeholder="请输入您的网络版用户名" v-model="webNickName">
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 

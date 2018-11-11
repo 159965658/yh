@@ -96,19 +96,23 @@ window['$appBack'] = function (isforce = false) {
         $vm.$closeFull();//关闭全屏
         return;
     }
+    else if (r.name == 'switch') {
+        $vm.$router.replace('/login');
+        return;
+    }
     else if (closeApp) {
 
         //首次按键，提示  再按一次退出应用
         if (!firstApp) {
             firstApp = new Date().getTime();//记录第一次按下回退键的时间
-            $vm.$toast('再按一次退出应用');//给出提示
+            $vm.$toast('再次按返回键退出应用');//给出提示
             // history.go(-1)//回退到上一页面
             setTimeout(function () {//1s中后清除
                 firstApp = null;
             }, 1000);
         } else {
             // alert('关闭');
-            if (new Date().getTime() - firstApp < 1000) {//如果两次按下的时间小于1s，
+            if (new Date().getTime() - firstApp < 3000) {//如果两次按下的时间小于1s，
                 //调用原生的方法 关闭app
                 // alert('关闭');
                 $vm.$native.run('finish', '', '');

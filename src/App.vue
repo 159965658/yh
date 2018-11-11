@@ -16,7 +16,7 @@ export default {
     components: {
         // tips
     },
-    mounted() {
+    created() {
         var h = document.body.scrollHeight;
         window.onresize = function () {
             ra();
@@ -24,7 +24,8 @@ export default {
         };
         ra();
         //是不是首次激活
-        if (identity != "pc") this.getDeviceInfo();
+        if (identity != "pc")       
+        this.getDeviceInfo();
     },
     methods: {
         getDeviceInfo(active = true) {

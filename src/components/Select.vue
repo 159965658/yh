@@ -27,6 +27,7 @@ export default {
   props: ["opotionList", "id"],
   watch: {
     id() {
+      //  alert(this.id);
       this.msg = this.opotionList.find(p => p.id == this.id).name;
     }
   },
@@ -41,6 +42,7 @@ export default {
     },
     chageEmit(id) {
       console.log(id);
+      // alert(id);
       let model = this.opotionList.find(p => p.id == id);
       if (!model) return;
       console.log(model);
@@ -88,7 +90,7 @@ export default {
     background-color: #fff;
     line-height: 70px;
     vertical-align: middle;
-    border: 1px solid #333;
+    border: 1px solid #afdcf3;
     > span {
       position: absolute;
     }

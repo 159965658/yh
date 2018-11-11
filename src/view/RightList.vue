@@ -188,6 +188,8 @@ export default {
         return;
       });
       this.filterVis = !this.filterVis;
+      //清空搜索条件
+      this.setPar();
       window["appBackCall"] = this.appBackCall;
     },
     appBackCall() {
@@ -415,7 +417,7 @@ export default {
   }
 
   ul.card {
-    padding-top: 30px;
+    //  padding-top: 30px;
   }
 }
 </style><style lang="less" scoped>
@@ -479,6 +481,7 @@ export default {
   > .select_click_box {
     background-color: #f2f2f2 !important;
     border-radius: 0 !important;
+    border:none !important;
   }
 }
 </style>

@@ -155,7 +155,10 @@ export default {
     selAnswer(item, i, e) {
       // this.subModel["question" + i] = this.answerHover;
       this.answerHover = i + 1;
+      setTimeout(() => {
+        
       this.next();
+      }, 300);
     },
     hisAnswer(prev = false) {
       let i = this.index;
@@ -186,11 +189,13 @@ export default {
         this.$toast("请选择答案");
         return;
       }
+      console.log(this.answer.length > this.index);
       if (this.answer.length > this.index) {
         //记录答案
         this.hisAnswer();
         return;
       }
+      this.hisAnswer();
       this.isAnswer = true;
       this.countitle = `辨识答题`;
       //this.submit();
@@ -234,7 +239,7 @@ export default {
     tips() {
       this.$toastFull(tipsVue, true, {
         title: "提示",
-        text: "退出后，答题记录不报存，是否要退出答题状态",
+        text: "退出后，答题记录不保存，是否要退出答题状态",
         subText: "确认"
       });
     },

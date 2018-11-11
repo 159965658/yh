@@ -42,8 +42,10 @@ import IdentificationReport from "@/view/IdentificationReport";
 import SelectWord from "@/view/SelectWord";
 //首页编辑
 import IndexEdit from "@/view/IndexEdit";
-import NewBase from "@/view/NewBase";
+// import NewBase from "@/view/NewBase";
 import DelWord from "@/view/DelWord";
+
+import Hell from "@/view/Hell";
 Vue.use(Router)
 
 const router = new Router({
@@ -51,8 +53,9 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'Login',
-      component: Login, meta: {
+      name: 'Hell',
+      component: Hell,
+      meta: {
         closeApp: true
       }
     }, {
@@ -62,7 +65,8 @@ const router = new Router({
     }, {
       path: '/login',
       name: 'Login',
-      component: Login, meta: {
+      component: Login,
+      meta: {
         closeApp: true
       }
     }, {
@@ -78,7 +82,10 @@ const router = new Router({
       }
     },
     {
-      path: "/indexedit", name: "indexedit", component: IndexEdit, meta: {
+      path: "/indexedit",
+      name: "indexedit",
+      component: IndexEdit,
+      meta: {
         auth: true
       }
     },
@@ -90,7 +97,8 @@ const router = new Router({
       children: [
         {
           path: 'list', name: 'indexright', component: RightList, meta: {
-            auth: true
+            auth: true,
+            closeApp: true
           }
         },
         {
@@ -108,11 +116,13 @@ const router = new Router({
       path: '/newfile', name: 'newfile', component: NewFile, meta: {
         auth: true
       }
-    }, {
-      path: '/newbase', name: 'newbase', component: NewBase, meta: {
-        auth: true
-      }
-    }, {
+    }
+    // , {
+    //   path: '/newbase', name: 'newbase', component: NewBase, meta: {
+    //     auth: true
+    //   }
+    // }
+    , {
       path: '/identification', name: 'identification', component: Identification, meta: {
         auth: true
       }
@@ -166,12 +176,7 @@ const router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
-  // if (from.meta.keep_alive) { // 记录当前页面是否要记录位置 
-  //   from.meta.saved_position = {
-  //     x: window.pageXOffset,
-  //     y: window.pageYOffset
-  //   }
-  // }
+  //判断是否激活
   if (to.matched.some(m => m.meta.auth)) {
     // 对路由进行验证     
     if (sessionStorage.getItem('userSession')) { // 已经登陆       

@@ -2,6 +2,21 @@
 <div style="height: 100%;">
     <app-header :ltitle='"后退"' :ctitle='"查看档案"'></app-header>
     <div class="clearfix all">
+      
+            <div class="shadow update">
+              <h3>修改记录</h3>
+                <div class="border">
+                    <ol>
+                        <li v-for="(item,index) in histList" :key="index">
+                            <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
+                            <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
+                            <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
+
+                            <i class="icon radio active"></i>
+                        </li>
+                    </ol>
+                </div>
+            </div>
         <div class="left-content fl">
             <div class="dangan">
                 <h3>居民档案信息</h3>
@@ -9,6 +24,7 @@
                     <p class="edit" @click="editClick">{{btnText}}</p>
                     <div class="border">
                         <ul v-if="!edit">
+                           <li><label for="">档案编号：</label><span>{{cardModel.code}}</span></li>
                             <li><label for="">姓名：</label><span>{{cardModel.cName}}</span></li>
                             <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
                             <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li>
@@ -20,6 +36,8 @@
                             <li><label for="">联系方式：</label><span>{{cardModel.mobileTel}}</span></li>
                         </ul>
                         <ul v-if="edit">
+                            <li><label for="">档案编号：</label>
+                                <input type="text" v-model="cardModelCopy.code" maxlength="10"> </li>
                             <li><i class="must">*</i><label for="">姓名：</label>
                                 <input type="text" v-model="cardModelCopy.cName" maxlength="10"> </li>
                             <li class="sex xingbie"><i class="must">*</i><label for="">性别：</label>
@@ -63,20 +81,6 @@
                 </div>
             </div>
 
-            <div class="shadow update">
-                <h2>修改记录</h2>
-                <div class="border">
-                    <ol>
-                        <li v-for="(item,index) in histList" :key="index">
-                            <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
-                            <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
-                            <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
-
-                            <i class="icon radio active"></i>
-                        </li>
-                    </ol>
-                </div>
-            </div>
         </div>
         <div class="right-content dangan fr">
             <h3>体质辨识报告信息</h3>
@@ -84,8 +88,8 @@
                 <div class="hei50"></div>
                 <ul v-if="report.length">
                     <li v-for="(item,i) in report" :key="i" @click='iden(item)'>
-                        <b class="biaoti">体质辨识报告   </b>
-                        <b class="time">{{user.webNickName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}-{{item.mainPhysical.split(',')[0]}}</b>
+                        <b class="biaoti">{{item.mainPhysical.split(',')[0]}} </b>
+                        <b class="time">{{user.webNickName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
                         <i class="jiao"></i>
                     </li>
@@ -209,6 +213,10 @@ export default {
     save() {
       const model = this.cardModelCopy,
         oldModel = this.cardModel;
+      // if (!model.customerCode) {
+      //   this.$toast("档案编号不能为空，请输入档案编号。");
+      //   return false;
+      // }
       if (!model.cName) {
         this.$toast("姓名不能为空，请输入姓名。");
         return false;
@@ -261,6 +269,11 @@ export default {
     },
     modifyHis(model, oldModel) {
       //修改记录
+      //修改记录
+      if (model.code != oldModel.code) {
+        //修改姓名
+        this.modifyHisSub("档案编号", model.code);
+      }
       if (model.cName != oldModel.cName) {
         //修改姓名
         this.modifyHisSub("姓名", model.cName);
@@ -444,9 +457,11 @@ export default {
 }
 
 .all {
-  width: 1635px;
+  width: 2505px;
   margin: 0 auto;
   height: calc(100% - 180px);
+  display: flex;
+  justify-content: space-around;
 }
 
 .sex {
@@ -455,8 +470,8 @@ export default {
 .left-content,
 .right-content {
   width: 770px;
-  padding-top: 40px;
-
+   padding-bottom: 15px;
+  // padding-top: 40px;
   .border {
     ul,
     ol {
@@ -469,6 +484,8 @@ export default {
     box-shadow: -1px 1px 30px #cacaca;
     border-radius: 10px;
 
+    height: 1500px;
+    overflow-y: auto;
     p.edit {
       font-size: 36px;
       color: #3ba6dd;
@@ -514,62 +531,71 @@ export default {
       }
     }
   }
+}
+.update {
+  // margin-top: 40px;
+  width: 770px;
+   height: 1590px;
+  h3 {
+    font-size: 36px;
+    color: #fff;
+    text-align: center;
+    line-height: 88px;
+    background: #00a6e7;
+    border-radius: 10px 10px 0px 0px;
+  }
+  .border {
+    padding-bottom: 15px;
+    // height: 1500px;
+    // overflow-y: scroll;
+  }
 
-  .update {
-    margin-top: 30px;
+  h2 {
+    color: #282828;
+    font-size: 36px;
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 30px;
+    font-weight: bold;
+  }
 
-    .border {
-      padding-bottom: 15px;
-    }
+  ol {
+    padding-top: 50px;
+    max-height: 1400px;
+    overflow-y: auto;
 
-    h2 {
-      color: #282828;
-      font-size: 36px;
-      text-align: center;
-      padding-top: 40px;
-      padding-bottom: 30px;
-      font-weight: bold;
-    }
+    li {
+      border-left: 1px dashed #dcdcdc;
+      margin-left: 50px;
+      padding-left: 35px;
+      padding-bottom: 50px;
+      position: relative;
 
-    ol {
-      padding-top: 45px;
-      max-height: 220px;
-      overflow-y: auto;
-
-      li {
-        border-left: 1px dashed #dcdcdc;
-        margin-left: 50px;
-        padding-left: 35px;
-        padding-bottom: 50px;
-        position: relative;
-
-        p {
-          height: auto;
-          line-height: auto;
-          font-size: 32px;
-          color: #282828;
-        }
-
-        p.time {
-          font-size: 28px;
-          color: #989898;
-          margin-bottom: 22px;
-        }
-
-        i.icon {
-          position: absolute;
-          left: -17px;
-          top: 0;
-        }
+      p {
+        height: auto;
+        line-height: auto;
+        font-size: 32px;
+        color: #282828;
       }
 
-      li:last-child {
-        border: none;
+      p.time {
+        font-size: 28px;
+        color: #989898;
+        margin-bottom: 22px;
       }
+
+      i.icon {
+        position: absolute;
+        left: -17px;
+        top: 0;
+      }
+    }
+
+    li:last-child {
+      border: none;
     }
   }
 }
-
 .xingbie ol {
   width: 400px;
 }
@@ -589,7 +615,8 @@ export default {
   height: 100%;
 
   .shadow {
-    height: calc(100% -50px);
+    // height: calc(100% -50px);
+    height: 1500px;
     overflow-y: auto;
   }
 

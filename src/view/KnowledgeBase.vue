@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       opotionList: [
-        { id: -1, name: "请选择" },
+        { id: -1, name: "全部" },
         { id: 2, name: "私有" },
         { id: 1, name: "共享" }
       ],
@@ -98,14 +98,24 @@ export default {
   },
   mounted() {
     this.getKnowledge();
+    console.log(this.$route.query.type);
     this.search(this.$route.query.type || 2);
+    setTimeout(() => {
+      $vm.$on("removeParBase", this.removeParBase);
+    }, 1);
   },
   methods: {
+    removeParBase() {
+      console.log(this.$route);
+      this.search( this.type);
+    },
     edit(item) {
       this.$cache.set(
         this.$cacheEnum.baseEdit,
         this.knowledgeList.find(p => p.content == item.content)
       );
+      // alert() this.knowledgeList.find(p => p.content == item.content)
+      // alert(item.type);
       this.addClick(item.content);
     },
     search(type) {
@@ -169,6 +179,9 @@ export default {
       this.setCache();
       this.$router.push("/delword");
     }
+  },
+  beforeDestroy() {
+    $vm.$off("removeParBase", this.removeParBase);
   }
 };
 </script>
