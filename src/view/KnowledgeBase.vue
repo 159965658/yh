@@ -232,9 +232,9 @@ export default {
   }
 }
 .right-list {
-  height: calc(100% - 140px);
+  height: calc(100% - 280px);
   overflow-y: auto;
-
+  padding-bottom: 140px;
   ul {
     li {
       box-shadow: -1px 1px 30px #cacaca;
