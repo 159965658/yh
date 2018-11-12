@@ -415,20 +415,11 @@ export default {
 
   .center-content {
     .card_area {
-      height: calc(100% - 150px);
-      overflow-y: auto;
+      // height: calc(100% - 150px);
+      // overflow-y: auto;
     }
   }
-
-  /*首页编辑状态2 添加.edit2 即可*/
-  .center-content.edit2 {
-    position: relative;
-    z-index: 1;
-  }
-
-  ul.card {
-    //  padding-top: 30px;
-  }
+ 
 }
 </style><style lang="less" scoped>
 .popup_filter {

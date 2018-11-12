@@ -123,7 +123,7 @@ export default {
       this.filterName = "";
       this.name = "";
       this.staut = -1;
-      this.$router.push("/index/Knowledgebase?type=" + this.type);
+      this.$router.replace("/index/Knowledgebase?type=" + this.type);
       setTimeout(() => {
         $vm.$emit("selectChange", -1);
       }, 2);

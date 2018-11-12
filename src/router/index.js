@@ -103,12 +103,14 @@ const router = new Router({
         },
         {
           path: 'account', name: 'account', component: Account, meta: {
-            auth: true
+            auth: true,closeApp: true
+
           }
         },
         {
           path: 'Knowledgebase', name: 'Knowledgebase', component: KnowledgeBase, meta: {
             auth: true
+            ,closeApp: true
           }
         }
       ]
