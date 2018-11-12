@@ -2,21 +2,21 @@
 <div style="height: 100%;">
     <app-header :ltitle='"后退"' :ctitle='"查看档案"'></app-header>
     <div class="clearfix all">
-      
-            <div class="shadow update">
-              <h3>修改记录</h3>
-                <div class="border">
-                    <ol>
-                        <li v-for="(item,index) in histList" :key="index">
-                            <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
-                            <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
-                            <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
 
-                            <i class="icon radio active"></i>
-                        </li>
-                    </ol>
-                </div>
+        <div class="shadow update">
+            <h3>修改记录</h3>
+            <div class="border">
+                <ol>
+                    <li v-for="(item,index) in histList" :key="index">
+                        <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
+                        <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
+                        <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
+
+                        <i class="icon radio active"></i>
+                    </li>
+                </ol>
             </div>
+        </div>
         <div class="left-content fl">
             <div class="dangan">
                 <h3>居民档案信息</h3>
@@ -24,7 +24,7 @@
                     <p class="edit" @click="editClick">{{btnText}}</p>
                     <div class="border">
                         <ul v-if="!edit">
-                           <li><label for="">档案编号：</label><span>{{cardModel.code}}</span></li>
+                            <li><label for="">档案编号：</label><span>{{cardModel.code}}</span></li>
                             <li><label for="">姓名：</label><span>{{cardModel.cName}}</span></li>
                             <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
                             <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li>
@@ -74,7 +74,7 @@
                                 <app-select class=" city hun" :opotionList='cityC' @opotion="cityClick" :id='cardModelCopy.custOrgCity'></app-select>
 </label>
                             </li>
-                              <li><i class="must">*</i><label for="">联系方式：</label><input type="number" v-model="cardModelCopy.mobileTel"></li>
+                            <li><i class="must">*</i><label for="">联系方式：</label><input type="number" v-model="cardModelCopy.mobileTel"></li>
                         </ul>
                     </div>
                     <div style="height: 25px;"></div>
@@ -85,9 +85,17 @@
         <div class="right-content dangan fr">
             <h3>体质辨识报告信息</h3>
             <div class="shadow">
-                <div class="hei50"></div>
+                <div class="clearfix">
+                    <ol class="to-btns clearfix" v-if="report.length">
+                        <!-- <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{count}}</span></li> -->
+
+                        <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除<span style="margin-left:5px;">{{delCount}}</span></li>
+                        <!-- <li class="bor-h"  @click="allSelect"><i class="radio-btn " :class="{active:all}"></i>全选</li> -->
+                    </ol>
+                </div>
                 <ul v-if="report.length">
-                    <li v-for="(item,i) in report" :key="i" @click='iden(item)'>
+                    <li v-for="(item,i) in report" :key="i" @click.stop='iden(item)'>
+                        <i class="radio-btn list-icon" @click.stop="reportHover(item)" :class='{active:item.hover}'></i>
                         <b class="biaoti">{{item.mainPhysical.split(',')[0]}} </b>
                         <b class="time">{{user.webNickName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
@@ -110,18 +118,21 @@ import { sex } from "@/filters/index.js";
 import { marriageFilter } from "@/filters/marriage.js";
 import { marriage } from "../../static/dict/marriage.js";
 import dataNull from "../components/DataNull";
-
+import { Indicator } from "mint-ui";
 //导入省
 import { province } from "../../static/dict/province.js";
 
 //导入市
 import { city } from "../../static/dict/city.js";
+
+import FullTipsVue from "../components/FullTips.vue";
 export default {
   components: {
     dataNull
   },
   data() {
     return {
+      delCount: 0,
       cardModel: {},
       edit: false,
       btnText: "编辑",
@@ -129,7 +140,7 @@ export default {
       birth: new Date(),
       histList: [],
       user: {},
-      report: {},
+      report: [],
       startDate: new Date("1971-01-01"),
       endDate: new Date(),
       marriageArr: marriage,
@@ -180,7 +191,11 @@ export default {
       // document.write(data);
       try {
         const res = JSON.parse(data).customerInventoryInfoList;
-        this.report = res;
+        res.forEach(item => {
+          item.hover = false;
+          this.report.push(item);
+        });
+        // this.report = res;
       } catch (error) {
         alert(error);
         this.$native.log(data);
@@ -404,15 +419,125 @@ export default {
     },
     cityClick(item) {
       this.cardModelCopy.custOrgCity = item.id;
+    },
+    delSubmit() {
+      if (this.delCount == 0) {
+        this.$toast("请您先选中数据");
+        return;
+      }
+      $vm.$off("submit");
+      $vm.$on("submit", this.deSubmitT);
+      this.$toastFull(FullTipsVue, true, {
+        title: "提示",
+        text: "警告：被删除的内容无法恢复。是否继续？",
+        canText: "取消",
+        subText: "确认"
+      });
+    },
+    reportHover(item) {
+      item.hover = !item.hover;
+      this.delCount = item.hover ? this.delCount + 1 : this.delCount - 1;
+      if(this.delCount <=0){
+        this.deCount = 0;
+      }
+      console.log(item);
+    },
+    deSubmitT() {
+      Indicator.open({
+        text: "正在删除报告...",
+        spinnerType: "fading-circle"
+      });
+      setTimeout(() => {
+        this.report.forEach(item => {
+          item.isDelete = '1';
+          window["updateinventoryinfo"] = this.updateSaveSuccess;
+          window["updateSaveError"] = this.updateSaveError;
+          this.$native.run(
+            "updateinventoryinfo",
+            item,
+            "updateinventoryinfo",
+            "updateSaveError"
+          );
+        });
+      }, 100);
+    },
+    updateSaveError(data) {
+      Indicator.close();
+      if (data) this.$toast(data);
+    },
+    updateSaveSuccess() {
+      this.delCount = this.delCount - 1;
+      if (this.delCount <= 0) {
+        Indicator.close();
+        this.report = [];
+        this.getInventoryInfo();
+        
+      }
     }
   },
   beforeDestroy() {
     window["appBackCall"] = this.appBack;
+    Indicator.close();
   }
 };
 </script>
 
 <style lang="less" scoped>
+.radio-btn {
+  width: 40px;
+  height: 40px;
+  background: url(../assets/111.png) no-repeat;
+  background-size: 100%;
+  display: inline-block;
+  float: right;
+  margin: 10px;
+}
+
+.radio-btn.active {
+  background: url(../assets/222.png) no-repeat;
+  background-size: 100%;
+}
+
+ol.to-btns {
+  float: right;
+  margin: 10px;
+  margin-right:20px;
+}
+
+ol.to-btns li {
+  float: left;
+  width: 240px;
+  height: 80px;
+  background: #ffffff;
+  border: 1px solid #3ba6dd !important;
+  border-radius: 10px;
+  margin-left: 50px;
+  color: #989898;
+  font-size: 32px;
+  line-height: 82px;
+}
+
+ol.to-btns li.bor-h {
+  border: 1px solid #ff9e35 !important;
+}
+
+ol.to-btns li span {
+  height: 34px;
+  background: #ff9e35;
+  border-radius: 50%;
+  color: #fff !important;
+  font-size: 30px;
+  padding: 0 8px;
+}
+
+ol.to-btns li i {
+  float: left;
+  margin-left: 56px;
+  margin-top: 20px;
+  margin-right: 18px;
+  position: initial !important;
+}
+
 .carInput {
   margin-left: 120px;
   width: 50%;
@@ -470,7 +595,8 @@ export default {
 .left-content,
 .right-content {
   width: 770px;
-   padding-bottom: 15px;
+  padding-bottom: 15px;
+
   // padding-top: 40px;
   .border {
     ul,
@@ -486,6 +612,7 @@ export default {
 
     height: 1500px;
     overflow-y: auto;
+
     p.edit {
       font-size: 36px;
       color: #3ba6dd;
@@ -532,10 +659,12 @@ export default {
     }
   }
 }
+
 .update {
   // margin-top: 40px;
   width: 770px;
-   height: 1590px;
+  height: 1590px;
+
   h3 {
     font-size: 36px;
     color: #fff;
@@ -544,6 +673,7 @@ export default {
     background: #00a6e7;
     border-radius: 10px 10px 0px 0px;
   }
+
   .border {
     padding-bottom: 15px;
     // height: 1500px;
@@ -596,6 +726,7 @@ export default {
     }
   }
 }
+
 .xingbie ol {
   width: 400px;
 }

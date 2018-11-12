@@ -77,26 +77,26 @@
                 <ul class="table-ul" v-if="report.reportType == 60">
                     <li>目前得分</li>
                     <li>{{report.pingheScore}} <span v-if="report.pingheScore >= 60">↑</span><span v-else>↓</span> </li>
-                    <li>{{report.qixuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
-                    <li>{{report.yangxuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span> </li>
-                    <li>{{report.yinxuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
-                    <li>{{report.tanshiScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
-                    <li>{{report.shireScore}}<span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span> </li>
-                    <li>{{report.xueyuScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
-                    <li>{{report.qiyuScore }}<span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
-                    <li>{{report.tebingScore}} <span v-if="report.pingheScore <= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.qixuScore}} <span v-if="report.qixuScore >= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.yangxuScore}} <span v-if="report.yangxuScore >= 40">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.yinxuScore}} <span v-if="report.yinxuScore >= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tanshiScore}} <span v-if="report.tanshiScore >= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.shireScore}}<span v-if="report.shireScore >= 40">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.xueyuScore}} <span v-if="report.xueyuScore >= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.qiyuScore }}<span v-if="report.qiyuScore >= 40">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tebingScore}} <span v-if="report.tebingScore >= 40">↑</span><span v-else>↓</span></li>
                 </ul>
                 <ul class="table-ul" v-else>
                     <li>目前得分</li>
                     <li>{{report.pingheScore}} <span v-if="report.pingheScore >= 17">↑</span><span v-else>↓</span> </li>
-                    <li>{{report.qixuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
-                    <li>{{report.yangxuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span> </li>
-                    <li>{{report.yinxuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
-                    <li>{{report.tanshiScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
-                    <li>{{report.shireScore}}<span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span> </li>
-                    <li>{{report.xueyuScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
-                    <li>{{report.qiyuScore }}<span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
-                    <li>{{report.tebingScore}} <span v-if="report.pingheScore <= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.qixuScore}} <span v-if="report.qixuScore >= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.yangxuScore}} <span v-if="report.yangxuScore >= 10">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.yinxuScore}} <span v-if="report.yinxuScore >= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tanshiScore}} <span v-if="report.tanshiScore >= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.shireScore}}<span v-if="report.shireScore >= 10">↑</span><span v-else>↓</span> </li>
+                    <li>{{report.xueyuScore}} <span v-if="report.xueyuScore >= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.qiyuScore }}<span v-if="report.qiyuScore >= 10">↑</span><span v-else>↓</span></li>
+                    <li>{{report.tebingScore}} <span v-if="report.tebingScore >= 10">↑</span><span v-else>↓</span></li>
                 </ul>
                 <div class="">
                     <h3><i></i>体质解析</h3>
@@ -1002,7 +1002,7 @@ export default {
       width: 350px;
       padding-bottom: 35px;
       line-height: 40px;
-
+      flex: 1 auto;
       label {
         display: block;
         width: 145px;

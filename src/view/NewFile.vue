@@ -178,8 +178,16 @@ export default {
       // }, 1);
       //  console.log("json数据为:", res.body); //此处的res对象包含了json的文件信息和数据，我们需要的json数据存在于body属性中
     });
+    this.getOcrAdd();
   },
   methods: {
+    getOcrAdd() {
+      //是否需要读取缓存
+      if (this.$route.query.type) {
+        const data = this.$cache.get(this.$cacheEnum.ocrAdd);
+        this.ocrSuccess(JSON.stringify(data));
+      }
+    },
     ocr() {
       window["ocr"] = this.ocrSuccess;
       window["ocrError"] = this.ocrError;
@@ -226,14 +234,6 @@ export default {
         this.$toast("姓名不能为空，请输入姓名。");
         return;
       }
-      // if (user.nation) {
-      //   this.$toast("请填写民族");
-      //   return;
-      // }
-      if (!user.birth) {
-        this.$toast("出生不能未空，请选择您的出生日期");
-        return;
-      }
       if (!user.uCardNum) {
         if (user.cCardType == 101)
           this.$toast("身份证不能未空，请输入您的身份证号码。");
@@ -244,12 +244,30 @@ export default {
       }
       if (user.uCardNum) {
         if (user.cCardType == 101) {
-          if (user.uCardNum.length != 18) {
-            this.$toast("身份证输入不符合要求，请输入您的18位身份证号码。");
+          // if (user.uCardNum.length != 18) {
+          let u = this.checkId(user.uCardNum);
+          if (u) {
+            var ic = this.uCardNum;
+            var birth =
+              ic.substring(6, 10) +
+              "-" +
+              ic.substring(10, 12) +
+              "-" +
+              ic.substring(12, 14);
+            if (!user.birth) {
+              user.birth = birth;
+              this.birth = new Date(birth);
+            }
+          } else {
             return;
           }
         }
       }
+      if (!user.birth) {
+        this.$toast("出生不能未空，请选择您的出生日期");
+        return;
+      }
+
       if (!user.contactAddress) {
         this.$toast("地址不能为空，请输入您的地址。");
         return;
@@ -295,6 +313,46 @@ export default {
       } catch (error) {
         this.$toast(data);
       }
+    },
+    checkId(pId) {
+      //检查身份证号码
+      var arrVerifyCode = [1, 0, "x", 9, 8, 7, 6, 5, 4, 3, 2];
+      var Wi = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
+      var Checker = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
+      if (pId.length != 15 && pId.length != 18) {
+        //return "身份证号共有15位或18位"
+        this.$toast("身份证号共有15位或18位");
+        return;
+      }
+      var Ai =
+        pId.length == 18
+          ? pId.substring(0, 17)
+          : pId.slice(0, 6) + "19" + pId.slice(6, 16);
+      if (!/^\d+$/.test(Ai)) {
+        //return "身份证除最后一位外，必须为数字！"
+        this.$toast("身份证除最后一位外，必须为数字！");
+        return;
+      }
+      var yyyy = Ai.slice(6, 10),
+        mm = Ai.slice(10, 12) - 1,
+        dd = Ai.slice(12, 14);
+      var d = new Date(yyyy, mm, dd),
+        now = new Date();
+      var year = d.getFullYear(),
+        mon = d.getMonth(),
+        day = d.getDate();
+      if (year != yyyy || mon != mm || day != dd || d > now || year < 1800) {
+        //return "身份证输入错误！"
+        this.$toast("您输入的身份证错误！");
+        return;
+      }
+      for (var i = 0, ret = 0; i < 17; i++) {
+        ret += Ai.charAt(i) * Wi[i];
+      }
+      Ai += arrVerifyCode[(ret %= 11)];
+      return pId.length == 18 && pId != Ai
+        ? this.$toast("您输入的身份证错误！")
+        : Ai;
     },
     addcustomer(data, text = "请选择你要执行的操作") {
       // alert(data);

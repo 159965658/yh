@@ -3,7 +3,7 @@
 const cache = {}
 const cacheEnum = {
     "nation": "nationCache", 'user': "userSession", 'list': 'userList', 'cardModel': 'cardModel', device: "deviceInfo", report: 'report',
-    base: "baseModel", baseEdit: "baseEditCache"
+    base: "baseModel", baseEdit: "baseEditCache", ocrAdd: "ocrAddCache"
 };
 const nation = [
     {

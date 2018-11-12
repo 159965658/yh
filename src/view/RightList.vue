@@ -257,14 +257,20 @@ export default {
       this.searchFilter(this.search);
       //  $vm.$emit("search", this.search);
     },
-    searchList() {
+    searchList(ocr = false, data = []) {
       if (this.nameList.length > 0) {
         this.sList = this.nameList;
       } else this.sList = this.userList;
       if (this.searchText) {
         this.sList = this.sList.filter(
-          p => p.cName.indexOf(this.searchText) > -1 || p.uCardNum == this.searchText
+          p =>
+            p.cName.indexOf(this.searchText) > -1 ||
+            p.uCardNum == this.searchText
         );
+        if (ocr && this.sList.length == 0) {
+          //进入ocr添加页面
+          this.ocrAdd(data);
+        }
       }
       if (this.startDate) {
         this.sList = this.sList.filter(p => {
@@ -291,6 +297,10 @@ export default {
         "getcustomerbyuser"
       );
     },
+    ocrAdd(data) {
+      this.$cache.set(this.$cacheEnum.ocrAdd, data);
+      this.$router.push("/newfile?type=" + 1);
+    },
     getCustomerUserSuccess(data) {
       // document.write(data);
       this.nameList = JSON.parse(data).customerInfoList;
@@ -312,7 +322,7 @@ export default {
       //清空搜索条件
       this.setPar();
       this.searchText = res.Name.value;
-      this.searchList();
+      this.searchList(true, res);
     },
     setPar() {
       this.searchText = "";
@@ -320,7 +330,7 @@ export default {
       this.search.orgName = "";
       this.search.startText = "";
       this.search.endText = "";
-      this.upStatus = -1
+      this.upStatus = -1;
     },
     removePar() {
       this.setPar();
@@ -481,7 +491,7 @@ export default {
   > .select_click_box {
     background-color: #f2f2f2 !important;
     border-radius: 0 !important;
-    border:none !important;
+    border: none !important;
   }
 }
 </style>
