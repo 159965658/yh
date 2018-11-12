@@ -105,8 +105,8 @@ export default {
       this.version = data;
     },
     update() {
-      window["update"] = this.updateSuccess;
-      this.$native.run("update", {}, "update");
+     // window["update"] = this.updateSuccess;
+      this.$native.run("update", {},'');
     },
     updateSuccess(data) {
       try {

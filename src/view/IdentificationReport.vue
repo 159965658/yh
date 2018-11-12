@@ -625,14 +625,14 @@ export default {
     drawLine() {
       const report = this.report;
       const dataChart = [
-        report.pingheScore,
-        report.qixuScore,
-        report.yangxuScore,
+        report.pingheScore, 
+        report.yangxuScore, 
         report.yinxuScore,
+        report.qixuScore,
         report.tanshiScore,
         report.shireScore,
-        report.xueyuScore,
         report.qiyuScore,
+        report.xueyuScore,
         report.tebingScore
       ];
       // 基于准备好的dom，初始化echarts实例
@@ -735,14 +735,14 @@ export default {
             show: false //去掉分割线
           },
           data: [
-            "平和质",
-            "气虚质",
+            "平和质", 
             "阳虚质",
             "阴虚质",
+            "气虚质",
             "痰湿质",
             "湿热质",
-            "血瘀质",
             "气郁质",
+            "血瘀质",
             "特禀质"
           ]
         },

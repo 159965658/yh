@@ -240,10 +240,10 @@ export default {
       box-shadow: -1px 1px 30px #cacaca;
       background: #ffffff;
       border-radius: 15px;
-      padding: 85px 305px;
+      padding: 85px 100px;
       margin-bottom: 35px;
       margin-right: 60px;
-      text-align: center;
+      // text-align: center;
       position: relative;
       b {
         position: absolute;

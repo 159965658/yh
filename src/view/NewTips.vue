@@ -7,7 +7,7 @@
                 {{text}}
             </p>
         </slot>
-        <div class="dialog-btn" :class="{cen:type == 0}">
+        <div class="dialog-btn cen">
             <button class="btn-default btn-next" v-if="type == 1" @click="close">{{ltitle}}</button>
             <button class="btn-default btn-next"  @click="nextHref">{{stitle}}</button>
         </div>
@@ -40,6 +40,6 @@ export default {
   }
 }
 .cen {
-  justify-content: center !important;
+  justify-content: space-between !important;
 }
 </style>

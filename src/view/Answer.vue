@@ -50,6 +50,7 @@ export default {
       countitle: "辨识答题(1/33)",
       isAnswer: false,
       query: {},
+      isAnswerNext: 0,
       subModel: {
         auditDate: "",
         customerCode: "",
@@ -153,11 +154,15 @@ export default {
   },
   methods: {
     selAnswer(item, i, e) {
-      // this.subModel["question" + i] = this.answerHover;
+      if (this.isAnswerNext > 0) {
+        return;
+      }
       this.answerHover = i + 1;
+
+      this.isAnswerNext = 1;
       setTimeout(() => {
-        
-      this.next();
+        this.isAnswerNext = 0;
+        this.next();
       }, 300);
     },
     hisAnswer(prev = false) {
@@ -185,11 +190,13 @@ export default {
     },
     next() {
       //下一题
+      if (this.isAnswerNext > 0) {
+        return;
+      }
       if (this.answerHover == -1) {
         this.$toast("请选择答案");
         return;
       }
-      console.log(this.answer.length > this.index);
       if (this.answer.length > this.index) {
         //记录答案
         this.hisAnswer();

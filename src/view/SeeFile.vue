@@ -299,7 +299,8 @@ export default {
       }
       if (model.sex != oldModel.sex) {
         //修改性别
-        let text = sex(model.cName);
+        let text = sex(model.sex);
+        console.log(text);
         this.modifyHisSub("性别", text);
       }
       if (model.birth != oldModel.birth) {
@@ -385,6 +386,7 @@ export default {
     },
     appBackCall() {
       this.edit = false;
+      this.btnText = '编辑';
       window["appBackCall"] = this.appBack;
       return false;
     },
@@ -645,6 +647,7 @@ ol.to-btns li i {
           border: none;
           outline: none;
           width: 70%;
+          white-space:nowrap;
           padding-left: 0px;
         }
 

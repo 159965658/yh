@@ -5,7 +5,7 @@ export default {
         console.log("log from js");
         console.log(fun, params, success, error)
         try {
-            if (load && (fun == 'activition' || fun == 'update' || fun == 'getdmz' || fun == 'doctorcheck')) {
+            if (load && (fun == 'activition' || fun == 'getdmz' || fun == 'doctorcheck')) {
                 Android.run('loadshow', '', '', '');
             }
             Android.run(fun, JSON.stringify(params), success, error);
