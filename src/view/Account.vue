@@ -67,6 +67,7 @@ export default {
     }, 1);
     this.user = this.$cache.getUser();
     this.device = this.$cache.get(this.$cacheEnum["device"]);
+    this.versionName();
   },
   methods: {
     checkGesture() {
@@ -99,7 +100,7 @@ export default {
     },
     versionName() {
       window["versionname"] = this.versionScuess;
-      this.$native.run(versionName, "", versionname);
+      this.$native.run("versionname", "", "versionname");
     },
     versionScuess(data) {
       this.version = data;

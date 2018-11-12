@@ -257,7 +257,7 @@ export default {
       this.searchFilter(this.search);
       //  $vm.$emit("search", this.search);
     },
-    searchList(ocr = false, data = []) {
+    searchList(ocrFlag = false, data = []) {
       if (this.nameList.length > 0) {
         this.sList = this.nameList;
       } else this.sList = this.userList;
@@ -267,7 +267,7 @@ export default {
             p.cName.indexOf(this.searchText) > -1 ||
             p.uCardNum == this.searchText
         );
-        if (ocr && this.sList.length == 0) {
+        if (ocrFlag && this.sList.length == 0) {
           //进入ocr添加页面
           this.ocrAdd(data);
         }
