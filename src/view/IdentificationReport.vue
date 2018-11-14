@@ -359,6 +359,12 @@ export default {
           scope = "≤40";
           scopeGong = "≤10";
           break;
+        case "气郁质":
+          val = re.qiyuScore;
+
+          scope = "≤40";
+          scopeGong = "≤10";
+          break;
         default:
           break;
       }
