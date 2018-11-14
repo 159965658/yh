@@ -375,11 +375,21 @@ export default {
     tizhij(value) {
       console.log(tizhi, value);
       if (this.report.reportType == 33) {
-        const key = this.sicalGong();
+        let key = this.sicalGong();
         // alert(key);
+        if (key == "平和质倾向") {
+          //如果是平和质倾向，按着平和体质解析
+          key = "平和体质";
+        }
         let name = tizhiGong.find(p => p.id == key).name;
-        name = name.replace('{{tizhi}}',this.report.mainPhysical.substring(0,this.report.mainPhysical.length-1));
-        return name
+        name = name.replace(
+          "{{tizhi}}",
+          this.report.mainPhysical.substring(
+            0,
+            this.report.mainPhysical.length - 1
+          )
+        );
+        return name;
       }
       return tizhi.find(p => p.id == value).name;
     },
@@ -388,10 +398,9 @@ export default {
         value = report.mainPhysical;
       const arr = value.split(",");
       arr.pop();
-      if(report.reportType == 33)
-      return arr[0] + "，";
-      else{ 
-        return  value;
+      if (report.reportType == 33) return arr[0] + "，";
+      else {
+        return value;
       }
     },
     sicalGong() {
@@ -625,8 +634,8 @@ export default {
     drawLine() {
       const report = this.report;
       const dataChart = [
-        report.pingheScore, 
-        report.yangxuScore, 
+        report.pingheScore,
+        report.yangxuScore,
         report.yinxuScore,
         report.qixuScore,
         report.tanshiScore,
@@ -735,7 +744,7 @@ export default {
             show: false //去掉分割线
           },
           data: [
-            "平和质", 
+            "平和质",
             "阳虚质",
             "阴虚质",
             "气虚质",

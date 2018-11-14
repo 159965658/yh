@@ -3,20 +3,6 @@
     <app-header :ltitle='"后退"' :ctitle='"查看档案"'></app-header>
     <div class="clearfix all">
 
-        <div class="shadow update">
-            <h3>修改记录</h3>
-            <div class="border">
-                <ol>
-                    <li v-for="(item,index) in histList" :key="index">
-                        <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
-                        <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
-                        <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
-
-                        <i class="icon radio active"></i>
-                    </li>
-                </ol>
-            </div>
-        </div>
         <div class="left-content fl">
             <div class="dangan">
                 <h3>居民档案信息</h3>
@@ -107,6 +93,20 @@
                     </li> -->
                 </ul>
                 <data-null v-else></data-null>
+            </div>
+        </div>
+           <div class="shadow update">
+            <h3>修改记录</h3>
+            <div class="border">
+                <ol>
+                    <li v-for="(item,index) in histList" :key="index">
+                        <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
+                        <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
+                        <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
+
+                        <i class="icon radio active"></i>
+                    </li>
+                </ol>
             </div>
         </div>
     </div>
@@ -386,7 +386,7 @@ export default {
     },
     appBackCall() {
       this.edit = false;
-      this.btnText = '编辑';
+      this.btnText = "编辑";
       window["appBackCall"] = this.appBack;
       return false;
     },
@@ -439,7 +439,7 @@ export default {
     reportHover(item) {
       item.hover = !item.hover;
       this.delCount = item.hover ? this.delCount + 1 : this.delCount - 1;
-      if(this.delCount <=0){
+      if (this.delCount <= 0) {
         this.deCount = 0;
       }
       console.log(item);
@@ -451,7 +451,7 @@ export default {
       });
       setTimeout(() => {
         this.report.forEach(item => {
-          item.isDelete = '1';
+          item.isDelete = "1";
           window["updateinventoryinfo"] = this.updateSaveSuccess;
           window["updateSaveError"] = this.updateSaveError;
           this.$native.run(
@@ -473,7 +473,6 @@ export default {
         Indicator.close();
         this.report = [];
         this.getInventoryInfo();
-        
       }
     }
   },
@@ -503,7 +502,7 @@ export default {
 ol.to-btns {
   float: right;
   margin: 10px;
-  margin-right:20px;
+  margin-right: 20px;
 }
 
 ol.to-btns li {
@@ -647,7 +646,7 @@ ol.to-btns li i {
           border: none;
           outline: none;
           width: 70%;
-          white-space:nowrap;
+          white-space: nowrap;
           padding-left: 0px;
         }
 

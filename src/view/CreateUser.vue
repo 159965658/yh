@@ -110,6 +110,7 @@ export default {
       }
       this.addUser.institutionCode = item.id;
       this.addUser.institutionName = item.name;
+      this.addUser.enterpriseIdentification = item.enterpriseIdentification;
       console.log(item);
     },
     getorgdata() {
@@ -126,15 +127,20 @@ export default {
       arr.forEach(item => {
         this.orgArr.push({
           id: item.orgId,
-          name: item.orgName
+          name: item.orgName,
+          enterpriseIdentification: item.enterpriseIdentification
         });
       });
     },
-    doctorcheck() {
+    doctorcheck(data) {
       //验证医生
+      // document.write(data);
+      // const res = JSON.parse(data);
       window["doctorcheck"] = this.doctorcheckSuccess;
       window["errorCheck"] = this.errorCheck;
       let params = this.addUser;
+      // alert(params.enterpriseIdentification);
+      params.orgId = params.enterpriseIdentification;
       this.$native.run("doctorcheck", params, "doctorcheck", "errorCheck");
     },
     errorCheck(data) {
@@ -142,12 +148,17 @@ export default {
       this.$toast(data);
     },
     doctorcheckSuccess(data) {
-      const res = JSON.parse(data);
-      this.$native.loadHide();
-      let params = this.addUser;
-      params.operId = res.operId;
-      window["addUserSuccess"] = this.success;
-      this.$native.run("addUser", params, "addUserSuccess");
+      try {
+        const res = JSON.parse(data);
+        this.$native.loadHide();
+        let params = this.addUser;
+        params.operId = res.operId;
+        window["addUserSuccess"] = this.success;
+        this.$native.run("addUser", params, "addUserSuccess");
+      } catch (error) {
+        this.$native.loadHide();
+        alert(error);
+      }
     },
     addUserSubmit() {
       let params = this.addUser;

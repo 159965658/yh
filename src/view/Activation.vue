@@ -53,7 +53,7 @@ export default {
     success() {
       // alert("success Verification");
       this.$native.loadHide();
-      this.$router.push("/createuser");
+      this.getDeviceInfo();
     },
     qrCode() {
       window["qrcodeSuccess"] = this.qrcodeSuccess;
@@ -61,6 +61,33 @@ export default {
     },
     qrcodeSuccess(data) {
       this.code = data;
+    },
+    getDeviceInfo(active = true) {
+      // const device = this.$cache.get(this.$cacheEnum["device"]);
+      // if (device) {
+      //   if (active) this.infoSuccess(JSON.stringify(device));
+      //   return;
+      // }
+      window["infoSuccess"] = this.infoSuccess;
+      this.$native.run("getDeviceInfo", {}, "infoSuccess");
+    },
+    infoSuccess(data) {
+      data = JSON.parse(data);
+      //console.log(data);
+      //   if (this.fun) {
+      // if (!data.activeCode && !data.enterpriseIdentification) {
+      //   //首次激活 进入激活页面
+      //   this.$router.replace("/activation");
+      //   return;
+      // }
+      //不是首次激活 进入 切换用户
+      // if()
+      //this.$router.push("/switch");
+      //  this.fun = false;
+      //  } else {
+      this.$cache.set(this.$cacheEnum["device"], data);
+      this.$router.push("/createuser");
+      // }
     }
   }
   //   watch: {
