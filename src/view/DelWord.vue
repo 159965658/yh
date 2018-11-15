@@ -1,5 +1,5 @@
 <template>
-<div style="height:100%">
+<div style="height:100%;background-color: #f3f6fc;">
     <app-header :ltitle='"后退"' :ctitle='"删除词条"'></app-header>
     <div class="center-content ">
         <div class="total clearfix">

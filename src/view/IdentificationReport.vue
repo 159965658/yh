@@ -22,7 +22,7 @@
                 <div class="bor-b">
                     <h3><i></i>体质类型</h3>
                     <h6>
-                        根据测评，您的体质类型为<span style="" v-html="tizhi"></span>
+                        根据测评：您的体质类型为<span style="" v-html="tizhi"></span>
                         体质得分情况如下：
                         <!-- <div class="echart">		    		<ol class="clearfix">		    		<li><i class="icon mian"></i>柱状图</li>		    		<li><i class="icon line"></i>折线图</li>		    		</ol>		    		</div> -->
                     </h6>
@@ -31,11 +31,11 @@
                         <!-- <div id="myChart" ></div> -->
                     </div>
                     <p class="pingjia" v-if="report.reportType == 60" v-html="mainTizhi.yihuanb">先天禀赋良好，后天调养得当，身体健壮，平素患病较少。</p>
-                    <ol class="clearfix">
+                    <!-- <ol class="clearfix">
                         <li><label for="">体质类型</label>{{mainPhysicalStr[0]}}</li>
                         <li><label for="">理想分数</label>{{mainFirstScope}}</li>
                         <li><label for="">体质得分</label>{{mainFirst}} <i class="icon up"></i></li>
-                    </ol>
+                    </ol> -->
                 </div>
 
                 <ul class="table-ul">
@@ -431,20 +431,24 @@ export default {
       }
     },
     getKnowledge(funType = 1) {
-      if (funType == 1) window["getknowledge"] = this.getKnowledgeSuccess;
-      else if (funType == 2) window["getknowledge"] = this.getKnowledgeCache;
-      window["getError"] = this.getError;
-      const user = this.$cache.getUser();
-      this.$native.run(
-        "getknowledge",
-        {
-          userCode: user.userCode
-        },
-        "getknowledge",
-        "getError"
-      );
+      try {
+        if (funType == 1) window["getknowledge"] = this.getKnowledgeSuccess;
+        else if (funType == 2) window["getknowledge"] = this.getKnowledgeCache;
+        // window["getError"] = this.getError;
+        const user = this.$cache.getUser();
+        this.$native.run(
+          "getknowledge",
+          {
+            userCode: user.userCode
+          },
+          "getknowledge"
+          // "getError"
+        );
+      } catch (error) {
+        alert(error);
+      }
     },
-    getError(data) {},
+    // getError(data) {},
     getKnowledgeCache(data) {
       const res = JSON.parse(data).knowledgeList;
       this.baseList = res;
@@ -481,19 +485,19 @@ export default {
       report.ysjyContent = this.ue2.getContent();
       report.promptContent = this.ue3.getContent();
       if (!report.jieqiContent) {
-        this.$toast("节气养生内容不能为空，请输入内容。");
+        this.$toast("节气养生内容不能为空，请输入内容");
         return;
       }
       if (!report.blockContent) {
-        this.$toast("调理方案内容不能为空，请输入内容。");
+        this.$toast("调理方案内容不能为空，请输入内容");
         return;
       }
       if (!report.ysjyContent) {
-        this.$toast("医师建议内容不能为空，请输入内容。");
+        this.$toast("医师建议内容不能为空，请输入内容");
         return;
       }
       if (!report.promptContent) {
-        this.$toast("温馨提示内容不能为空，请输入内容。");
+        this.$toast("温馨提示内容不能为空，请输入内容");
         return;
       }
       //没有词条新增
@@ -623,7 +627,7 @@ export default {
         //医师建议、
         else {
           th.ue2.setContent(
-            `<p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;医生签名<br/></p>`
+            `<p><br/></p><p><br/></p><p><br/></p><p><br/></p><p><br/></p><p style="text-align: center;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;医生签名：<br/></p>`
           );
         }
         const word3 = this.$cache.get("word4");

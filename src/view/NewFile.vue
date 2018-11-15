@@ -14,8 +14,8 @@
         <div class="border">
             <div class="edit-content" v-if="!error">
                 <ul>
-                    <li class="dashed"><label for="">档案编号:</label>
-                        <input type="text" placeholder="档案编号" v-model="addUser.code" maxlength="10"></li>
+                    <li class="dashed"><label for="">档案号:</label>
+                        <input type="text" placeholder="档案号" v-model="addUser.code" maxlength="10"></li>
                     <li class="dashed"><i class="must">*</i><label for="">姓名:</label>
                         <input type="text" placeholder="姓名" v-model="cName" maxlength="10">
                     </li>
@@ -32,19 +32,20 @@
                         <app-select  class="nation"  :opotionList='nationArr' :id="10" @opotion='nationClick'></app-select>
                       </label> <!-- <input type="text" v-model="addUser.nation" placeholder="汉"> -->
                     </li>
-                    <li>
-                        <i class="must">*</i><label for="">出生:</label>
-                        <span>{{addUser.birth}}</span>
-                        <mt-datetime-picker ref="picker" :startDate='startDate' :endDate='endDate' type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" @confirm="handleConfirm">
-                        </mt-datetime-picker> <i class="icon rili" @click="openPicker"></i>
-                    </li>
-                    <li style="z-index:9"><i class="must">*</i><label for="">
+                      <li style="z-index:9"><i class="must">*</i><label for="">
                       <app-select class="idCard" :opotionList='idCardArr' @opotion='idClick'></app-select>
                     </label>
                         <input type="text" v-model="uCardNum" placeholder="" maxlength="18"/>
                         <!-- <app-sex @radioClick='idClick' :radioArr="idCardArr" :defaultHover='addUser.cCardType'></app-sex> -->
                         <!-- <i class="icon arrow"></i> -->
                     </li>
+                    <li>
+                        <i class="must">*</i><label for="">出生日期:</label>
+                        <span>{{addUser.birth}}</span>
+                        <mt-datetime-picker ref="picker" :startDate='startDate' :endDate='endDate' type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" @confirm="handleConfirm">
+                        </mt-datetime-picker> <i class="icon rili" @click="openPicker"></i>
+                    </li>
+                  
                     <li style="z-index:8"><i class="must">*</i>
                         <label for="">婚姻状况:</label>
                         <label for="" style="width:85%">
@@ -52,7 +53,7 @@
                         </label>
                     </li>
 
-                    <li><i class="must">*</i><label for="">地址:</label><input type="text" v-model="contactAddress" placeholder="联系地址" maxlength="50"></li>
+                    <li><label for="">地址:</label><input type="text" v-model="contactAddress" placeholder="联系地址" maxlength="50"></li>
                     <li style="z-index:7"><i class="must">*</i><label for="">居住地:</label>
                         <label for="">
                           <app-select  class="nation hun"  :opotionList='province' :id="0" @opotion='provinceClick'></app-select> 
@@ -63,7 +64,7 @@
                       </label>
                     </li>
 
-                    <li><i class="must">*</i><label for="">联系方式:</label><input type="number" v-model="addUser.mobileTel" placeholder="联系方式"/></li>
+                    <li><label for="">手机号码:</label><input type="number" v-model="addUser.mobileTel" placeholder="手机号码"/></li>
                 </ul>
                 <div class="button-submit">
                     <button href="javascript:void(0)" class="button submit btn-save" @click="save">保存</button>
@@ -162,7 +163,25 @@ export default {
     uCardNum(val) {
       this.$nextTick(() => {
         let value = filterInput(val);
-        if (this.addUser.cCardType == 101) value = value.toUpperCase();
+        if (this.addUser.cCardType == 101) {
+          value = value.toUpperCase();
+          if (value.length == 18) {
+            let u = this.checkId(value);
+            if (u) {
+              var ic = value;
+              var birth =
+                ic.substring(6, 10) +
+                "-" +
+                ic.substring(10, 12) +
+                "-" +
+                ic.substring(12, 14);
+              if (!this.addUser.birth) {
+                this.addUser.birth = birth;
+                this.birth = new Date(birth);
+              }
+            }
+          }
+        }
         this.addUser.uCardNum = value;
 
         this.uCardNum = value;
@@ -229,7 +248,7 @@ export default {
     save() {
       const user = this.addUser;
       // if (!user.customerCode) {
-      //   this.$toast("档案编号不能为空，请输入档案编号。");
+      //   this.$toast("档案号不能为空，请输入档案号。");
       //   return;
       // }
       if (!user.cName) {
@@ -270,10 +289,10 @@ export default {
         return;
       }
 
-      if (!user.contactAddress) {
-        this.$toast("地址不能为空，请输入您的地址。");
-        return;
-      }
+      // if (!user.contactAddress) {
+      //   this.$toast("地址不能为空，请输入您的地址。");
+      //   return;
+      // }
       if (user.custOrgProvince == 0) {
         this.$toast("请您选择省");
         return;
@@ -283,8 +302,8 @@ export default {
         return;
       }
       var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-      if (!user.mobileTel || !myreg.test(user.mobileTel)) {
-        this.$toast("请填写正确联系方式");
+      if (user.mobileTel && !myreg.test(user.mobileTel)) {
+        this.$toast("请填写正确手机号码");
         return;
       }
       try {
@@ -307,9 +326,9 @@ export default {
         //this.addcustomer(data, "该档案已存在，是否直接进入辨识报告？");
         this.$cache.set(this.$cacheEnum["cardModel"], res);
         this.$toastFull(NewTipsVue, true, {
-          text: "该档案已存在，是否直接进入辨识报告？",
-          ltitle: "首页",
-          stitle: "进入体质识别报告",
+          text: "档案信息已存在，请选择您要执行的操作",
+          ltitle: "返回首页",
+          stitle: "开始辨识",
           type: 1
         });
       } catch (error) {
@@ -356,14 +375,14 @@ export default {
         ? this.$toast("您输入的身份证错误！")
         : Ai;
     },
-    addcustomer(data, text = "请选择你要执行的操作") {
+    addcustomer(data, text = "档案创建成功，请选择您要执行的操作") {
       // alert(data);
       this.$cache.set(this.$cacheEnum["cardModel"], JSON.parse(data));
       //$vm.$router.replace("/Identification");
       this.$toastFull(NewTipsVue, true, {
         text: text,
-        ltitle: "首页",
-        stitle: "进入体质识别报告",
+        ltitle: "返回首页",
+        stitle: "开始辨识",
         type: 1
       });
     },

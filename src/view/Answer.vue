@@ -27,7 +27,7 @@
             <dl>
                 <dt></dt>
                 <dd>答完了！</dd>
-                <dd>请把设备交还给医师。</dd>
+                <dd>已完成所有辨识题目，请将设备交还医师</dd>
             </dl>
         </div>
         <div class="button-jh wid500 fang">
@@ -246,7 +246,7 @@ export default {
     tips() {
       this.$toastFull(tipsVue, true, {
         title: "提示",
-        text: "退出后，答题记录不保存，是否要退出答题状态",
+        text: "退出将导致本次体质辨识失败，确认退出？",
         subText: "确认"
       });
     },

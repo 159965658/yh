@@ -33,11 +33,11 @@ export default {
   methods: {
     next() {
       if (this.loginName == "") {
-        this.$toast("请输入您的账号。");
+        this.$toast("请输入您的账号");
         return;
       }
       if (this.webNickName == "") {
-        this.$toast("请输入您的网络版用户名。");
+        this.$toast("请输入您的网络版用户名");
         return;
       }
       window["nextSuccess"] = this.nextSuccess;

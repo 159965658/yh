@@ -2,7 +2,7 @@
 <div class="dialog-div">
     <div class="dialog-body">
         <slot name="body">
-            <p>辨识人群众选择 <i class="icon close" @click="$closeFull"></i></p>
+            <p>辨识人群选择 <i class="icon close" @click="$closeFull"></i></p>
             <ol class="clearfix">
 
                 <li v-for="item in user" :key="item.id" @click="switchFun(item)">

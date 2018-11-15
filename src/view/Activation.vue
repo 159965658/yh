@@ -10,7 +10,7 @@
                     <i class="icon clear" v-show="code" @click="code = ''"></i>
                 </li>
             </ul>
-            <p class="jh-tips">请输入激活码，激活码可安购买的软件上获取</p>
+            <p class="jh-tips"></p>
             <div class="button-jh">
                 <a href="javascript:void(0)" class="button jh" :class="{'btn-yellow':code}" @click="submit">确认激活</a>
             </div>

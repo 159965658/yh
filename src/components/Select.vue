@@ -1,6 +1,6 @@
 <template>
 <div class="select">
-  <div class="select_click_box" @click='updateMySelect' >
+  <div class="select_click_box" :class="{'bg':isClick}" @click='updateMySelect' >
     <p>{{msg}}</p>
    
     <span  class="icon arrow" v-show='!selectBool'></span>
@@ -24,7 +24,7 @@ export default {
       data: []
     };
   },
-  props: ["opotionList", "id"],
+  props: ["opotionList", "id", "isClick"],
   watch: {
     id() {
       //  alert(this.id);
@@ -33,6 +33,7 @@ export default {
   },
   methods: {
     updateMySelect() {
+      if (this.isClick) return;
       this.selectBool = !this.selectBool;
     },
     updateOpotion(index) {
@@ -72,6 +73,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.bg {
+  background-color: #dcdcdc !important;
+}
 .select {
   width: 190px;
   display: inline-block;

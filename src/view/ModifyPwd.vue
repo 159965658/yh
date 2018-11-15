@@ -22,7 +22,7 @@
 	        			</li>
 	        		</ul>
 	    			<div class="button-submit"> 
-	    				<button   class="button submit btn-save" @click="save">保存</button>
+	    				<button   class="button submit btn-save" :class="{'dis':!validFlag}" @click="save">保存</button>
 	    			</div>
 	        		
 	        	</div>
@@ -39,13 +39,36 @@ export default {
       user: {},
       flag: true,
       flag1: true,
-      flag2: true
+      flag2: true,
+      validFlag: false
     };
+  },
+  watch: {
+    oldPwd() {
+      this.validFlagFun();
+    },
+    sNewPwd() {
+     this.validFlagFun();
+    },
+    newPwd() {
+      this.validFlagFun();
+    }
   },
   mounted() {
     this.user = this.$cache.get(this.$cacheEnum["user"]);
   },
   methods: {
+    validFlagFun() {
+      if (
+        this.oldPwd.length > 0 &&
+        this.newPwd.length > 0 &&
+        this.sNewPwd.length > 0
+      ) {
+        this.validFlag = true;
+      } else {
+        this.validFlag = false;
+      }
+    },
     save() {
       if (this.oldPwd != this.user.password) {
         this.$toast("旧密码输入不正确");
@@ -72,6 +95,9 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.dis{
+  background-color: #dcdcdc;
+}
 .blue-bg {
   background: #fff;
 }

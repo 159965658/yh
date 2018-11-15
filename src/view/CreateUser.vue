@@ -28,7 +28,7 @@
                 </li>
                 <li>
                     <label>机构编码：</label>
-                    <input type="text" placeholder="机构编码" disabled v-model="addUser.institutionCode" maxlength="20" > 
+                    <input type="text" placeholder="机构编码" disabled v-model="addUser.enterpriseIdentification" maxlength="20" > 
               	</li> 
 
                 <li>
@@ -57,7 +57,8 @@ export default {
         institutionCode: "",
         institutionName: "",
         webNickName: "",
-        crowdFlag: "0"
+        crowdFlag: "0",
+        enterpriseIdentification: ""
       },
       loginName: "",
       webNickName: "",
@@ -106,6 +107,7 @@ export default {
       if (item.id == -1) {
         this.addUser.institutionCode = "";
         this.addUser.institutionName = item.name;
+        this.addUser.enterpriseIdentification = "";
         return;
       }
       this.addUser.institutionCode = item.id;
@@ -153,6 +155,7 @@ export default {
         this.$native.loadHide();
         let params = this.addUser;
         params.operId = res.operId;
+        params.trueName = res.trueName;
         window["addUserSuccess"] = this.success;
         this.$native.run("addUser", params, "addUserSuccess");
       } catch (error) {
@@ -168,7 +171,7 @@ export default {
       // params.institutionName = this.institutionName;
       // console.log(params.password.length);
       if (!params.loginName) {
-        this.$toast("账号不能为空，请输入一个账号作为您的登录名。");
+        this.$toast("账号不能为空，请输入一个账号作为您的登录名");
         return;
       }
       if (!params.password) {
@@ -189,11 +192,11 @@ export default {
       }
       // alert(params.institutionCode);
       if (!params.institutionCode || params.institutionCode == -1) {
-        this.$toast("请选择一个机构。");
+        this.$toast("请您选择一个机构");
         return;
       }
       if (!params.webNickName) {
-        this.$toast("请输入网络版用户名。");
+        this.$toast("请您输入网络版用户名");
         return;
       }
       this.doctorcheck();

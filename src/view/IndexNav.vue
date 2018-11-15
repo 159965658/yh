@@ -3,7 +3,7 @@
         <div class="left-nav">
         	<dl class="head-img" @click="outlogin">
         		<dt><img src="../assets/index-wangyisheng.png"></dt>
-        		<dd style="color:#000" class="flowell">{{cacheUser.webNickName}}</dd>
+        		<dd style="color:#000" class="flowell">{{cacheUser.trueName}}</dd>
         	</dl>
         	<ul>
                 <router-link tag="li" @click.native='removePar' to="/index/list" active-class="active" class="index" replace><i class="icon"></i>首页</router-link>

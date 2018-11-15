@@ -88,7 +88,7 @@ export default {
   position: relative;
   color: #282828;
   padding: 0px 20px;
-  background-color: #fff;
+  background-color: transparent;
   font-size: 38px;
   // padding-top: 54px;
   // background-color: red;

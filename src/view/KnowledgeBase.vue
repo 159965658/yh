@@ -107,7 +107,7 @@ export default {
   methods: {
     removeParBase() {
       console.log(this.$route);
-      this.search( this.type);
+      this.search(this.type);
     },
     edit(item) {
       this.$cache.set(
@@ -136,12 +136,17 @@ export default {
     },
     getKnowledge() {
       window["getknowledge"] = this.getKnowledgeSuccess;
+      window["baseError"] = this.baseError;
       const user = this.$cache.getUser();
       this.$native.run(
         "getknowledge",
         { userCode: user.userCode },
-        "getknowledge"
+        "getknowledge",
+        "baseError"
       );
+    },
+    baseError(){
+
     },
     getKnowledgeSuccess(data) {
       try {

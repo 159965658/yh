@@ -26,7 +26,7 @@
             <ul class="list">
                 <li>机构名称：<span>{{user.institutionName}}</span></li>
                 <li>机构编号：<span>{{user.institutionCode}}</span></li>
-                <li>网络版用户名：<span>{{user.webNickName}}</span></li>
+                <li>网络版用户名：<span>{{user.trueName}}</span></li>
                 <li @click="selectUserTip">辨识人群选择：<i class="icon more"></i><span>{{user.crowdFlag |flag }}</span></li>
                 <router-link tag="li" to="/modifypwd">设置密码：<i class="icon more"></i><span></span></router-link>
                 <!-- <li><i class="icon more"></i><span></span></li> -->
@@ -106,8 +106,8 @@ export default {
       this.version = data;
     },
     update() {
-     // window["update"] = this.updateSuccess;
-      this.$native.run("update", {},'');
+      // window["update"] = this.updateSuccess;
+      this.$native.run("update", {}, "");
     },
     updateSuccess(data) {
       try {
@@ -131,10 +131,8 @@ export default {
             title: "版本更新",
             text: "已经是最新版本",
             subText: "确认",
-            f1:2,
-            s:function(){
-
-            }
+            f1: 2,
+            s: function() {}
           });
         }
       } catch (error) {

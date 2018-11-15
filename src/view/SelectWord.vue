@@ -23,7 +23,7 @@
             <div id="editor" class="editor" width="100%;height:600px" type="text/plain"></div>
             <div class="status">
                 <label for="">共享状态：</label>
-                <app-select v-on:opotion="opotion" :id='defaultId' :opotionList='opotionList'></app-select>
+                <app-select v-on:opotion="opotion" :id='defaultId' :opotionList='opotionList' :isClick='isClick'></app-select>
             </div>
             <div class="button-jh fang">
                 <button class="button jh" @click="save">保存</button>
@@ -53,6 +53,7 @@ export default {
           name: "共享"
         }
       ],
+      isClick: false,
       defaultId: 0,
       baseList: [],
       allBaseList: [],
@@ -91,6 +92,7 @@ export default {
         setTimeout(() => {
           this.ue.setContent(this.editModel.content);
           this.defaultId = this.editModel.isShared;
+          this.isClick = this.editModel.userCode != this.user.userCode;
           //alert(this.editModel.type);
           $vm.$emit("selectChange", this.defaultId);
         }, 200);
@@ -118,7 +120,7 @@ export default {
         let addBase = this.addBase;
         addBase.content = this.ue.getContent();
         if (!addBase.content.trim()) {
-          this.$toast("词条内容不能为空，请您输入内容。");
+          this.$toast("词条内容不能为空，请您输入内容");
           return;
         }
         if (addBase.isShared == -1) {

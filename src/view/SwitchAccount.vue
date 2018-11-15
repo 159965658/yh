@@ -2,12 +2,12 @@
 <div>
     <app-header :ltitle='"后退"' :ctitle='"切换登录账号"'></app-header>
     <div class="blue-bg clearfix">
-        <h3>请选择登录您自已的帐号</h3>
+        <h3>请选择登录您自已的账号</h3>
         <div class="pic ">
             <!--active 为头像高亮显示-->
             <dl v-for="(item,index) in user" :key="index" class="fr active" @click="login(item)">
                 <dt></dt>
-                <dd>{{item.webNickName}}</dd>
+                <dd>{{item.trueName}}</dd>
             </dl>
             <!--gray 为头像置灰-->
             <!-- <dl class="fr gray">

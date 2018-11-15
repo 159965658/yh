@@ -4,7 +4,7 @@
         <div class="top-nav-search">
             <input type="texe" placeholder="患者姓名／身份证号" v-model="searchText">
             <i class="icon" @click="ocr"></i>
-            <i class="sousuo" @click="searchList"></i>
+            <i class="sousuo" @click="searchList()"></i>
         </div>
         <router-link to="/newfile" class="shatubiao"></router-link>
         <!-- <div class="shatubiao"></div> -->
@@ -50,7 +50,7 @@
 
                 </li>
                     <li class="clearfix" style="position:relative">
-                        <label for="">上传状态</label>
+                        <label for="">辨识状态</label>
                         <app-select class="up-status" v-on:opotion="opotion" :id='upStatus' :opotionList='opotionList'></app-select>
                         <!-- <input type="text" /> -->
                         <div class="arrow"></div>
@@ -257,7 +257,7 @@ export default {
       this.searchFilter(this.search);
       //  $vm.$emit("search", this.search);
     },
-    searchList(ocrFlag = false, data = []) {
+    searchList(ocrFlagNull = false, data = []) {
       if (this.nameList.length > 0) {
         this.sList = this.nameList;
       } else this.sList = this.userList;
@@ -267,7 +267,8 @@ export default {
             p.cName.indexOf(this.searchText) > -1 ||
             p.uCardNum == this.searchText
         );
-        if (ocrFlag && this.sList.length == 0) {
+        console.log(ocrFlagNull, this.sList.length);
+        if (ocrFlagNull && this.sList.length == 0) {
           //进入ocr添加页面
           this.ocrAdd(data);
         }
@@ -331,6 +332,8 @@ export default {
       this.search.startText = "";
       this.search.endText = "";
       this.upStatus = -1;
+      this.startDate = "";
+      this.endDate = "";
     },
     removePar() {
       this.setPar();
@@ -419,7 +422,6 @@ export default {
       // overflow-y: auto;
     }
   }
- 
 }
 </style><style lang="less" scoped>
 .popup_filter {

@@ -10,19 +10,19 @@
                     <p class="edit" @click="editClick">{{btnText}}</p>
                     <div class="border">
                         <ul v-if="!edit">
-                            <li><label for="">档案编号：</label><span>{{cardModel.code}}</span></li>
+                            <li><label for="">档案号：</label><span>{{cardModel.code}}</span></li>
                             <li><label for="">姓名：</label><span>{{cardModel.cName}}</span></li>
                             <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
-                            <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li>
-                            <li><label for="">出生：</label><span>{{cardModel.birth}}</span></li>
-                            <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
+                            <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li> 
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
+                            <li><label for="">出生日期：</label><span>{{cardModel.birth}}</span></li>
+                            <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
                             <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
                             <li><label for="">居住地：</label><span>{{cardModel.custOrgProvince | province}}   {{cardModel.custOrgCity | city}}   </span></li>
-                            <li><label for="">联系方式：</label><span>{{cardModel.mobileTel}}</span></li>
+                            <li><label for="">手机号码：</label><span>{{cardModel.mobileTel}}</span></li>
                         </ul>
                         <ul v-if="edit">
-                            <li><label for="">档案编号：</label>
+                            <li><label for="">档案号：</label>
                                 <input type="text" v-model="cardModelCopy.code" maxlength="10"> </li>
                             <li><i class="must">*</i><label for="">姓名：</label>
                                 <input type="text" v-model="cardModelCopy.cName" maxlength="10"> </li>
@@ -34,7 +34,11 @@
                                 <app-select class="nation" :opotionList='nationArr' :id="cardModelCopy.nation" @opotion='nationClick'></app-select>
                                 <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
-                            <li><i class="must">*</i><label for="">出生：</label>
+                               <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
+                      <app-select class="idCard" style="" :opotionList='idCardArr' :id='cardModelCopy.cCardType' @opotion='idClick'></app-select>
+                    </label>
+                                <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum" maxlength="18"></li>
+                            <li><i class="must">*</i><label for="">出生日期：</label>
                                 <span @click="openPicker">{{cardModelCopy.birth}}</span>
                                 <mt-datetime-picker @confirm="handleConfirm" :startDate='startDate' :endDate='endDate' ref="picker" type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日">
                                 </mt-datetime-picker> <!-- @confirm="handleConfirm" -->
@@ -44,11 +48,8 @@
                                 <app-select class="nation" :opotionList='marriageArr' :id="cardModelCopy.marriage" @opotion='marriageClick'></app-select>
                                 <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
-                            <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
-                      <app-select class="idCard" style="" :opotionList='idCardArr' :id='cardModelCopy.cCardType' @opotion='idClick'></app-select>
-                    </label>
-                                <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum" maxlength="18"></li>
-                            <li><i class="must">*</i><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
+                         
+                            <li><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
                             <li style="position: relative;z-index:8"><i class="must">*</i><label for="">居住地:</label>
                                 <label for="" style="
     display: inline-block;position:relative;
@@ -60,7 +61,7 @@
                                 <app-select class=" city hun" :opotionList='cityC' @opotion="cityClick" :id='cardModelCopy.custOrgCity'></app-select>
 </label>
                             </li>
-                            <li><i class="must">*</i><label for="">联系方式：</label><input type="number" v-model="cardModelCopy.mobileTel"></li>
+                            <li><label for="">手机号码：</label><input type="number" v-model="cardModelCopy.mobileTel"></li>
                         </ul>
                     </div>
                     <div style="height: 25px;"></div>
@@ -82,8 +83,8 @@
                 <ul v-if="report.length">
                     <li v-for="(item,i) in report" :key="i" @click.stop='iden(item)'>
                         <i class="radio-btn list-icon" @click.stop="reportHover(item)" :class='{active:item.hover}'></i>
-                        <b class="biaoti">{{item.mainPhysical.split(',')[0]}} </b>
-                        <b class="time">{{user.webNickName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
+                        <b class="biaoti">{{item.mainPhysical.substring(0,item.mainPhysical.length-1)}} </b>
+                        <b class="time">{{user.trueName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
                         <i class="jiao"></i>
                     </li>
@@ -101,8 +102,8 @@
                 <ol>
                     <li v-for="(item,index) in histList" :key="index">
                         <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
-                        <p v-if="item.editTitle">{{user.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
-                        <p v-if="!item.editTitle">{{user.webNickName}}建立居民信息档案</p>
+                        <p v-if="item.editTitle">{{user.trueName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
+                        <p v-if="!item.editTitle">{{user.trueName}}建立居民信息档案</p>
 
                         <i class="icon radio active"></i>
                     </li>
@@ -229,7 +230,7 @@ export default {
       const model = this.cardModelCopy,
         oldModel = this.cardModel;
       // if (!model.customerCode) {
-      //   this.$toast("档案编号不能为空，请输入档案编号。");
+      //   this.$toast("档案号不能为空，请输入档案号。");
       //   return false;
       // }
       if (!model.cName) {
@@ -256,10 +257,10 @@ export default {
           }
         }
       }
-      if (!model.contactAddress) {
-        this.$toast("地址不能为空，请输入您的地址。");
-        return false;
-      }
+      // if (!model.contactAddress) {
+      //   this.$toast("地址不能为空，请输入您的地址。");
+      //   return false;
+      // }
       if (!model.custOrgProvince) {
         this.$toast("请选中您的省");
         return false;
@@ -269,8 +270,8 @@ export default {
         return false;
       }
       var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-      if (!model.mobileTel || !myreg.test(model.mobileTel)) {
-        this.$toast("请填写正确联系方式");
+      if (model.mobileTel || !myreg.test(model.mobileTel)) {
+        this.$toast("请填写正确手机号码");
         return;
       }
       // updatecustomer
@@ -287,7 +288,7 @@ export default {
       //修改记录
       if (model.code != oldModel.code) {
         //修改姓名
-        this.modifyHisSub("档案编号", model.code);
+        this.modifyHisSub("档案号", model.code);
       }
       if (model.cName != oldModel.cName) {
         //修改姓名
@@ -347,8 +348,8 @@ export default {
       try {
         let histModel = {
           editHistoryCode: "", // 修改记录编号
-          customerCode: this.cardModel.customerCode, // 被修改档案编号
-          webNickName: this.cardModel.webNickName, // 修改者（用户）姓名
+          customerCode: this.cardModel.customerCode, // 被修改档案号
+          webNickName: this.user.trueName, // 修改者（用户）姓名
           editTitle: t, // 修改项
           editContent: c // 修改后内容
         };
@@ -451,6 +452,7 @@ export default {
       });
       setTimeout(() => {
         this.report.forEach(item => {
+          if (!item.hover) return;
           item.isDelete = "1";
           window["updateinventoryinfo"] = this.updateSaveSuccess;
           window["updateSaveError"] = this.updateSaveError;
