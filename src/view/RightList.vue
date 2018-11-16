@@ -210,7 +210,7 @@ export default {
       // document.write(timestamp);
       this.filterVis = !this.filterVis;
       this.$closeFull();
-      if (search.orgName || search.createUser) {
+      if (search.orgName) {
         this.getCustomerbyuser(search.orgName, search.createUser);
         return; //不在此处搜索
       }
@@ -273,6 +273,11 @@ export default {
           this.ocrAdd(data);
         }
       }
+      if (this.search.createUser) {
+        this.sList = this.sList.filter(
+          p => p.trueName.indexOf(this.search.createUser) > -1
+        );
+      }
       if (this.startDate) {
         this.sList = this.sList.filter(p => {
           let cr = parseInt(p.createdOnUTC);
@@ -283,20 +288,28 @@ export default {
         this.sList = this.sList.filter(p => p.isExport == this.upStatus);
       }
       this.count = this.sList.length;
-      // alert();
-      // document.write(JSON.stringify(this.sList[0]))
-      console.log(this.sList);
+      // if (this.count == 0) {
+      //   this.$toast("暂无客户档案信息");
+      // }
     },
     opotion(item) {
       this.upStatus = item.id;
     },
     getCustomerbyuser(orgName, webName) {
       window["getcustomerbyuser"] = this.getCustomerUserSuccess;
+      window["getcustomerbyuserError"] = this.getcustomerbyuserError;
       this.$native.run(
         "getcustomerbyuser",
         { institutionName: orgName, webNickName: webName },
-        "getcustomerbyuser"
+        "getcustomerbyuser",
+        "getcustomerbyuserError"
       );
+    },
+    getcustomerbyuserError() {
+      this.nameList = [];
+      this.sList = [];
+      this.count = 0;
+      // this.searchList();
     },
     ocrAdd(data) {
       this.$cache.set(this.$cacheEnum.ocrAdd, data);
@@ -482,9 +495,14 @@ export default {
 }
 .up-status {
   > .select_click_box {
+    height: 80px !important;
+    border: 1px solid #dcdcdc !important;
     background-color: #f2f2f2 !important;
     border-radius: 0 !important;
-    border: none !important;
+    // border: none !important;
+    > p {
+      line-height: 80px;
+    }
   }
 }
 </style>

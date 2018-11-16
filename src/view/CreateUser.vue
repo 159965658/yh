@@ -134,7 +134,7 @@ export default {
         });
       });
     },
-    doctorcheck(data) {
+    doctorcheck() {
       //验证医生
       // document.write(data);
       // const res = JSON.parse(data);
@@ -156,6 +156,7 @@ export default {
         let params = this.addUser;
         params.operId = res.operId;
         params.trueName = res.trueName;
+        params.custOrgName = params.institutionName;
         window["addUserSuccess"] = this.success;
         this.$native.run("addUser", params, "addUserSuccess");
       } catch (error) {
@@ -199,6 +200,7 @@ export default {
         this.$toast("请您输入网络版用户名");
         return;
       }
+      params.custOrgName = params.institutionName;
       this.doctorcheck();
     },
     success() {

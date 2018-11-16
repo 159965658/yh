@@ -134,6 +134,10 @@ export default {
           this.$toast("请选择共享状态");
           return;
         }
+        if(this.cache){
+          this.addKnowledge();
+          return;
+        }
         const baseList = this.allBaseList;
         const model = baseList.find(p => p.content == addBase.content);
         if (model) {

@@ -83,12 +83,18 @@
                     </ol>
                 </div>
                 <ul v-if="report.length">
-                    <li v-for="(item,i) in report" :key="i" @click.stop='iden(item)'>
+                    <li v-for="(item,i) in report" :key="i" @click.stop='iden(item)' class="clearfix">
                         <i class="radio-btn list-icon" @click.stop="reportHover(item)" :class='{active:item.hover}'></i>
                         <b class="biaoti">{{item.mainPhysical.substring(0,item.mainPhysical.length-1)}} </b>
-                        <b class="time">{{user.trueName}}-{{item.testDate | timeStamp('yyyy-MM-dd')}}</b>
+                        <div class='footer'>
+                        <b class="time" >{{item.testDate | timeStamp('yyyy-MM-dd')}} </b>
+                        
+                        <b class="time" >{{user.trueName}} </b>
+                          <b class="time"  v-if="item.reportType == 33">老年人群报告</b>
+                            <b class="time"  v-else>普通人群报告 </b>
+                        </div>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
-                        <i class="jiao"></i>
+                        <!-- <i class="jiao"> {{user.trueName}}</i> -->
                     </li>
                     <!-- <li>
                         <b class="biaoti">体质辨识报告    张三</b>
@@ -104,8 +110,8 @@
                 <ol>
                     <li v-for="(item,index) in histList" :key="index">
                         <p class="time">{{item.createdOnUTC | timeStamp('yyyy-MM-dd')}}</p>
-                        <p v-if="item.editTitle">{{user.trueName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
-                        <p v-if="!item.editTitle">{{user.trueName}}建立居民信息档案</p>
+                        <p v-if="item.editTitle">{{item.webNickName}}把{{item.editTitle}}修改为{{item.editContent}}</p>
+                        <p v-if="!item.editTitle">{{item.webNickName}}建立居民信息档案</p>
 
                         <i class="icon radio active"></i>
                     </li>
@@ -272,7 +278,7 @@ export default {
         return false;
       }
       var myreg = /^[1][3,4,5,7,8,9][0-9]{9}$/;
-      if (model.mobileTel || !myreg.test(model.mobileTel)) {
+      if (model.mobileTel && !myreg.test(model.mobileTel)) {
         this.$toast("请填写正确手机号码");
         return;
       }
@@ -763,7 +769,7 @@ ol.to-btns li i {
 
   ul {
     li {
-      margin: 0 50px;
+      margin: 0 20px;
       background: #eef2fa;
       border: 1px solid #3ba6dd;
       margin-bottom: 42px;
@@ -776,27 +782,29 @@ ol.to-btns li i {
       }
 
       b.biaoti {
-        font-size: 32px;
+        font-size: 30px;
         color: #282828;
-        padding: 44px 0;
+        padding: 40px 0;
       }
-
-      b.time {
-        padding-bottom: 40px;
-        font-size: 28px;
-        color: #989898;
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        b.time {
+          padding-bottom: 40px;
+          font-size: 30px;
+          color: #989898;
+        }
       }
-
-      i.jiao {
-        width: 56px;
-        height: 65px;
-        background: url(../assets/jiao_03.jpg) no-repeat;
-        background-size: 100%;
-        display: block;
-        position: absolute;
-        right: -1px;
-        bottom: -1px;
-      }
+      // i.jiao {
+      //   // width: 56px;
+      //   // height: 65px;
+      //   // background: url(../assets/jiao_03.jpg) no-repeat;
+      //   // background-size: 100%;
+      //   display: block;
+      //   // position: absolute;
+      //   right: -1px;
+      //   // bottom: -1px;
+      // }
     }
   }
 }
