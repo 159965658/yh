@@ -2,12 +2,12 @@
 <div>
     <app-header :ctitle='"创建账号"'></app-header>
     <div class="blue-bg">
-        <h3>设备激活成功 ！您可以创建一个属于自已的帐户</h3>
+        <h3>设备激活成功 ！请按提示创建您的账号</h3>
         <div class="inputs clearfix">
             <ul>
                 <li>
                     <label>账号：</label>
-                    <input type="text" placeholder="请输入一个账号作为您的登录名" maxlength="10" v-model="loginName">		        		</li>
+                    <input type="text" placeholder="请创建登录账号" maxlength="10" v-model="loginName">		        		</li>
                 <li>
                     <label>密码：</label>
                     <input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.password">

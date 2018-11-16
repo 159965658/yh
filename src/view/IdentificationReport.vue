@@ -404,10 +404,10 @@ export default {
         value = report.mainPhysical;
       const arr = value.split(",");
       arr.pop();
-      if (report.reportType == 33) return arr[0] + "，";
-      else {
-        return value;
-      }
+      // if (report.reportType == 33) return arr[0] + "，";
+      // else {
+      return value;
+      // }
     },
     sicalGong() {
       let report = this.report,
@@ -432,23 +432,31 @@ export default {
     },
     getKnowledge(funType = 1) {
       try {
-        if (funType == 1) window["getknowledge"] = this.getKnowledgeSuccess;
-        else if (funType == 2) window["getknowledge"] = this.getKnowledgeCache;
-        // window["getError"] = this.getError;
+        if (funType == 1) {
+          window["getknowledge"] = this.getKnowledgeSuccess;
+          window["getError"] = this.getErrorTwo;
+        } else if (funType == 2) {
+          window["getknowledge"] = this.getKnowledgeCache;
+          window["getError"] = this.getError;
+        }
         const user = this.$cache.getUser();
         this.$native.run(
           "getknowledge",
           {
             userCode: user.userCode
           },
-          "getknowledge"
-          // "getError"
+          "getknowledge",
+          "getError"
         );
       } catch (error) {
         alert(error);
       }
     },
-    // getError(data) {},
+    getError(data) {},
+    getErrorTwo() {
+      let res = { knowledgeList: [] };
+      this.getKnowledgeSuccess(JSON.stringify(res));
+    },
     getKnowledgeCache(data) {
       const res = JSON.parse(data).knowledgeList;
       this.baseList = res;
@@ -456,6 +464,10 @@ export default {
     getKnowledgeSuccess(data) {
       try {
         const res = JSON.parse(data).knowledgeList;
+        let reg = /<\/?.+?\/?>/g;
+        res.forEach(item => {
+          item.text = item.content.replace(reg, "");
+        });
         this.$cache.setBase(res.filter(p => p.type == this.type));
         this.$cache.set("word2", {
           content: this.ue.getContent()

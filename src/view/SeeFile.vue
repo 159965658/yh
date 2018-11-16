@@ -17,8 +17,9 @@
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
                             <li><label for="">出生日期：</label><span>{{cardModel.birth}}</span></li>
                             <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
-                            <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
+                        
                             <li><label for="">居住地：</label><span>{{cardModel.custOrgProvince | province}}   {{cardModel.custOrgCity | city}}   </span></li>
+                               <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
                             <li><label for="">手机号码：</label><span>{{cardModel.mobileTel}}</span></li>
                         </ul>
                         <ul v-if="edit">
@@ -49,7 +50,7 @@
                                 <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
                          
-                            <li><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
+                            
                             <li style="position: relative;z-index:8"><i class="must">*</i><label for="">居住地:</label>
                                 <label for="" style="
     display: inline-block;position:relative;
@@ -61,6 +62,7 @@
                                 <app-select class=" city hun" :opotionList='cityC' @opotion="cityClick" :id='cardModelCopy.custOrgCity'></app-select>
 </label>
                             </li>
+                            <li><label for="">地址：</label><input type="text" v-model="cardModelCopy.contactAddress"></li>
                             <li><label for="">手机号码：</label><input type="number" v-model="cardModelCopy.mobileTel"></li>
                         </ul>
                     </div>

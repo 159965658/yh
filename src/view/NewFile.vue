@@ -32,7 +32,7 @@
                         <app-select  class="nation"  :opotionList='nationArr' :id="10" @opotion='nationClick'></app-select>
                       </label> <!-- <input type="text" v-model="addUser.nation" placeholder="汉"> -->
                     </li>
-                      <li style="z-index:9"><i class="must">*</i><label for="">
+                    <li style="z-index:9"><i class="must">*</i><label for="">
                       <app-select class="idCard" :opotionList='idCardArr' @opotion='idClick'></app-select>
                     </label>
                         <input type="text" v-model="uCardNum" placeholder="" maxlength="18"/>
@@ -45,7 +45,7 @@
                         <mt-datetime-picker ref="picker" :startDate='startDate' :endDate='endDate' type="date" v-model="birth" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" @confirm="handleConfirm">
                         </mt-datetime-picker> <i class="icon rili" @click="openPicker"></i>
                     </li>
-                  
+
                     <li style="z-index:8"><i class="must">*</i>
                         <label for="">婚姻状况:</label>
                         <label for="" style="width:85%">
@@ -53,17 +53,16 @@
                         </label>
                     </li>
 
-                    <li><label for="">地址:</label><input type="text" v-model="contactAddress" placeholder="联系地址" maxlength="50"></li>
                     <li style="z-index:7"><i class="must">*</i><label for="">居住地:</label>
                         <label for="">
                           <app-select  class="nation hun"  :opotionList='province' :id="0" @opotion='provinceClick'></app-select> 
                       </label>
-                        <label for="" class="city"> 
-                         
+                        <label for="" class="city">
+
                         <app-select  class="nation hun"  :opotionList='cityC' :id='cityId' @opotion='cityClick'></app-select> 
                       </label>
                     </li>
-
+                    <li><label for="">地址:</label><input type="text" v-model="contactAddress" placeholder="联系地址" maxlength="50"></li>
                     <li><label for="">手机号码:</label><input type="number" v-model="addUser.mobileTel" placeholder="手机号码"/></li>
                 </ul>
                 <div class="button-submit">
@@ -125,7 +124,12 @@ export default {
       uCardNum: "",
       province: province,
       city: city,
-      cityC: [{ name: "请选择", id: 0 }],
+      cityC: [
+        {
+          name: "请选择",
+          id: 0
+        }
+      ],
       cityId: 0,
       error: false,
       birth: new Date(),
@@ -426,6 +430,7 @@ export default {
   width: 400px !important;
   padding-left: 100px;
 }
+
 .center-content {
   box-shadow: -1px 1px 30px #cacaca;
   width: 1370px;

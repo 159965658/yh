@@ -1,6 +1,6 @@
 <template>
 <div style="height: 100%;background: #f3f6fc;">
-    <app-header :ltitle='"后退"' :ctitle='"首页编辑"'></app-header>
+    <app-header :ltitle='"后退"' :ctitle='"档案管理"'></app-header>
     <div class="center-content ">
         <div class="total clearfix">
             <p>当前共有数据：<span>{{cardList.length}}</span></p>

@@ -183,9 +183,11 @@ export default {
     search() {
       console.log(this.baseList);
       this.fname = this.name;
+      // alert(this.baseList.length);
       this.searcheList = this.baseList.filter(
         p => p.text.indexOf(this.fname) > -1
       );
+      // alert(JSON.stringify(this.searcheList));
     }
   },
   beforeDestroy() {

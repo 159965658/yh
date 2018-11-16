@@ -26,7 +26,7 @@
         <div class="answered ">
             <dl>
                 <dt></dt>
-                <dd>答完了！</dd>
+                <dd></dd>
                 <dd>已完成所有辨识题目，请将设备交还医师</dd>
             </dl>
         </div>
