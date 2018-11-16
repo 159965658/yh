@@ -2,7 +2,7 @@
 <div>
     <app-header :ctitle='"创建账号"'></app-header>
     <div class="blue-bg">
-        <h3>设备激活成功 ！请按提示创建您的账号</h3>
+        <h3>请按提示创建您的账号</h3>
         <div class="inputs clearfix">
             <ul>
                 <li>

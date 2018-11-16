@@ -48,7 +48,7 @@ export default {
       this.validFlagFun();
     },
     sNewPwd() {
-     this.validFlagFun();
+      this.validFlagFun();
     },
     newPwd() {
       this.validFlagFun();
@@ -89,13 +89,14 @@ export default {
     },
     changePwd() {
       // this.$cache.remove(this.$cacheEnum["user"]);
+      this.$toast("密码修改成功");
       this.$router.replace("/index/account");
     }
   }
 };
 </script>
 <style lang="less" scoped>
-.dis{
+.dis {
   background-color: #dcdcdc;
 }
 .blue-bg {

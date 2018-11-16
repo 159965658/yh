@@ -26,8 +26,8 @@
         <div class="answered ">
             <dl>
                 <dt></dt>
-                <dd></dd>
-                <dd>已完成所有辨识题目，请将设备交还医师</dd>
+                <dd>已完成所有辨识题目</dd>
+                <dd>请将设备交还医师</dd>
             </dl>
         </div>
         <div class="button-jh wid500 fang">

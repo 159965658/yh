@@ -76,7 +76,7 @@ export default {
     getuserbyname(data) {
       const res = JSON.parse(data);
       if (!res.gesture) {
-        this.$toast("您还没用手势密码，请用密码登录");
+        this.$toast("您尚未启用手势密码");
         return;
       }
       this.user = res;

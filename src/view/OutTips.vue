@@ -4,7 +4,7 @@
         <slot name="body">
             <p>退出登录</p>
             <p class="dialog-c">
-                是否退出当前登录用户
+                是否退出当前登录用户？
             </p>
         </slot>
         <div class="dialog-btn" >

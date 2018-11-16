@@ -93,11 +93,11 @@ export default {
         },
         {
           id: 1,
-          name: "已上传"
+          name: "已辨识"
         },
         {
           id: 0,
-          name: "未上传"
+          name: "未辨识"
         }
       ],
       filterVis: false,

@@ -75,6 +75,7 @@ export default {
   mounted() {
     this.addBase.type = this.$route.query.type;
     this.cache = this.$route.query.cache;
+
     this.editModel = this.$cache.get(this.$cacheEnum.baseEdit);
     // alert(this.editModel.type);
     setTimeout(() => {
@@ -87,6 +88,12 @@ export default {
         // initialFrameWidth: 800, //设置富文本的宽度为600px
         initialFrameHeight: 200 //设置富文本的高度为300px
       });
+      if (this.cache) {
+        setTimeout(() => {
+          let addContent = this.$cache.get("word" + this.addBase.type);
+          this.ue.setContent(addContent.content);
+        }, 200);
+      }
       if (this.editModel) {
         this.title = "编辑词条";
         setTimeout(() => {
