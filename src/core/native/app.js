@@ -132,6 +132,12 @@ window['$appBack'] = function (isforce = false) {
 
     }
     else {
+        //特殊页面处理 查看档案
+        if ($vm.$route.name == 'seefile' && !isforce) {
+            //警告 是否要退出
+            $vm.$emit('tipsBackSee');
+            return;
+        }
         //特殊页面处理 答题页面
         if ($vm.$route.name == 'answer' && !isforce) {
             //警告 是否要退出

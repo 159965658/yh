@@ -43,11 +43,13 @@ export default {
       cardListCopy: [],
       isAll: false,
       selectedCount: 0,
-      updataCount: 0
+      updataCount: 0,
+      $Indicator: Indicator
     };
   },
   mounted() {
     this.userList = this.$cache.getUser();
+    this.$Indicator = Indicator;
     // this.cardList = ;
     const list = this.changeSetList(this.$cache.get(this.$cacheEnum["list"]));
     this.cardList = list;
@@ -131,13 +133,15 @@ export default {
     },
     updateDataSub() {
       window["uploadcustomer"] = this.updateDataSuccess;
-      window["errorUp"] = this.errorUp;
+      window["errorUpload"] = this.errorUpload;
+      console.log(this.$Indicator);
+      this.$Indicator.open({
+        text: "正在上传数据...",
+        spinnerType: "fading-circle"
+      });
       try {
         // this.$native.loadShow();
-        Indicator.open({
-          text: "正在上传数据...",
-          spinnerType: "fading-circle"
-        });
+
         this.cardList.forEach(item => {
           if (item.seletedCard) {
             // item.isDelete = 1;
@@ -145,13 +149,21 @@ export default {
               "uploadcustomer",
               item,
               "uploadcustomer",
-              "errorUp"
+              "errorUpload"
             );
           }
         });
       } catch (error) {
         alert(error);
       }
+    },
+    errorUpload(error) {
+      // console.log(Indicator);
+      setTimeout(() => {
+        this.$Indicator.close();
+        Indicator.close();
+      }, 5);
+      this.$toast(error);
     },
     errorUp(error) {
       Indicator.close();

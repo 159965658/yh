@@ -13,13 +13,13 @@
                             <li><label for="">档案号：</label><span>{{cardModel.code}}</span></li>
                             <li><label for="">姓名：</label><span>{{cardModel.cName}}</span></li>
                             <li><label for="">性别：</label><span>{{cardModel.sex | sex}}</span></li>
-                            <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li> 
+                            <li><label for="">民族：</label><span>{{cardModel.nation | nation}}</span></li>
                             <li><label for="">{{cardModel.cCardType | cardType}}：</label><span>{{cardModel.uCardNum}}</span></li>
                             <li><label for="">出生日期：</label><span>{{cardModel.birth}}</span></li>
                             <li><label for="">婚姻状况：</label><span>{{cardModel.marriage | marriage}}</span></li>
-                        
+
                             <li><label for="">居住地：</label><span>{{cardModel.custOrgProvince | province}}   {{cardModel.custOrgCity | city}}   </span></li>
-                               <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
+                            <li><label for="">地址：</label><span>{{cardModel.contactAddress}}</span></li>
                             <li><label for="">手机号码：</label><span>{{cardModel.mobileTel}}</span></li>
                         </ul>
                         <ul v-if="edit">
@@ -35,7 +35,7 @@
                                 <app-select class="nation" :opotionList='nationArr' :id="cardModelCopy.nation" @opotion='nationClick'></app-select>
                                 <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
-                               <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
+                            <li style='position:relative;'><i class="must">*</i><label for="" style="position:relative;display:block">
                       <app-select class="idCard" style="" :opotionList='idCardArr' :id='cardModelCopy.cCardType' @opotion='idClick'></app-select>
                     </label>
                                 <input type="text"  class='carInput' style="" v-model="cardModelCopy.uCardNum" maxlength="18"></li>
@@ -49,8 +49,7 @@
                                 <app-select class="nation" :opotionList='marriageArr' :id="cardModelCopy.marriage" @opotion='marriageClick'></app-select>
                                 <!-- <input type="text" v-model="cardModelCopy.nation">  -->
                             </li>
-                         
-                            
+
                             <li style="position: relative;z-index:8"><i class="must">*</i><label for="">居住地:</label>
                                 <label for="" style="
     display: inline-block;position:relative;
@@ -77,20 +76,21 @@
                 <div class="clearfix">
                     <ol class="to-btns clearfix" v-if="report.length">
                         <!-- <li @click="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{count}}</span></li> -->
+                        <li class="bor-h-9" v-if="!delFlag" @click="delFlagFun"><i class="icon icon-shanchu"></i></li>
 
-                        <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除<span style="margin-left:5px;">{{delCount}}</span></li>
+                        <li class="bor-h" v-else @click="delSubmit();"><i class="icon icon-shanchu icon-shanchu2"></i>删除<span style="margin-left:5px;">{{delCount}}</span></li>
                         <!-- <li class="bor-h"  @click="allSelect"><i class="radio-btn " :class="{active:all}"></i>全选</li> -->
                     </ol>
                 </div>
                 <ul v-if="report.length">
                     <li v-for="(item,i) in report" :key="i" @click.stop='iden(item)' class="clearfix">
-                        <i class="radio-btn list-icon" @click.stop="reportHover(item)" :class='{active:item.hover}'></i>
+                        <i class="radio-btn list-icon" v-if="delFlag" @click.stop="reportHover(item)" :class='{active:item.hover}'></i>
                         <b class="biaoti">{{item.mainPhysical.substring(0,item.mainPhysical.length-1)}} </b>
                         <div class='footer'>
-                        <b class="time" >{{item.testDate | timeStamp('yyyy-MM-dd')}} </b>
-                        
-                        <b class="time" >{{item.trueName}} </b>
-                          <b class="time"  v-if="item.reportType == 33">老年人群报告</b>
+                            <b class="time" >{{item.testDate | timeStamp('yyyy-MM-dd')}} </b>
+
+                            <b class="time" >{{item.trueName}} </b>
+                            <b class="time"  v-if="item.reportType == 33">老年人群报告</b>
                             <b class="time"  v-else>普通人群报告 </b>
                         </div>
                         <!-- {{report.testDate | timeStamp('yyyy-MM-dd')}} -->
@@ -104,7 +104,7 @@
                 <data-null v-else></data-null>
             </div>
         </div>
-           <div class="shadow update">
+        <div class="shadow update">
             <h3>修改记录</h3>
             <div class="border">
                 <ol>
@@ -142,6 +142,7 @@ export default {
   data() {
     return {
       delCount: 0,
+      delFlag: false,
       cardModel: {},
       edit: false,
       btnText: "编辑",
@@ -179,9 +180,29 @@ export default {
     this.user = this.$cache.getUser();
     this.getHistory(this.cardModel.customerCode);
     this.getInventoryInfo();
+    setTimeout(() => {
+      $vm.$on("tipsBackSee", this.tipsBack); //检测是否回退
+    }, 1);
   },
   methods: {
+    delFlagFun() {
+      this.delFlag = true;
+      $vm.$off("tipsBackSee"); //检测是否回退
+      $vm.$on("tipsBackSee", this.tipsBack); //检测是否回退
+    },
+    tipsBack() {
+      if (!this.delFlag) {
+        this.$router.replace("/index");
+        return;
+      }
+      this.delFlag = false;
+      return false;
+    },
     iden(item) {
+      if (this.delFlag) {
+        this.reportHover(item);
+        return;
+      }
       this.$cache.set(this.$cacheEnum["report"], item);
       this.$router.push("/IdentificationReport?type=0");
     },
@@ -434,13 +455,14 @@ export default {
     delSubmit() {
       if (this.delCount == 0) {
         this.$toast("请您先选中数据");
-        return;
+        return false;
       }
       $vm.$off("submit");
       $vm.$on("submit", this.deSubmitT);
       this.$toastFull(FullTipsVue, true, {
         title: "提示",
-        text: "<p class='my-waring'>警告：被删除的内容无法恢复。<br/>是否继续？</p>",
+        text:
+          "<p class='my-waring'>警告：被删除的内容无法恢复。<br/>是否继续？</p>",
         canText: "取消",
         subText: "确认"
       });
@@ -483,17 +505,27 @@ export default {
         Indicator.close();
         this.report = [];
         this.getInventoryInfo();
+        this.delFlag = false;
+        //this.appBackCall()
+        // $vm.$off("tipsBackSee", this.tipsBack);
       }
     }
   },
   beforeDestroy() {
     window["appBackCall"] = this.appBack;
+    $vm.$off("tipsBackSee", this.tipsBack);
     Indicator.close();
   }
 };
 </script>
 
 <style lang="less" scoped>
+.icon-shanchu {
+  background-image: url(../assets/basedel.png);
+}
+.icon-shanchu2 {
+  background-image: url(../assets/del.png) !important;
+}
 .radio-btn {
   width: 40px;
   height: 40px;
@@ -530,6 +562,18 @@ ol.to-btns li {
 
 ol.to-btns li.bor-h {
   border: 1px solid #ff9e35 !important;
+}
+ol.to-btns li.bor-h-9 {
+  float: left;
+  width: 100px !important;
+  height: 80px;
+  background: #ffffff;
+  border: none !important;
+  border-radius: 10px;
+  // margin-left: 50px;
+  color: #989898;
+  font-size: 32px;
+  line-height: 82px;
 }
 
 ol.to-btns li span {
@@ -786,15 +830,18 @@ ol.to-btns li i {
         color: #282828;
         padding: 40px 0;
       }
+
       .footer {
         display: flex;
         justify-content: space-between;
+
         b.time {
           padding-bottom: 40px;
           font-size: 30px;
           color: #989898;
         }
       }
+
       // i.jiao {
       //   // width: 56px;
       //   // height: 65px;

@@ -145,9 +145,7 @@ export default {
         "baseError"
       );
     },
-    baseError(){
-
-    },
+    baseError() {},
     getKnowledgeSuccess(data) {
       try {
         const res = JSON.parse(data).knowledgeList;
@@ -195,6 +193,7 @@ export default {
 .icon-indexedit {
   right: 300px;
   top: 55px;
+  background-image: url(../assets/basedel.png);
 }
 .right-cont-w {
   float: left;
