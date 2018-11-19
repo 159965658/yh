@@ -285,7 +285,9 @@ export default {
         });
       }
       if (this.upStatus > -1) {
-        this.sList = this.sList.filter(p => p.isExport == this.upStatus);
+        this.sList = this.sList.filter(
+          p => p.haveGwreport == this.upStatus || p.haveReport == this.upStatus
+        );
       }
       this.count = this.sList.length;
       // if (this.count == 0) {
