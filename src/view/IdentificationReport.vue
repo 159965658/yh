@@ -173,7 +173,7 @@
                 </div>
               
                 <div class="bor-b">
-                    <h3><i></i>医师建议 <span>根据测评，您的体质类型为平和质,体质得分情况如下：</span></h3>
+                    <h3><i></i>医师建议</h3>
                     <div class="html-fu" v-html="report.ysjyContent ">
                         <p class="qingkuang"></p>
                         <p class="qianming">医师签名：</p>

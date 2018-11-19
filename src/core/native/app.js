@@ -79,6 +79,15 @@ if (platform.PC || !platform.android) {
         }
         return format;
     };
+
+    window.exportDataSuccess = function () {
+        window.$indexExport = false;
+        window.$vm.$toast('档案导出成功');
+    }
+    window.errorUp = function () {
+        window.$indexExport = false;
+        window.$vm.$toast('档案导出失败');
+    }
 }(window))
 
 let firstApp = null;

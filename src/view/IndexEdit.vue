@@ -95,7 +95,8 @@ export default {
         $vm.$on("submit", this.updata);
         this.$toastFull(FullTipsVue, true, {
           title: "提示",
-          text: "警告：被删除的内容无法恢复。是否继续？",
+          text:
+            "<p class='my-waring'>警告：被删除的内容无法恢复。<br/>是否继续？</p>",
           canText: "取消",
           subText: "确认"
         });
@@ -179,6 +180,10 @@ export default {
         this.$toast("请您先选中数据");
         return;
       }
+      if (window.$indexExport) {
+        this.$toast("档案导出任务正在进行中，请稍后再试");
+        return;
+      }
       $vm.$off("submit");
       $vm.$on("submit", this.exportData);
       this.$toastFull(FullTipsVue, true, {
@@ -190,26 +195,29 @@ export default {
     },
     exportData() {
       try {
-        Indicator.open({
-          text: "正在导出数据...",
-          spinnerType: "fading-circle"
-        });
+        // Indicator.open({
+        //   text: "正在导出数据...",
+        //   spinnerType: "fading-circle"
+        // });
+        this.$toast("开始进行档案导出任务，请勿重复操作");
+        window.$indexExport = true;
         setTimeout(() => {
-          window["exportcustomer"] = this.updateDataSuccess;
-
-          window["errorUp"] = this.errorUp;
+          window["exportcustomer"] = window.exportDataSuccess;
+          window["errorUp"] = window.errorUp;
+          let arr = [];
           //  this.$native.loadShow();
           this.cardList.forEach(item => {
             if (item.seletedCard) {
               // item.isDelete = 1;
-              this.$native.run(
-                "exportcustomer",
-                item,
-                "exportcustomer",
-                "errorUp"
-              );
+              arr.push(item);
             }
           });
+          this.$native.run(
+            "exportcustomer",
+            { customerInfoList: arr },
+            "exportcustomer",
+            "errorUp"
+          );
         }, 1000);
       } catch (error) {
         alert(error);

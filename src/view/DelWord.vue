@@ -87,7 +87,7 @@ export default {
       $vm.$on("submit", this.submit);
       this.$toastFull(FullTipsVue, true, {
         title: "提示",
-        text: "警告：被删除的内容无法恢复。是否继续？",
+        text: "<p class='my-waring'>警告：被删除的内容无法恢复。<br/>是否继续？</p>",
         canText: "取消",
         subText: "确认"
       });

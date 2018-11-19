@@ -3,8 +3,8 @@
     <div class="dialog-body">
         <slot name="body">
             <p>{{title}}</p>
-            <p class="dialog-c">
-                {{text}}
+            <p class="dialog-c" v-html="text">
+                <!-- {{text}} -->
             </p>
         </slot>
         <div class="dialog-btn" style="">
@@ -98,7 +98,7 @@ export default {
       white-space: pre-line;
       color: #cfcfcf;
       font-size: 38px;
-      padding: 0px 25px;
+      padding: 25px 25px;
       line-height: 60px;
     }
   }

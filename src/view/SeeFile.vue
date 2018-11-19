@@ -89,7 +89,7 @@
                         <div class='footer'>
                         <b class="time" >{{item.testDate | timeStamp('yyyy-MM-dd')}} </b>
                         
-                        <b class="time" >{{user.trueName}} </b>
+                        <b class="time" >{{item.trueName}} </b>
                           <b class="time"  v-if="item.reportType == 33">老年人群报告</b>
                             <b class="time"  v-else>普通人群报告 </b>
                         </div>
@@ -440,7 +440,7 @@ export default {
       $vm.$on("submit", this.deSubmitT);
       this.$toastFull(FullTipsVue, true, {
         title: "提示",
-        text: "警告：被删除的内容无法恢复。是否继续？",
+        text: "<p class='my-waring'>警告：被删除的内容无法恢复。<br/>是否继续？</p>",
         canText: "取消",
         subText: "确认"
       });
