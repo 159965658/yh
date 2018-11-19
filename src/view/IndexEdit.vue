@@ -176,9 +176,13 @@ export default {
       if (this.updataCount >= this.selectedCount) {
         console.log("关闭");
         setTimeout(() => {
-          Indicator.close();
+          setTimeout(() => {
+            this.$Indicator.close();
+            Indicator.close();
+
+            $appBack();
+          }, 5);
           this.$toast("操作成功");
-          $appBack();
         }, 100);
         this.updataCount = 0;
       }
