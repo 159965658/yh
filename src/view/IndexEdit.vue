@@ -319,7 +319,7 @@ export default {
 
           this.$native.run(
             "editcustomer",
-            { type: "export", indexList: arr },
+            { operation: "export", indexList: arr },
             "editcustomer",
             "errorUp"
           );
