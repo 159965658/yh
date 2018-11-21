@@ -69,7 +69,7 @@ export default {
       name: "",
       fname: "",
       editModel: null,
-      title: "选择词条"
+      title: "新建词条"
     };
   },
   mounted() {

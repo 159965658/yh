@@ -1,6 +1,6 @@
 <template>
 <div>
-    <app-header :ctitle='"登录"' :rtitle='"创建新账户"' :type='1'></app-header>
+    <app-header :ctitle='"登录"' :rtitle='"创建新账号"' :type='1'></app-header>
     <div class="blue-bg">
         <div class="login-logo">
         </div>

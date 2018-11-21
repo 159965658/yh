@@ -26,5 +26,5 @@ export default {
             alert('android' + error);
         }
 
-    }
+    },
 }

@@ -16,7 +16,7 @@ import Toast from '@/core/toast'
 import { cache, cacheEnum } from '@/core/cache'
 Vue.use(Toast);
 import { native } from './core/native/app';
-import { DatetimePicker } from 'mint-ui';
+import { DatetimePicker, InfiniteScroll } from 'mint-ui';
 // 引入echarts
 import echarts from 'echarts'
 //引入富文本
@@ -25,7 +25,10 @@ import '../static/js/UE/ueditor.all.js';
 import '../static/js/UE/lang/zh-cn/zh-cn.js';
 Vue.prototype.$echarts = echarts
 Vue.component(DatetimePicker.name, DatetimePicker);
-// Vue.component(Indicator, Indicator);
+// import { InfiniteScroll } from 'mint-ui';
+
+Vue.use(InfiniteScroll);
+// Vue.component("InfiniteScroll", InfiniteScroll);
 import * as filters from './filter.js';//全局过滤器 and 全局指令
 import Select from "@/components/Select";
 import AppHeader from "@/components/AppHeader";

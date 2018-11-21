@@ -16,8 +16,8 @@
             <i class="icon icon-paixu" @click="filterShow"></i>
             <i class="icon icon-indexedit" @click="indexEdit"></i>
         </div>
-        <div class="card_area">
-            <ul class="card clearfix" v-if="count > 0">
+        <div class="card_area" >
+            <ul class="card clearfix" v-infinite-scroll="loadMore" infinite-scroll-immediate-check='flase' infinite-scroll-disabled="loading" infinite-scroll-distance="300"  v-if="count > 0">
 
                 <!--默认卡片样式-->
                 <card v-for="(item,index) in sList" :item='item' :key="index" :edit='false'>
@@ -110,6 +110,9 @@ export default {
       startDate: "",
       endDate: "",
       count: 0,
+      start: 0,
+      num: 50,
+      loading: true,
       sList: [],
       search: {
         createUser: "",
@@ -122,30 +125,11 @@ export default {
       openIndex: 1,
       defaultDate: new Date(),
       upStatus: -1,
-      nameList: []
+      nameList: [],
+      ocrFlagNull: false,
+      ocrFlagData: null
     };
   },
-  // computed: {
-  //   list() {
-  //     let newList = this.userList;
-  //     if (this.text) {
-  //       newList = newList.filter(
-  //         p => p.cName.indexOf(this.text) > -1 || p.uCardNum == this.text
-  //       );
-  //     }
-  //     if (this.startDate) {
-  //       newList = newList.filter(
-  //         p => p.createdOnUTC > this.startDate && p.createdOnUTC < this.endDate
-  //       );
-  //     }
-  //     // if (this.createUser) {
-  //     //   newList = newList.filter(p => p.creator == this.createUser);
-  //     // }
-  //     console.log(newList, this.userList);
-  //     this.count = newList.length;
-  //     return newList;
-  //   }
-  // },
   mounted() {
     //获取数据
     this.cacheUser = this.$cache.getUser();
@@ -155,28 +139,65 @@ export default {
     }, 1);
   },
   methods: {
+    loadMore() {
+      if (this.count == 0) return;
+      this.loading = true; //禁止加载
+      this.getCustomer();
+    },
     getCustomer() {
       //获取用户信息
-      // alert(this.cacheUser.userCode);
       window["getCustomerSuccess"] = this.getCustomerSuccess;
       window["getCustomerError"] = this.getCustomerError;
       this.$native.run(
         "getcustomer",
         {
-          userCode: this.cacheUser.userCode
+          userCode: this.cacheUser.userCode,
+          start: this.start * this.num,
+          num: this.num,
+          keyWord: this.searchText,
+          createStart: this.search.startText
+            ? new Date(this.search.startText + " 00:00:00").getTime()
+            : -1,
+          createEnd: this.search.endText
+            ? new Date(this.search.endText + " 23:59:59").getTime()
+            : -1,
+          haveReport: this.upStatus,
+          creator: this.search.createUser,
+          orgName: this.search.orgName
         },
         "getCustomerSuccess",
         "getCustomerError"
       );
     },
-    getCustomerError() {},
+    getCustomerError() {
+      this.count = 0;
+      this.sList = [];
+    },
     getCustomerSuccess(data) {
       // alert(data);
-      let res = JSON.parse(data).customerInfoList;
-      this.userList = res;
-      this.sList = this.userList;
-      this.count = this.sList.length;
-      console.log(this.userList);
+      data = JSON.parse(data);
+      let res = data.customerInfoList;
+      if (this.ocrFlagNull) {
+        //ocr
+        this.ocrAdd(this.ocrFlagData);
+        return;
+      }
+      if (this.start == 0) {
+        this.userList = res;
+        this.sList = this.userList;
+        //  this.start++; //如果是0加一
+      } else {
+        this.userList = this.sList.concat(res);
+        this.sList = this.sList.concat(res);
+      }
+      this.count = data.total;
+      //没有下一页了
+      if (res.length < this.num) {
+        return;
+      }
+      //加载下一页做准备
+      this.start++;
+      this.loading = false;
     },
     filterShow() {
       this.$toastFull();
@@ -197,28 +218,12 @@ export default {
       return true;
     },
     searchFilter(search) {
-      console.log(search);
-      if (search.startText) {
-        var timestamp = parseInt(
-          new Date(search.startText + " 00:00:00").getTime()
-        ); // 当前时间戳
-        var end = parseInt(new Date(search.endText + " 23:59:00").getTime());
-        this.startDate = timestamp;
-        this.endDate = end;
-      }
-
-      // document.write(timestamp);
       this.filterVis = !this.filterVis;
       this.$closeFull();
-      if (search.orgName) {
-        this.getCustomerbyuser(search.orgName, search.createUser);
-        return; //不在此处搜索
-      }
-      this.nameList = []; //不搜索姓名的时候不保存搜索姓名信息
       this.searchList();
     },
     indexEdit() {
-      this.$cache.set(this.$cacheEnum["list"], this.userList);
+      // this.$cache.set(this.$cacheEnum["list"], this.userList);
       this.$router.push("/indexedit");
     },
     handleConfirm(value) {
@@ -257,42 +262,9 @@ export default {
       this.searchFilter(this.search);
       //  $vm.$emit("search", this.search);
     },
-    searchList(ocrFlagNull = false, data = []) {
-      if (this.nameList.length > 0) {
-        this.sList = this.nameList;
-      } else this.sList = this.userList;
-      if (this.searchText) {
-        this.sList = this.sList.filter(
-          p =>
-            p.cName.indexOf(this.searchText) > -1 ||
-            p.uCardNum == this.searchText
-        );
-        console.log(ocrFlagNull, this.sList.length);
-        if (ocrFlagNull && this.sList.length == 0) {
-          //进入ocr添加页面
-          this.ocrAdd(data);
-        }
-      }
-      if (this.search.createUser) {
-        this.sList = this.sList.filter(
-          p => p.trueName.indexOf(this.search.createUser) > -1
-        );
-      }
-      if (this.startDate) {
-        this.sList = this.sList.filter(p => {
-          let cr = parseInt(p.createdOnUTC);
-          return cr > this.startDate && cr < this.endDate;
-        });
-      }
-      if (this.upStatus > -1) {
-        this.sList = this.sList.filter(
-          p => p.haveGwreport == this.upStatus || p.haveReport == this.upStatus
-        );
-      }
-      this.count = this.sList.length;
-      // if (this.count == 0) {
-      //   this.$toast("暂无客户档案信息");
-      // }
+    searchList() {
+      this.start = 0; //重置分页
+      this.getCustomer();
     },
     opotion(item) {
       this.upStatus = item.id;
@@ -302,7 +274,10 @@ export default {
       window["getcustomerbyuserError"] = this.getcustomerbyuserError;
       this.$native.run(
         "getcustomerbyuser",
-        { institutionName: orgName, webNickName: webName },
+        {
+          institutionName: orgName,
+          webNickName: webName
+        },
         "getcustomerbyuser",
         "getcustomerbyuserError"
       );
@@ -329,15 +304,17 @@ export default {
     },
     ocrError() {
       // this.error = true;
+      this.ocrFlagNull = false;
       this.$toast("扫描失败");
     },
     ocrSuccess(data) {
       const res = JSON.parse(data);
       // this.addUser.cName = res.Name.value;
-
+      this.ocrFlagNull = true;
       //清空搜索条件
       this.setPar();
       this.searchText = res.Name.value;
+      this.ocrFlagData = res;
       this.searchList(true, res);
     },
     setPar() {
@@ -369,10 +346,12 @@ export default {
   display: inline-block !important;
   width: 76% !important;
   background-color: #f2f2f2;
+
   > .select_click_box {
     background-color: #f2f2f2 !important;
   }
 }
+
 .up-status {
   display: flex;
   justify-content: center;
@@ -434,7 +413,7 @@ export default {
   .center-content {
     .card_area {
       // height: calc(100% - 150px);
-      // overflow-y: auto;
+      overflow: scroll;
     }
   }
 }
@@ -476,8 +455,7 @@ export default {
   margin-top: 100px;
   margin-left: 188px;
 }
-</style>
-<style lang="less">
+</style><style lang="less">
 .filterC {
   position: absolute;
   z-index: 100;
@@ -495,12 +473,14 @@ export default {
 .filterC .cell {
   border: none;
 }
+
 .up-status {
   > .select_click_box {
     height: 80px !important;
     border: 1px solid #dcdcdc !important;
     background-color: #f2f2f2 !important;
     border-radius: 0 !important;
+
     // border: none !important;
     > p {
       line-height: 80px;
@@ -508,4 +488,3 @@ export default {
   }
 }
 </style>
- 

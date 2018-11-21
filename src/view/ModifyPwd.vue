@@ -6,8 +6,8 @@
 	        	<div class="inputs">
 	        		<ul>
 	        			<li>
-	        				<label>原密码：</label>
-	        				<input :type="flag ? 'password' : 'text'" placeholder="请输入原密码" v-model="oldPwd">
+	        				<label>旧密码：</label>
+	        				<input :type="flag ? 'password' : 'text'" placeholder="请输旧密码" v-model="oldPwd">
 	        					<i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
 	        			</li>
 	        			<li class="m-t-60">
@@ -16,7 +16,7 @@
 	        				<i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
 	        			</li>
 	        			<li class="m-t-60">
-	        				<label>再输入一次：</label>
+	        				<label>确认新密码：</label>
 	        				<input :type="flag2 ? 'password' : 'text'" placeholder="请输入6-20位字符" v-model="sNewPwd">
 	        				<i class="icon icon-zhengyan" :class="{'icon-biyan':!flag2}" @click="flag2 = !flag2"></i>
 	        			</li>
