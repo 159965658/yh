@@ -48,7 +48,8 @@ export default {
       start: 0,
       num: 50,
       count: 0,
-      loading: true
+      loading: true,
+      isAllFlag: false
     };
   },
   mounted() {
@@ -106,6 +107,9 @@ export default {
       this.isAll = !this.isAll;
       //if (this.isAll) {
       //全选
+      // if(this.isAll){
+      this.isAllFlag = this.isAll; //选中未知数据
+      // }
       this.changeSetList([], this.isAll);
       //}
     },
@@ -162,19 +166,10 @@ export default {
         "editcustomer",
         { operation: "delete", indexList: indexList },
         "editcustomer"
-        //"editcustomerError"
       );
-      // this.cardList.forEach(item => {
-      //   if (item.seletedCard) {
-      //     item.isDelete = 1;
-      //     this.$native.run("updatecustomer", item, "updatecustomer");
-      //   }
-      // });
       $appBack();
     },
-    updateSuccess() {
-      this.$toast("删除成功");
-    },
+    updateSuccess() {},
     updateData() {
       if (this.selectedCount == 0) {
         this.$toast("请您先选中数据");
@@ -200,9 +195,9 @@ export default {
       });
       if (max < this.count) {
         //如果最大index 小于 最大条数 查看是否是全选
-        if (this.isAll) {
+        if (this.isAllFlag) {
           //如果全选 赋值
-          for (let k = max; k < this.count; k++) {
+          for (let k = max + 1; k < this.count; k++) {
             indexList.push(k);
           }
         }
@@ -217,6 +212,7 @@ export default {
           "editcustomerError"
         );
       }
+      console.log(indexList);
       return indexList;
       // console.log(indexList);
     },
@@ -319,7 +315,7 @@ export default {
           // window["editcustomer"] = this.editcustomerSuccess;
           // window["editcustomerError"] = this.editcustomerError;
           window["editcustomer"] = window.exportDataSuccess;
-          window["editcustomerError"] = window.errorUp;
+          window["errorUp"] = window.errorUp;
 
           this.$native.run(
             "editcustomer",
