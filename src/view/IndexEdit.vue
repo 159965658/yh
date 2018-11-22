@@ -5,7 +5,7 @@
         <div class="total clearfix">
             <p>当前共有数据：<span>{{count}}</span></p>
             <ol class="to-btns clearfix">
-                <li @click="updateData" class="updateData"><i class="icon icon-shangchuan"></i>上传 <span>{{selectedCount}}</span></li>
+                <li @click="updateData" class="updateData"><i class="icon icon-shangchuan"></i>上传 <span v-if='selectedCount < 1000'>{{selectedCount}}</span> <span v-else>999+</span></li>
                 <li @click="exportDataToast"><i class="icon icon-daochu"></i>导出</li>
                 <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除</li>
                 <li class="bor-h" @click="allSelect"><i class="radio-btn " :class="{active:isAll}"></i>全选</li>
@@ -216,7 +216,7 @@ export default {
       return indexList;
       // console.log(indexList);
     },
-    editcustomerError() {
+    editcustomerError(data) {
       this.errorUpload(data);
     },
     editcustomerSuccess() {
@@ -230,7 +230,10 @@ export default {
         text: "正在上传数据...",
         spinnerType: "fading-circle"
       });
-      this.newEditcustomer("upload");
+      setTimeout(() => {
+        this.newEditcustomer("upload");
+      }, 100);
+
       // return;
       // try {
       //   // this.$native.loadShow();

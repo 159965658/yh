@@ -44,6 +44,9 @@ export default {
       this.$emit("selectedClick", item);
     },
     seeFile(item) {
+       if (this.edit) {
+        return;
+      }
       this.$cache.set(this.$cacheEnum["cardModel"], item);
       this.$router.push("/seefile");
     },
@@ -51,6 +54,9 @@ export default {
       // if (item.haveReport == 1 || item.haveGwreport == 1) {
       //   this.$toastFull('')
       // }
+      if (this.edit) {
+        return;
+      }
       this.$cache.set(this.$cacheEnum["cardModel"], item);
       if (item.haveGwreport == 1 || item.haveReport == 1) {
         $vm.$off("submitTiZhi", this.submitTiZhi);

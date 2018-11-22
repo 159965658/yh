@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       // isShow: false
-      title: "创建新用户",
-      text: "创建新账户时需要验证当前设备激活码，是否继续下一步？",
+      title: "创建新账号",
+      text: "创建新账号时需要验证当前设备激活码，是否继续下一步？",
       subText: "继续",
       canText: "取消",
       submitEmit: "submit",

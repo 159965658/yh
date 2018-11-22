@@ -18,7 +18,7 @@ export default {
         }
         else if (fun == 'getcustomer') {
             data = {
-                "total": 30,
+                "total": 10001,
                 "customerInfoList": [{
                     "birth": "1971-01-01", "custOrgProvince": 110000,
                     "custOrgCity": 110100, 'marriage': 1, "cCardType": "101", "cId": "0", "cName": "2222", "contactAddress": "22345", "createdOnUTC": 1540310400000, "creator": "", "customerCode": "customer1540292134370", "fixedTel": " ", "haveGwreport": "1", "haveReport": "0", "isAudit": "0", "isDelete": "0", "isExport": "0", "isUpload": "0", "mobileTel": "2345676543212345432", "modifier": "", "nation": "汉", "sex": "0", "uCardNum": "123456", "updatedOnUTC": 1540300907309, "userCode": "user1540290320735"
@@ -337,6 +337,10 @@ export default {
         else if (fun == 'uploadcustomer') {
             // window[error]('网络连接异常');
             // return;
+        }
+        else if (fun == 'editcustomer') {
+            window[error]('Error');
+            return;
         }
         window[success](JSON.stringify(data));
         //Android.run(fun, JSON.stringify(params), success, error);
