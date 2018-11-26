@@ -339,7 +339,11 @@ export default {
             // return;
         }
         else if (fun == 'editcustomer') {
-            window[error]('Error');
+            console.log(params.indexList.length);
+            for (let i = 0; i < params.indexList.length - 1; i++) {
+                window[error]();
+            }
+            window[success]();
             return;
         }
         window[success](JSON.stringify(data));

@@ -49,7 +49,9 @@ export default {
       num: 50,
       count: 0,
       loading: true,
-      isAllFlag: false
+      isAllFlag: false,
+      successCount: 0, //成功计数
+      errorCount: 0 //失败计数
     };
   },
   mounted() {
@@ -205,6 +207,7 @@ export default {
       if (type == "upload") {
         window["editcustomer"] = this.editcustomerSuccess;
         window["editcustomerError"] = this.editcustomerError;
+
         this.$native.run(
           "editcustomer",
           { operation: type, indexList: indexList },
@@ -212,20 +215,17 @@ export default {
           "editcustomerError"
         );
       }
-      console.log(indexList);
+      // console.log(indexList);
       return indexList;
       // console.log(indexList);
     },
     editcustomerError(data) {
-      this.errorUpload(data);
+      this.updateDataSuccess(false);
     },
     editcustomerSuccess() {
-      this.updateDataSuccess();
+      this.updateDataSuccess(true);
     },
     updateDataSub() {
-      // window["uploadcustomer"] = this.updateDataSuccess;
-      // window["errorUpload"] = this.errorUpload;
-      // console.log(this.$Indicator);
       this.$Indicator.open({
         text: "正在上传数据...",
         spinnerType: "fading-circle"
@@ -233,25 +233,6 @@ export default {
       setTimeout(() => {
         this.newEditcustomer("upload");
       }, 100);
-
-      // return;
-      // try {
-      //   // this.$native.loadShow();
-
-      //   this.cardList.forEach(item => {
-      //     if (item.seletedCard) {
-      //       // item.isDelete = 1;
-      //       this.$native.run(
-      //         "uploadcustomer",
-      //         item,
-      //         "uploadcustomer",
-      //         "errorUpload"
-      //       );
-      //     }
-      //   });
-      // } catch (error) {
-      //   alert(error);
-      // }
     },
     errorUpload(error) {
       // console.log(Indicator);
@@ -265,27 +246,43 @@ export default {
       Indicator.close();
       this.$toast(error);
     },
-    updateDataSuccess() {
-      // try {
-      //  this.$native.loadHide();
-      // this.updataCount++;
-      // if (this.updataCount >= this.selectedCount) {
-      //   console.log("关闭");
-      setTimeout(() => {
-        setTimeout(() => {
-          this.$Indicator.close();
-          Indicator.close();
+    updateDataSuccess(flag) {
+      try {
+        if (flag) {
+          this.successCount++;
+        } else {
+          this.errorCount++;
+        }
+        this.updataCount++; //回调计数
+        if (this.updataCount >= this.selectedCount) {
+          // setTimeout(() => {
+          setTimeout(() => {
+            this.$Indicator.close();
+            Indicator.close();
 
-          $appBack();
-        }, 5);
-        this.$toast("操作成功");
-      }, 100);
-      //   this.updataCount = 0;
-      // }
-      // } catch (error) {
-      //   this.$native.loadHide();
-      //   alert(error);
-      // }
+            $appBack();
+          }, 5);
+          // }, 100);
+          console.log(this.successCount);
+          const c = this.selectedCount;
+          if (this.successCount == c) {
+            //全部上传成功
+            this.$toast("操作成功");
+          } else if (this.errorCount == c) {
+            this.$toast("操作失败");
+          } else if (this.successCount < c) {
+            //部分上传成功
+            this.$toast(
+              `操作完毕，${this.successCount}个档案上传成功，
+                ${this.errorCount}个档案上传失败`
+            );
+          }
+          this.updataCount = 0;
+        }
+      } catch (error) {
+        // this.$native.loadHide();
+        alert(error);
+      }
     },
     exportDataToast() {
       if (this.selectedCount == 0) {
@@ -315,8 +312,6 @@ export default {
         window.$indexExport = true;
         const arr = this.newEditcustomer();
         setTimeout(() => {
-          // window["editcustomer"] = this.editcustomerSuccess;
-          // window["editcustomerError"] = this.editcustomerError;
           window["editcustomer"] = window.exportDataSuccess;
           window["errorUp"] = window.errorUp;
 
