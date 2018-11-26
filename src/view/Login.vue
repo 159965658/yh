@@ -9,7 +9,8 @@
                 <li>
                     <label>账号：</label>
                     <input type="text"  maxlength="20" :placeholder=nullName v-model="name">
-        		</li>
+
+</li>
                 <li class="m-t-60">
                     <label>密码：</label>
                     <input type="password"  maxlength="20" :placeholder=nullPwd v-model="pwd">
@@ -18,13 +19,13 @@
             </ul>
             <div class="forget-mima clearfix">
                 <router-link to='/forgetpwd' class='forget'>忘记密码</router-link>
-                <router-link to='/switch' class='change'>切换登录账号</router-link>
+                <a @click='switchClick' class='change'>切换登录账号</a>
             </div>
             <div class="button-submit m-t-100">
                 <button class="button submit" @click="login">登 录</button>
             </div>
-        <!-- <button class="rl">登录</button> -->
-        
+            <!-- <button class="rl">登录</button> -->
+
         </div>
     </div>
 </div>
@@ -69,9 +70,32 @@ export default {
       window["getuserbyname"] = this.getuserbyname;
       this.$native.run(
         "getuserbyname",
-        { loginName: this.name },
+        {
+          loginName: this.name
+        },
         "getuserbyname"
       );
+    },
+    getUserList() {
+      window["setUser"] = this.setUser;
+      window["errorUser"] = this.errorUser;
+      this.$native.run("getUser", {}, "setUser", "errorUser");
+    },
+    setUser(data) {
+      let res = JSON.parse(data);
+      this.user = res.userInfoList;
+      if (this.user.length == 0) {
+        this.$toast("您还没有创建用户，请先创建用户");
+        // this.$router.push("/login");
+      } else {
+        this.$router.push("/switch");
+      }
+    },
+    errorUser(data) {
+      this.$toast(data);
+    },
+    switchClick() {
+      this.getUserList();
     },
     getuserbyname(data) {
       const res = JSON.parse(data);
@@ -83,7 +107,9 @@ export default {
       window["checkgesture"] = this.checkgesture;
       this.$native.run(
         "checkgesture",
-        { gesture: res.gesture },
+        {
+          gesture: res.gesture
+        },
         "checkgesture"
       );
     },
@@ -139,11 +165,13 @@ export default {
   padding-bottom: 110px;
   min-height: 1000px;
 }
+
 .name {
   width: 85%;
   //  padding:0 100px;
   padding-left: 150px;
 }
+
 .login-logo {
   margin: 0 auto;
   background: url(../assets/login-img.png);

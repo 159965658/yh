@@ -31,8 +31,8 @@ export default {
       subText: "继续",
       canText: "取消",
       submitEmit: "submit",
-      fl:0,
-      s:''
+      fl: 0,
+      s: ""
       // callBack: this.close
     };
   },
@@ -45,17 +45,15 @@ export default {
       //console.log(this, $vm);
       // this.visible = false;
       this.close();
-      if (this.type == 1 && this.title == "创建新用户")
+      if (this.title == "创建新账号") {
         $vm.$router.push("/verification");
-      else if(this.fl == 1){
+      } else if (this.fl == 1) {
         console.log(1);
         this.s();
         // location.href = '/#/index'
-      }
-      else if(this.f1 == 2){
+      } else if (this.f1 == 2) {
         this.s();
-      }
-      else {
+      } else {
         $vm.$emit(this.submitEmit);
         // this.callBack();
       }
