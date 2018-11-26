@@ -207,7 +207,7 @@ export default {
         window["editcustomerError"] = this.editcustomerError;
         this.$native.run(
           "editcustomer",
-          { operation: type, indexList },
+          { operation: type, indexList: indexList },
           "editcustomer",
           "editcustomerError"
         );
