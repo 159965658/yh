@@ -1,47 +1,64 @@
 <template>
-<div>
+  <div>
     <app-header :ctitle='"创建账号"'></app-header>
     <div class="blue-bg">
-        <h3>请按提示创建您的账号</h3>
-        <div class="inputs clearfix">
-            <ul>
-                <li>
-                    <label>账号：</label>
-                    <input type="text" placeholder="请创建登录账号" maxlength="10" v-model="loginName">		        		</li>
-                <li>
-                    <label>密码：</label>
-                    <input :type="flag ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.password">
-                    <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
-                </li>
-                <li>
-                    <label>确认密码：</label>
-                    <input :type="flag1 ? 'password' : 'text'" placeholder="请输入6-20位字符" maxlength="20" v-model="addUser.spassword">
-                    <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
-                </li>
-                <!-- <li>
+      <h3>请按提示创建您的账号</h3>
+      <div class="inputs clearfix">
+        <ul>
+          <li>
+            <label>账号：</label>
+            <input type="text" placeholder="请创建登录账号" maxlength="10" v-model="loginName">
+          </li>
+          <li>
+            <label>密码：</label>
+            <input
+              :type="flag ? 'password' : 'text'"
+              placeholder="请输入6-20位字符"
+              maxlength="20"
+              v-model="addUser.password"
+            >
+            <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag}" @click="flag = !flag"></i>
+          </li>
+          <li>
+            <label>确认密码：</label>
+            <input
+              :type="flag1 ? 'password' : 'text'"
+              placeholder="请输入6-20位字符"
+              maxlength="20"
+              v-model="addUser.spassword"
+            >
+            <i class="icon icon-zhengyan" :class="{'icon-biyan':!flag1}" @click="flag1 = !flag1"></i>
+          </li>
+          <!-- <li>
                     <label>机构编码：</label>
-                    <input type="text" placeholder="机构编码" v-model="institutionCode" maxlength="20" >       		</li>	-->
-                <li>
-                    <label>机构名称：</label>
-                    <!-- <input type="text" placeholder="机构名称" v-model="institutionName" maxlength="20" >		  -->
-                    <app-select class="org" :opotionList='orgArr' @opotion="orgClick"></app-select>
-                </li>
-                <li>
-                    <label>机构编码：</label>
-                    <input type="text" placeholder="机构编码" disabled v-model="addUser.enterpriseIdentification" maxlength="20" > 
-              	</li> 
+          <input type="text" placeholder="机构编码" v-model="institutionCode" maxlength="20" >       		</li>-->
+          <li>
+            <label>机构名称：</label>
+            <!-- <input type="text" placeholder="机构名称" v-model="institutionName" maxlength="20" >		  -->
+            <app-select class="org" :opotionList="orgArr" @opotion="orgClick"></app-select>
+          </li>
+          <li>
+            <label>机构编码：</label>
+            <input
+              type="text"
+              placeholder="机构编码"
+              disabled
+              v-model="addUser.enterpriseIdentification"
+              maxlength="20"
+            >
+          </li>
 
-                <li>
-                    <label>网络版用户名：</label>
-                    <input type="text" placeholder="网络版用户名" maxlength="10" v-model="webNickName">		        		</li>
-            </ul>
-            <div class="button-submit">
-                <button   class="button submit" @click="addUserSubmit">完 成</button>
-            </div>
-
+          <li>
+            <label>网络版用户名：</label>
+            <input type="text" placeholder="网络版用户名" maxlength="10" v-model="webNickName">
+          </li>
+        </ul>
+        <div class="button-submit">
+          <button class="button submit" @click="addUserSubmit">完 成</button>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -58,7 +75,8 @@ export default {
         institutionName: "",
         webNickName: "",
         crowdFlag: "0",
-        enterpriseIdentification: ""
+        enterpriseIdentification: "",
+        dmzUrl: ""
       },
       loginName: "",
       webNickName: "",
@@ -108,8 +126,10 @@ export default {
         this.addUser.institutionCode = "";
         this.addUser.institutionName = item.name;
         this.addUser.enterpriseIdentification = "";
+        this.addUser.dmzUrl = "";
         return;
       }
+      this.addUser.dmzUrl = item.dmzUrl;
       this.addUser.institutionCode = item.id;
       this.addUser.institutionName = item.name;
       this.addUser.enterpriseIdentification = item.enterpriseIdentification;
@@ -130,7 +150,8 @@ export default {
         this.orgArr.push({
           id: item.orgId,
           name: item.orgName,
-          enterpriseIdentification: item.enterpriseIdentification
+          enterpriseIdentification: item.enterpriseIdentification,
+          dmzUrl: item.dmzUrl
         });
       });
     },

@@ -1,9 +1,13 @@
 <template>
-    <div class="app-header">
-        <div class="left" @click='back'><slot name='left'><i class='icon' :class="{'icon-back':ltitle}" ></i></slot></div>
-        <div class="center">{{ctitle}}</div>
-        <div class="right" @click="rClick">{{rtitle}}</div>
+  <div class="app-header">
+    <div class="left" @click="back">
+      <slot name="left">
+        <i class="icon" :class="{'icon-back':ltitle}"></i>
+      </slot>
     </div>
+    <div class="center">{{ctitle}}</div>
+    <div class="right" @click="rClick">{{rtitle}}</div>
+  </div>
 </template>
 <script>
 import newUser from "./FullTips";
@@ -38,11 +42,12 @@ export default {
     rClick() {
       if (this.type == 1) {
         this.fun = true;
-        this.getDeviceInfo();
+        this.$router.push("/createuser");
+        // this.getDeviceInfo();
       }
     },
     getDeviceInfo(active = true) {
-       this.$toastFull(newUser);
+      this.$toastFull(newUser);
       //验证设备激活
       // const device = this.$cache.get(this.$cacheEnum["device"]);
       // if (device) {

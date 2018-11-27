@@ -20,7 +20,7 @@
                     <dd><label for="">账号：</label>{{user.loginName}} </dd>
                     <dd><label for="">企业标识：</label>{{device.enterpriseIdentification}} </dd>
                     <dd><label for="">企业名称：</label>{{device.enterpriseName}} </dd>
-                    <dd><label for="">企业访问地址：</label>{{device.enterpriseUrl}} </dd>
+                    <dd><label for="">企业访问地址：</label>{{user.dmzUrl}} </dd>
                 </dl>
             </div>
             <ul class="list">
@@ -67,6 +67,7 @@ export default {
     }, 1);
     this.user = this.$cache.getUser();
     this.device = this.$cache.get(this.$cacheEnum["device"]);
+    // alert(this.user.dmzUrl);
     this.versionName();
   },
   methods: {

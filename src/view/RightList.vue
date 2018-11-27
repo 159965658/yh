@@ -1,77 +1,98 @@
 <template>
-<div class="right-card">
+  <div class="right-card">
     <div class="top-nav">
-        <div class="top-nav-search">
-            <input type="texe" placeholder="患者姓名／身份证号" v-model="searchText">
-            <i class="icon" @click="ocr"></i>
-            <i class="sousuo" @click="searchList()"></i>
-        </div>
-        <router-link to="/newfile" class="shatubiao"></router-link>
-        <!-- <div class="shatubiao"></div> -->
+      <div class="top-nav-search">
+        <input type="texe" placeholder="患者姓名／身份证号" v-model="searchText">
+        <i class="icon" @click="ocr"></i>
+        <i class="sousuo" @click="searchList()"></i>
+      </div>
+      <router-link to="/newfile" class="shatubiao"></router-link>
+      <!-- <div class="shatubiao"></div> -->
     </div>
     <!-- 编辑样式 edit2 -->
-    <div class="center-content ">
-        <div class="total">
-            <p>当前共有数据：<span>{{count}}</span></p>
-            <i class="icon icon-paixu" @click="filterShow"></i>
-            <i class="icon icon-indexedit" @click="indexEdit"></i>
-        </div>
-        <div class="card_area" >
-            <ul class="card clearfix" v-infinite-scroll="loadMore" infinite-scroll-immediate-check='flase' infinite-scroll-disabled="loading" infinite-scroll-distance="300"  v-if="count > 0">
-
-                <!--默认卡片样式-->
-                <card v-for="(item,index) in sList" :item='item' :key="index" :edit='false'>
-
-                </card>
-
-            </ul>
-            <data-null v-else></data-null>
-            <!-- <div class="data-null" v-else>
+    <div class="center-content">
+      <div class="total">
+        <p>当前共有数据：
+          <span>{{count}}</span>
+        </p>
+        <i class="icon icon-paixu" @click="filterShow"></i>
+        <i class="icon icon-indexedit" @click="indexEdit"></i>
+      </div>
+      <div class="card_area">
+        <ul
+          class="card clearfix"
+          v-infinite-scroll="loadMore"
+          infinite-scroll-immediate-check="flase"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="300"
+          v-if="count > 0"
+        >
+          <!--默认卡片样式-->
+          <card v-for="(item,index) in sList" :item="item" :key="index" :edit="false"></card>
+        </ul>
+        <data-null v-else></data-null>
+        <!-- <div class="data-null" v-else>
               <img src="../assets/indexnull2.png" alt="" srcset="">
               <p>暂无数据</p>
-            </div> -->
-        </div>
+        </div>-->
+      </div>
     </div>
     <div v-show="filterVis">
-        <transition name="slide-fade" mode="out-in">
-
-            <!--弹出层-筛选-->
-            <div class="popup_filter">
-                <h2>筛选</h2>
-                <ul class="forms">
-                    <li class="clearfix time" style="position:relative">
-
-                        <label for="" >时间</label>
-                        <input type="text" @click="openPicker(1)" disalbed readonly v-model="search.startText">
-                        <mt-datetime-picker ref="pickerFilter" v-model="defaultDate" :startDate='startDate1' :endDate='endDate1' type="date" year-format="{value} 年" month-format="{value} 月" date-format="{value} 日" @confirm="handleConfirm">
-                        </mt-datetime-picker>
-                        <p></p>
-                        <input type="text" @click="openPicker(2)" disalbed readonly v-model="search.endText"/>
-
-                </li>
-                    <li class="clearfix" style="position:relative">
-                        <label for="">辨识状态</label>
-                        <app-select class="up-status" v-on:opotion="opotion" :id='upStatus' :opotionList='opotionList'></app-select>
-                        <!-- <input type="text" /> -->
-                        <div class="arrow"></div>
-
-                    </li>
-                    <li class="clearfix">
-                        <label for="">创建人</label>
-                        <input type="text" placeholder="创建人" v-model="search.createUser"/>
-        		</li>
-                    <li class="clearfix">
-                        <label for="">机构</label>
-                        <input type="text" placeholder="机构名称" v-model="search.orgName"/>
-        		</li>
-                    <li>
-                        <button class="btn-save" @click="save">保存</button>
-                    </li>
-                </ul>
-            </div>
-        </transition>
+      <transition name="slide-fade" mode="out-in">
+        <!--弹出层-筛选-->
+        <div class="popup_filter">
+          <h2>筛选</h2>
+          <ul class="forms">
+            <li class="clearfix time" style="position:relative">
+              <label for>建档时间</label>
+              <input
+                type="text"
+                @click="openPicker(1)"
+                disalbed
+                readonly
+                v-model="search.startText"
+              >
+              <mt-datetime-picker
+                ref="pickerFilter"
+                v-model="defaultDate"
+                :startDate="startDate1"
+                :endDate="endDate1"
+                type="date"
+                year-format="{value} 年"
+                month-format="{value} 月"
+                date-format="{value} 日"
+                @confirm="handleConfirm"
+              ></mt-datetime-picker>
+              <p></p>
+              <input type="text" @click="openPicker(2)" disalbed readonly v-model="search.endText">
+            </li>
+            <li class="clearfix" style="position:relative">
+              <label for>辨识状态</label>
+              <app-select
+                class="up-status"
+                v-on:opotion="opotion"
+                :id="upStatus"
+                :opotionList="opotionList"
+              ></app-select>
+              <!-- <input type="text" /> -->
+              <div class="arrow"></div>
+            </li>
+            <li class="clearfix">
+              <label for>建档医师</label>
+              <input type="text" placeholder="医师姓名" v-model="search.createUser">
+            </li>
+            <li class="clearfix">
+              <label for>建档机构</label>
+              <input type="text" placeholder="机构名称" v-model="search.orgName">
+            </li>
+            <li>
+              <button class="btn-save" @click="save">保存</button>
+            </li>
+          </ul>
+        </div>
+      </transition>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -89,7 +110,7 @@ export default {
       opotionList: [
         {
           id: -1,
-          name: "请选择"
+          name: "全部"
         },
         {
           id: 1,
