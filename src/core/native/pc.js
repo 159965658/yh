@@ -332,7 +332,187 @@ export default {
             return;
         }
         else if (fun == 'getorgdata') {
-            data = { "state": "0", "message": "success", "orgData": [{ "orgId": 20, "orgName": "炎黄东方（北京）健康科技有限公司总公司", "parent": null }, { "orgId": 21, "orgName": "北京东直门医院国际部", "parent": 20 }, { "orgId": 22, "orgName": "北京国宗济世中医医院", "parent": 20 }, { "orgId": 23, "orgName": "北京弘医堂国际中医诊所", "parent": 20 }, { "orgId": 24, "orgName": "京朋汇名老中医堂", "parent": 20 }, { "orgId": 25, "orgName": "北京仁医堂中医门诊部（东中街）", "parent": 20 }, { "orgId": 26, "orgName": "北京仁医堂中医门诊部（雍和宫）", "parent": 20 }, { "orgId": 27, "orgName": "北京医圣堂中医医院", "parent": 20 }, { "orgId": 29, "orgName": "北京协和医院", "parent": 20 }, { "orgId": 30, "orgName": "中国人民解放军总医院（301医院）", "parent": 20 }, { "orgId": 31, "orgName": "首都医科大学附属北京同仁医院", "parent": 20 }, { "orgId": 32, "orgName": "中国医学科学院阜外心血管病医院", "parent": 20 }, { "orgId": 33, "orgName": "首都医科大学附属北京安贞医院", "parent": 20 }, { "orgId": 34, "orgName": "天坛医院", "parent": 20 }, { "orgId": 35, "orgName": "首都医科大学宣武医院", "parent": 20 }, { "orgId": 36, "orgName": "首都医科大学附属儿童医院", "parent": 20 }, { "orgId": 37, "orgName": "首都儿科研究所", "parent": 20 }, { "orgId": 38, "orgName": "北京妇产医院", "parent": 20 }, { "orgId": 39, "orgName": "北京大学人民医院", "parent": 20 }, { "orgId": 40, "orgName": "北京大学第一医院（北大医院）", "parent": 20 }, { "orgId": 41, "orgName": "北京大学第三医院（北医三院）", "parent": 20 }, { "orgId": 42, "orgName": "北京大学肿瘤医院", "parent": 20 }, { "orgId": 43, "orgName": "北京大学第六医院（北医六院）", "parent": 20 }, { "orgId": 44, "orgName": "中国医学科学院肿瘤医院", "parent": 20 }, { "orgId": 45, "orgName": "首都医科大学附属北京朝阳医院", "parent": 20 }, { "orgId": 46, "orgName": "友谊医院", "parent": 20 }, { "orgId": 47, "orgName": "中日友好医院", "parent": 20 }, { "orgId": 48, "orgName": "北京医院", "parent": 20 }, { "orgId": 49, "orgName": "中国人民解放军第三〇二医院", "parent": 20 }, { "orgId": 50, "orgName": "中国人民解放军第304医院", "parent": 20 }, { "orgId": 51, "orgName": "中国人民解放军第306医院", "parent": 20 }, { "orgId": 52, "orgName": "中国人民解放军第307医院", "parent": 20 }, { "orgId": 53, "orgName": "中国人民解放军第309医院", "parent": 20 }, { "orgId": 54, "orgName": "首都医科大学附属北京安定医院", "parent": 20 }, { "orgId": 55, "orgName": "中国中医科学院广安门医院", "parent": 20 }, { "orgId": 56, "orgName": "北京中医医院", "parent": 20 }, { "orgId": 57, "orgName": "北京中医药大学东直门医院", "parent": 20 }, { "orgId": 58, "orgName": "中国中医科学院西苑医院", "parent": 20 }, { "orgId": 59, "orgName": "北京积水潭医院", "parent": 20 }, { "orgId": 60, "orgName": "二龙路医院", "parent": 20 }, { "orgId": 61, "orgName": "首都医科大学附属北京口腔医院", "parent": 20 }, { "orgId": 62, "orgName": "中国医学科学院整形外科医院", "parent": 20 }, { "orgId": 63, "orgName": "中国人民解放军空军总医院", "parent": 20 }, { "orgId": 64, "orgName": "中国人民解放军海军总医院", "parent": 20 }, { "orgId": 65, "orgName": "武警总医院", "parent": 20 }, { "orgId": 66, "orgName": "中国人民解放军火箭军总医院", "parent": 20 }, { "orgId": 67, "orgName": "中国中医科学院眼科医院", "parent": 20 }, { "orgId": 68, "orgName": "北京军区总医院", "parent": 20 }] }
+            data = {
+                "state": "0",
+                "message": "success",
+                "orgData": [
+                    {
+                        "orgId": 69,
+                        "orgName": "北京市大兴卫计委",
+                        "parent": null,
+                        "enterpriseIdentification": "1000",
+                        "dmzUrl": "http://172.31.68.223/"
+                    },
+                    {
+                        "orgId": 70,
+                        "orgName": "生产测试机构",
+                        "parent": 69,
+                        "enterpriseIdentification": "10001606065881",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 71,
+                        "orgName": "大兴测试机构",
+                        "parent": 69,
+                        "enterpriseIdentification": "10001606014579",
+                        "dmzUrl": "http://47.92.160.74/"
+                    },
+                    {
+                        "orgId": 74,
+                        "orgName": "金星社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100062783",
+                        "dmzUrl": "http://172.31.68.223/"
+                    },
+                    {
+                        "orgId": 75,
+                        "orgName": "安定社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100000303",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 76,
+                        "orgName": "长子营社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100002516",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 77,
+                        "orgName": "黄村社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100075250",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 78,
+                        "orgName": "礼贤社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100086617",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 79,
+                        "orgName": "庞各庄社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100099177",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 81,
+                        "orgName": "西红门社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100006175",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 82,
+                        "orgName": "兴丰街道社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100038897",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 83,
+                        "orgName": "亦庄社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100037925",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 84,
+                        "orgName": "瀛海社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100047289",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 85,
+                        "orgName": "榆垡社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100077498",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 86,
+                        "orgName": "林校路社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100036470",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 87,
+                        "orgName": "孙村社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100042667",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 88,
+                        "orgName": "清源社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100081318",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 89,
+                        "orgName": "中西医结合医院",
+                        "parent": 69,
+                        "enterpriseIdentification": "100034069",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 90,
+                        "orgName": "大兴妇幼保健院",
+                        "parent": 69,
+                        "enterpriseIdentification": "100048204",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 92,
+                        "orgName": "青云店社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100049355",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 93,
+                        "orgName": "旧宫社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100091365",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 94,
+                        "orgName": "北臧村社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100082821",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 95,
+                        "orgName": "采育社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100052290",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 96,
+                        "orgName": "魏善庄社区卫生服务中心",
+                        "parent": 69,
+                        "enterpriseIdentification": "100031494",
+                        "dmzUrl": null
+                    },
+                    {
+                        "orgId": 97,
+                        "orgName": "精神病医院",
+                        "parent": 69,
+                        "enterpriseIdentification": "100053740",
+                        "dmzUrl": "1"
+                    }
+                ]
+            }
         }
         else if (fun == 'uploadcustomer') {
             // window[error]('网络连接异常');

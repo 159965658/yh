@@ -1,6 +1,6 @@
 <template>
   <div>
-    <app-header :ctitle='"创建账号"'></app-header>
+    <app-header :ctitle="ctitileT"></app-header>
     <div class="blue-bg">
       <h3>请按提示创建您的账号</h3>
       <div class="inputs clearfix">
@@ -84,6 +84,7 @@ export default {
       institutionName: "",
       flag1: true,
       flag: true,
+      ctitileT: "创建账号",
       orgArr: [
         {
           id: -1,
@@ -144,16 +145,28 @@ export default {
       }
     },
     getorgdataSuccess(data) {
-      //  document.write(data);
+      //document.write(data);
       const arr = JSON.parse(data).orgData;
       arr.forEach(item => {
+        let url = item.dmzUrl,
+          lastId = item.parent;
+        while (!url && !item.dmzUrl) {
+          // arr.forEach(m => {
+          //   if (m.orgId == lastId) {
+          //     url = m.dmzUrl;
+          //   }
+          // });
+          const urlParent = arr.find(p =>  p.orgId == lastId);
+          if (urlParent) url = urlParent.dmzUrl;
+        }
         this.orgArr.push({
           id: item.orgId,
           name: item.orgName,
           enterpriseIdentification: item.enterpriseIdentification,
-          dmzUrl: item.dmzUrl
+          dmzUrl: url
         });
       });
+      console.log(this.orgArr);
     },
     doctorcheck() {
       //验证医生
