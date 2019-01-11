@@ -1,18 +1,16 @@
 <template>
-<div class="dialog-div">
+  <div class="dialog-div">
     <div class="dialog-body">
-        <slot name="body">
-            <p>提示</p>
-            <p class="dialog-c">
-                {{text}}
-            </p>
-        </slot>
-        <div class="dialog-btn cen">
-            <button class="btn-default btn-next" v-if="type == 1" @click="close">{{ltitle}}</button>
-            <button class="btn-default btn-next"  @click="nextHref">{{stitle}}</button>
-        </div>
+      <slot name="body">
+        <p>提示</p>
+        <p class="dialog-c">{{text}}</p>
+      </slot>
+      <div class="dialog-btn cen">
+        <button class="btn-default btn-next" v-if="type == 1" @click="close">{{ltitle}}</button>
+        <button class="btn-default btn-next" @click="nextHref">{{stitle}}</button>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -26,7 +24,15 @@ export default {
     nextHref() {
       // this.$cache.set(this.$cacheEnum["cardModel"], this.addUser);
       this.$closeFull();
-      $vm.$router.replace("/Identification");
+      const user = this.$cache.getUser();
+      // this.$cache.set(this.$cacheEnum["cardModel"], item);
+      if (user.crowdFlag == 0) {
+        $vm.$router.replace("/Identification");
+        return;
+      }
+      // alert(user.crowdFlag);
+      $vm.$router.push("/answer?type=" + user.crowdFlag);
+      // this.$router.push("/answer?type=" + user.crowdFlag);
     }
   }
 };
