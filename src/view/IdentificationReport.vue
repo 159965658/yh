@@ -185,14 +185,6 @@
 
                     <div class="html-fu" v-html="report.promptContent">
                     </div>
-                    <!-- <div class="html-fu" v-else v-html="report.promptContent">
-                        <p class="nr">1.若您已患某种疾病，请您遵医嘱接受治疗和调护。</p>
-                        <p class="nr">2.若已患糖尿病、高脂血症、痛风、肥胖等疾病，应遵照相应的膳食规定。如：糖尿病少食高糖类食物；</p>
-                        <p class="nr">3.高脂血症及肥胖应少食高胆固醇、高糖、高脂肪食物；</p>
-                        <p class="nr">4.痛风禁食海鲜类等嘌呤含量较高的食物。</p>
-                        <p class="nr">5.根据体质的易患疾病，请您提高警惕，防患于未然，定期进行相关检查；</p>
-                        <p class="nr">6.若有其他疑问，欢迎致“KY3H 全国客服电话”（86）4008118899 或 访问www.ky3h.com 进行咨询</p>
-                    </div> -->
                 </div>
             </div>
             <div class="shadow" v-if="query.type == 1">
@@ -614,25 +606,13 @@ export default {
           if (th.report.reportType == 33) {
             tiaoyangArr = tiaoyangGong;
           }
-          // if (re == "平和质") {
-          //   re = "平和质,";
-          // }
           if (re.indexOf(",") > -1) {
             arr = re.split(",");
             let co = "";
-            // arr.forEach(item => {
             const modeArr = tiaoyangArr.find(p => p.id == arr[0]);
-            // if (mode) {
             co += modeArr.name;
-            // }
-            // });
             th.ue1.setContent(co);
           }
-          //  } else if (this.report.reportType == 33) {
-          //公卫版
-          // this.sicalGong();
-          //   alert(th.report.mainPhysical)
-          // }
         }
         const word2 = this.$cache.get("word3");
         if (word2) th.ue2.setContent(word2.content);

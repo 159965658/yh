@@ -8,7 +8,7 @@
             </p>
         </slot>
         <div class="dialog-btn" style="">
-            <button class="btn-default btn-can" @click="close">{{canText}}</button>
+            <button class="btn-default btn-can" v-if="canText" @click="close(false)">{{canText}}</button>
             <button class="btn-default btn-next" @click="nextHref">{{subText}}</button>
         </div>
     </div>
@@ -32,19 +32,24 @@ export default {
       canText: "取消",
       submitEmit: "submit",
       fl: 0,
-      s: ""
+      s: "",
+      callBack:""
       // callBack: this.close
     };
   },
   methods: {
-    close() {
+    close(f) {
       // this.visible = false;
       this.$closeFull();
+      console.log(this.callBack && !f);
+      if(this.callBack && !f){
+        this.callBack();
+      }
     },
     nextHref: function() {
       //console.log(this, $vm);
       // this.visible = false;
-      this.close();
+      this.close(true);
       if (this.title == "创建新账号") {
         $vm.$router.push("/verification");
       } else if (this.fl == 1) {
@@ -85,10 +90,12 @@ export default {
     > .dialog-btn {
       height: 84px;
       display: flex;
-      justify-content: space-between;
-
+      justify-content: center;
+      flex: 1;
       > button {
-        width: 380px;
+        min-width: 380px;
+        // flex: 1 auto;
+        margin:0px 20px;
       }
     }
 

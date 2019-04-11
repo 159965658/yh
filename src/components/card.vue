@@ -66,7 +66,7 @@ export default {
           text: "本年已有体质辨识记录，是否再次辨识？",
           subText: "确定",
           canText: "取消",
-          submitEmit: "submitTiZhi"
+          submitEmit: "submitTiZhi",
         });
         return;
       }

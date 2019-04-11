@@ -1,28 +1,52 @@
 <template>
-<div style="height: 100%;background: #f3f6fc;">
+  <div style="height: 100%;background: #f3f6fc;">
     <app-header :ltitle='"后退"' :ctitle='"档案管理"'></app-header>
-    <div class="center-content ">
-        <div class="total clearfix">
-            <p>当前共有数据：<span>{{count}}</span></p>
-            <ol class="to-btns clearfix">
-                <li @click="updateData" class="updateData"><i class="icon icon-shangchuan"></i>上传 <span v-if='selectedCount < 1000'>{{selectedCount}}</span> <span v-else>999+</span></li>
-                <li @click="exportDataToast"><i class="icon icon-daochu"></i>导出</li>
-                <li class="bor-h" @click="delSubmit"><i class="icon icon-shanchu"></i>删除</li>
-                <li class="bor-h" @click="allSelect"><i class="radio-btn " :class="{active:isAll}"></i>全选</li>
-            </ol>
-        </div>
-        <div class="card_area">
-            <ul class="card clearfix"  v-infinite-scroll="loadMore" infinite-scroll-immediate-check='flase' infinite-scroll-disabled="loading" infinite-scroll-distance="300"  v-if="count > 0">
-                <!--默认卡片样式-->
-                <card v-for="(item,index) in cardList" @selectedClick='childSelect' :edit='true' :key="index" :item="item" :selected='item.seletedCard'>
-
-                </card>
-
-            </ul>
-            <data-null v-else></data-null>
-        </div>
+    <div class="center-content">
+      <div class="total clearfix">
+        <p>
+          当前共有数据：
+          <span>{{count}}</span>
+        </p>
+        <ol class="to-btns clearfix">
+          <li @click="updateData" class="updateData">
+            <i class="icon icon-shangchuan"></i>上传
+            <span v-if="selectedCount < 1000">{{selectedCount}}</span>
+            <span v-else>999+</span>
+          </li>
+          <li @click="exportDataToast">
+            <i class="icon icon-daochu"></i>导出
+          </li>
+          <li class="bor-h" @click="delSubmit">
+            <i class="icon icon-shanchu"></i>删除
+          </li>
+          <li class="bor-h" @click="allSelect">
+            <i class="radio-btn" :class="{active:isAll}"></i>全选
+          </li>
+        </ol>
+      </div>
+      <div class="card_area">
+        <ul
+          class="card clearfix"
+          v-infinite-scroll="loadMore"
+          infinite-scroll-immediate-check="flase"
+          infinite-scroll-disabled="loading"
+          infinite-scroll-distance="300"
+          v-if="count > 0"
+        >
+          <!--默认卡片样式-->
+          <card
+            v-for="(item,index) in cardList"
+            @selectedClick="childSelect"
+            :edit="true"
+            :key="index"
+            :item="item"
+            :selected="item.seletedCard"
+          ></card>
+        </ul>
+        <data-null v-else></data-null>
+      </div>
     </div>
-</div>
+  </div>
 </template>
 
 <script>
@@ -48,6 +72,7 @@ export default {
       start: 0,
       num: 50,
       count: 0,
+      errCount: 0,
       loading: true,
       isAllFlag: false,
       successCount: 0, //成功计数
@@ -81,6 +106,9 @@ export default {
         "getCustomerSuccess",
         "getCustomerError"
       );
+    },
+    homeBack() {
+      $appBack();
     },
     getCustomerError() {},
     getCustomerSuccess(data) {
@@ -166,7 +194,10 @@ export default {
       const indexList = this.newEditcustomer();
       this.$native.run(
         "editcustomer",
-        { operation: "delete", indexList: indexList },
+        {
+          operation: "delete",
+          indexList: indexList
+        },
         "editcustomer"
       );
       $appBack();
@@ -205,12 +236,15 @@ export default {
         }
       }
       if (type == "upload") {
-        window["editcustomer"] = this.editcustomerSuccess;
+        window["editcustomer"] = this.updateDataSuccess;
         window["editcustomerError"] = this.editcustomerError;
 
         this.$native.run(
           "editcustomer",
-          { operation: type, indexList: indexList },
+          {
+            operation: type,
+            indexList: indexList
+          },
           "editcustomer",
           "editcustomerError"
         );
@@ -220,10 +254,11 @@ export default {
       // console.log(indexList);
     },
     editcustomerError(data) {
-      this.updateDataSuccess(false);
-    },
-    editcustomerSuccess() {
-      this.updateDataSuccess(true);
+    setTimeout(() => {
+        this.$Indicator.close();
+        Indicator.close();
+      }, 5);
+      this.$toast(data);
     },
     updateDataSub() {
       this.$Indicator.open({
@@ -246,41 +281,36 @@ export default {
       Indicator.close();
       this.$toast(error);
     },
-    updateDataSuccess(flag) {
+    updateDataSuccess(data) {
       try {
-        if (flag) {
-          this.successCount++;
+        const json = JSON.parse(data);
+        $vm.$off("submit");
+        $vm.$on("submit", this.homeBack);
+        let text = "";
+        if (json.dsum == 0 && json.bsum == 0 && json.berrorSum == 0) {
+          text += `当前档案和辨识信息已上传，请新建档案或辨识后操作！`;
         } else {
-          this.errorCount++;
-        }
-        this.updataCount++; //回调计数
-        if (this.updataCount >= this.selectedCount) {
-          // setTimeout(() => {
-          setTimeout(() => {
-            this.$Indicator.close();
-            Indicator.close();
-
-            $appBack();
-          }, 5);
-          // }, 100);
-          console.log(this.successCount);
-          const c = this.selectedCount;
-          if (this.successCount == c) {
-            //全部上传成功
-            this.$toast("操作成功");
-          } else if (this.errorCount == c) {
-            this.$toast("操作失败");
-          } else if (this.successCount < c) {
-            //部分上传成功
-            this.$toast(
-              `操作完毕，${this.successCount}个档案上传成功，
-                ${this.errorCount}个档案上传失败`
-            );
+          text = `档案上传：${json.dsum}条成功</br>辨识上传：${
+            json.bsum
+          }条成功`;
+          if (json.berrorSum > 0) {
+            text += `/<span class='my-waring'>${json.berrorSum}</span>条失败`;
           }
-          this.updataCount = 0;
+          if (json.msg) {
+            text += `<p>错误信息：${json.msg}</p>`;
+          }
         }
+
+        this.$toastFull(FullTipsVue, true, {
+          title: "提示",
+          text: text,
+          canText: "",
+          subText: "确定"
+        });
+        this.updataCount = 0;
+        Indicator.close();
       } catch (error) {
-        // this.$native.loadHide();
+        Indicator.close();
         alert(error);
       }
     },
@@ -317,7 +347,10 @@ export default {
 
           this.$native.run(
             "editcustomer",
-            { operation: "export", indexList: arr },
+            {
+              operation: "export",
+              indexList: arr
+            },
             "editcustomer",
             "errorUp"
           );
@@ -331,6 +364,7 @@ export default {
   beforeDestroy() {
     $vm.$off("submit", this.updata);
     $vm.$off("submit", this.updateDataSub);
+    $vm.$off("submit", this.homeBack);
     Indicator.close();
   }
 };
@@ -359,6 +393,7 @@ ol.to-btns {
 .updateData {
   width: 280px !important;
 }
+
 ol.to-btns li {
   float: left;
   width: 240px;
@@ -371,6 +406,7 @@ ol.to-btns li {
   font-size: 32px;
   line-height: 82px;
 }
+
 ol.to-btns li.bor-h {
   border: 1px solid #ff9e35 !important;
 }

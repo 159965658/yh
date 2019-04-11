@@ -520,10 +520,10 @@ export default {
         }
         else if (fun == 'editcustomer') {
             console.log(params.indexList.length);
-            for (let i = 0; i < params.indexList.length - 1; i++) {
-                window[error]();
-            }
-            window[success]();
+            // for (let i = 0; i < params.indexList.length - 1; i++) {
+            //     window[error]();
+            // }
+            window[success](JSON.stringify({ dsum:101, bsum:1, berrorSum: 0}));
             return;
         }
         window[success](JSON.stringify(data));
